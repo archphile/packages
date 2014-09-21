@@ -1,4 +1,4 @@
-#Maintainer Tux <info@archphile.tk>
+#Maintainer Tux <info@archphile.org>
 #Based on AUR package with the followin maintainer:
 # Maintainer: Jeff <jecxjo at sdf dot lonestar dot org>
 pkgname=rpi-update-git
