@@ -1,0 +1,35 @@
+#Maintainer Tux <info@archphile.org>
+
+pkgname=archphile-optimize
+pkgver=1
+pkgrel=4
+pkgdesc="a very basic script to change settings for Archphile Distribution"
+arch=('any')
+url="http://archphile.org"
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+provides=()
+conflicts=()
+replaces=(unmute-archphile)
+backup=()
+options=()
+source=('archphile-optimize'
+	'unmute'
+        'archphile.service')
+
+sha1sums=('ea6418f61f217f66644da47c3b158dbb867b3312'
+	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
+          'fd8708c6e14c1b951489edc0f060e1e8167a995d')
+
+
+package() {
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/etc/systemd/system/
+  cp ../archphile-optimize "$pkgdir"/usr/bin
+  cp ../unmute "$pkgdir"/usr/bin
+  chmod +x "$pkgdir"/usr/bin/archphile-optimize
+  chmod +x "$pkgdir"/usr/bin/unmute
+  install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
+}

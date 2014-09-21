@@ -1,0 +1,42 @@
+# Maintainer: Tux <info@archphile.org>
+# Based on ympd-git from AUR made by the following people:
+# Maintainer: Philippe Mongeau <ph.mongeau@gmail.com>
+
+pkgname=ympd-archphile
+_pkgname=ympd
+pkgver=1.2.2.r1.ga70d87f
+pkgrel=4
+pkgdesc="A standalone MPD Web GUI - Default port set to 80"
+arch=('armv7h')
+url="http://www.ympd.org"
+license=('BSD')
+depends=('libmpdclient')
+makedepends=('cmake' 'git')
+optdepends=()
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+replaces=('ympd-git')
+source=("git+https://github.com/notandy/ympd.git")
+
+sha1sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  git describe --long --tags | sed -E 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/${_pkgname}"
+  mkdir build && cd build
+  cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}/build"
+  make DESTDIR="$pkgdir/" install
+  install -Dm644  "${srcdir}/${_pkgname}/contrib/ympd.service" "$pkgdir/usr/lib/systemd/system/ympd.service"
+  sed '/Environment=WEB_PORT=/c Environment=WEB_PORT=80' -i "${pkgdir}"/usr/lib/systemd/system/ympd.service
+}
+
+# vim:set ts=2 sw=2 et:
