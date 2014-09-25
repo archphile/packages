@@ -9,7 +9,7 @@
 
 pkgname=mpd-archphile-ffmpeg
 pkgver=0.18.14
-pkgrel=1
+pkgrel=2
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version with ffmpeg support optimized for Archphile 
 distribution'
 url='http://www.musicpd.org/'
@@ -25,7 +25,7 @@ source=("http://www.musicpd.org/download/mpd/${pkgver%.*}/mpd-${pkgver}.tar.xz"
 	'mpd.conf')
 sha1sums=('5a4b5f5b0447994f3fc186ffd7c16cabeeed2978'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
-          '49871a44d5dd83aae824bfadb53c545dcbb76660')
+          '8271ed8debea36fbcad703d6a150288ef83182d5')
 backup=('etc/mpd.conf')
 install=mpd.install
 
