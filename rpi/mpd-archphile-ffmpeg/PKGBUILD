@@ -9,7 +9,7 @@
 
 pkgname=mpd-archphile-ffmpeg
 pkgver=0.18.16
-pkgrel=2
+pkgrel=1
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version with ffmpeg support optimized for Archphile 
 distribution'
 url='http://www.musicpd.org/'
