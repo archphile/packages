@@ -19,7 +19,8 @@ makedepends=('doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
 replaces=('mpd')
-source=("http://www.musicpd.org/download/mpd/${pkgver%.*}/mpd-${pkgver}.tar.xz"
+source=("source=("http://www.musicpd.org/download/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"{,.sig}"
+	'SKIP'
         'mpd.tmpfile'
 	'mpd.conf')
 sha1sums=('1e86d7a724394e81ca0c248f032fc042aee9d2dc'
