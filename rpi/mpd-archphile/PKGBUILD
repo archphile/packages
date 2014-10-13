@@ -30,7 +30,7 @@ backup=('etc/mpd.conf')
 install=mpd.install
 
 prepare() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/mpd-${pkgver}"
 	touch systemd/mpd.socket
 }
 
