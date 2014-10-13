@@ -17,7 +17,7 @@ arch=('armv7h')
 depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs')
 makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
-conflicts=('mpd')
+conflicts=('mpd' 'mpd-archphile-ffmpeg')
 replaces=('mpd')
 source=("http://www.musicpd.org/download/mpd/${pkgver}/mpd-${pkgver}.tar.xz"{,.sig}
         'tmpfiles.d'
