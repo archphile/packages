@@ -15,7 +15,7 @@ distribution'
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('armv6h')
-depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'ffmpeg')
+depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'ffmpeg' 'boost-libs')
 makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile')
