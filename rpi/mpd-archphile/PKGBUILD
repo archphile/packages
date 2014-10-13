@@ -14,7 +14,7 @@ pkgdesc='Flexible, powerful, server-side application for playing music. Light ve
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('armv6h')
-depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient')
+depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs')
 makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
