@@ -19,7 +19,7 @@ makedepends=('doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
 replaces=('mpd')
-source=("source=("http://www.musicpd.org/download/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"{,.sig}"
+source=("http://www.musicpd.org/download/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"{,.sig}"
 	'SKIP'
         'mpd.tmpfile'
 	'mpd.conf')
