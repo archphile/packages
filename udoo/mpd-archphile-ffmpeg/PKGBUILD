@@ -20,10 +20,11 @@ makedepends=('doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile')
 replaces=('mpd')
-source=("http://www.musicpd.org/download/mpd/${pkgver%.*}/mpd-${pkgver}.tar.xz"
+source=("http://www.musicpd.org/download/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz"{,.sig}"
         'tmpfiles.d'
 	'mpd.conf')
 sha1sums=('1e86d7a724394e81ca0c248f032fc042aee9d2dc'
+          'SKIP'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           '8271ed8debea36fbcad703d6a150288ef83182d5')
 backup=('etc/mpd.conf')
