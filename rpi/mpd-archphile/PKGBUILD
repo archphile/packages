@@ -29,6 +29,11 @@ sha1sums=('1e86d7a724394e81ca0c248f032fc042aee9d2dc'
 backup=('etc/mpd.conf')
 install=mpd.install
 
+prepare() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	touch systemd/mpd.socket
+}
+
 build() {
 	cd "${srcdir}/mpd-${pkgver}"
 
