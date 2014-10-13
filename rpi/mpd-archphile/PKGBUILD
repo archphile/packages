@@ -19,7 +19,7 @@ makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile-ffmpeg')
 replaces=('mpd')
-source=("http://www.musicpd.org/download/mpd/${pkgver}/mpd-${pkgver}.tar.xz"{,.sig}"
+source=("http://www.musicpd.org/download/mpd/${pkgver}/mpd-${pkgver}.tar.xz"{,.sig}
 	'SKIP'
         'mpd.tmpfile'
 	'mpd.conf')
