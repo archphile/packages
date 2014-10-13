@@ -15,7 +15,7 @@ url='http://www.musicpd.org/'
 license=('GPL')
 arch=('armv7h')
 depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient')
-makedepends=('doxygen')
+makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
 replaces=('mpd')
