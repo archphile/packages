@@ -20,10 +20,10 @@ provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile-ffmpeg')
 replaces=('mpd')
 source=("http://www.musicpd.org/download/mpd/${pkgver}/mpd-${pkgver}.tar.xz"{,.sig}
-	'SKIP'
         'mpd.tmpfile'
 	'mpd.conf')
 sha1sums=('1e86d7a724394e81ca0c248f032fc042aee9d2dc'
+	  'SKIP'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           'bf3a087c8d9a1d52f66868a1938eb3c640b41729')
 backup=('etc/mpd.conf')
