@@ -19,7 +19,7 @@ makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile-ffmpeg')
 replaces=('mpd')
-source=("http://www.musicpd.org/download/mpd/${pkgver}/mpd-${pkgver}.tar.xz"{,.sig}
+source=("http://www.musicpd.org/download/mpd/0.19/mpd-${pkgver}.tar.xz"{,.sig}
         'tmpfiles.d'
 	'mpd.conf')
 sha1sums=('68f1ff43a2dd4de913d6c979db504dc2955f5737'
