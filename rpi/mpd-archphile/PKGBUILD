@@ -8,7 +8,7 @@
 # Contributor: Ben <ben@benmazer.net>
 
 pkgname=mpd-archphile
-pkgver=0.19	
+pkgver=0.19.1	
 pkgrel=1
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution'
 url='http://www.musicpd.org/'
@@ -22,7 +22,7 @@ replaces=('mpd')
 source=("http://www.musicpd.org/download/mpd/${pkgver}/mpd-${pkgver}.tar.xz"{,.sig}
         'mpd.tmpfile'
 	'mpd.conf')
-sha1sums=('1e86d7a724394e81ca0c248f032fc042aee9d2dc'
+sha1sums=('68f1ff43a2dd4de913d6c979db504dc2955f5737'
 	  'SKIP'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           'bf3a087c8d9a1d52f66868a1938eb3c640b41729')
