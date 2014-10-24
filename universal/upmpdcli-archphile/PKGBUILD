@@ -11,7 +11,8 @@ arch=('armv6h' 'armv7h')
 
 source=("git://github.com/medoc92/upmpdcli.git"
         "upmpdcli.conf")
-md5sums=('SKIP')
+sha1sums=('SKIP'
+          '5edee67aeba4ace70961b70aea2ee0685b4f8b76')
 
 build() {
 
