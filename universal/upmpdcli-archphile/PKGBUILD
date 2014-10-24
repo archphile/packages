@@ -8,12 +8,11 @@ license="GPL"
 depends=('libupnpp-archphile')
 builddepends=(autoconf)
 arch=('armv6h' 'armv7h')
-
 source=("git://github.com/medoc92/upmpdcli.git"
         "upmpdcli.conf")
 sha1sums=('SKIP'
           '5edee67aeba4ace70961b70aea2ee0685b4f8b76')
-
+install=upmpdcli.install
 build() {
 
   cd ${srcdir}/${_pkgname}
