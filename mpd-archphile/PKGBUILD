@@ -13,7 +13,7 @@ pkgrel=2
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution'
 url='http://www.musicpd.org/'
 license=('GPL')
-arch=('armv7h')
+arch=('armv6h' 'armv7h')
 depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs')
 makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
