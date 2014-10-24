@@ -23,4 +23,5 @@ build() {
 package() {
   cd ${srcdir}/${_pkgname}
   make DESTDIR="${pkgdir}/" install
+  install -Dm644  "$srcdir/$_pkgname/systemd/upmpdcli.service" "$pkgdir/usr/lib/systemd/system/upmpdcli.service"
 }
