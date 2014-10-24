@@ -25,6 +25,7 @@ build() {
 package() {
   cd ${srcdir}/${_pkgname}
   make DESTDIR="${pkgdir}/" install
+  mkdir -p ${pkgdir}/etc/
   cp ../../upmpdcli.conf ${pkgdir}/etc/
   install -Dm644  "$srcdir/$_pkgname/systemd/upmpdcli.service" "$pkgdir/usr/lib/systemd/system/upmpdcli.service"
 }
