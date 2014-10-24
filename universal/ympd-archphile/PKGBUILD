@@ -4,10 +4,10 @@
 
 pkgname=ympd-archphile
 _pkgname=ympd
-pkgver=1.2.2.r4.ga98d760
-pkgrel=1
+pkgver=1.2.2.r1.ga70d87f
+pkgrel=4
 pkgdesc="A standalone MPD Web GUI - Default port set to 80"
-arch=('armv6h')
+arch=('armv6h' 'armv7h')
 url="http://www.ympd.org"
 license=('BSD')
 depends=('libmpdclient')
