@@ -5,7 +5,7 @@ pkgrel=1
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license="GPL"
-depends=('libupnpp-git')
+depends=('libupnpp-archphile')
 builddepends=(autoconf)
 arch=('armv6h' 'armv7h')
 
