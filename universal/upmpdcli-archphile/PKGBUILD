@@ -9,7 +9,8 @@ depends=('libupnpp-archphile')
 builddepends=(autoconf)
 arch=('armv6h' 'armv7h')
 
-source=("git://github.com/medoc92/upmpdcli.git")
+source=("git://github.com/medoc92/upmpdcli.git"
+        "upmpdcli.conf")
 md5sums=('SKIP')
 
 build() {
@@ -23,5 +24,6 @@ build() {
 package() {
   cd ${srcdir}/${_pkgname}
   make DESTDIR="${pkgdir}/" install
+  cp ../../upmpdcli.conf ${pkgdir}/etc/
   install -Dm644  "$srcdir/$_pkgname/systemd/upmpdcli.service" "$pkgdir/usr/lib/systemd/system/upmpdcli.service"
 }
