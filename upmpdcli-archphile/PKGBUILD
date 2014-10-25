@@ -3,7 +3,7 @@
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
 pkgver=20141016
-pkgrel=1
+pkgrel=2
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license="GPL"
