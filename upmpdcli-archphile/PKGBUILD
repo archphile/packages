@@ -3,7 +3,7 @@
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
 pkgver=20141016
-pkgrel=3
+pkgrel=4
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license="GPL"
@@ -14,7 +14,7 @@ source=("git://github.com/medoc92/upmpdcli.git"
         "upmpdcli.conf"
         "archphile.png")
 sha1sums=('SKIP'
-          '5edee67aeba4ace70961b70aea2ee0685b4f8b76'
+          '1535a6415c7ecd948089d8b8dc33cd17b44e1a9b'
           'c23ff56c602942236e3e04af61dd09f0fa3fac21')
 install=upmpdcli.install
 build() {
