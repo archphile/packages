@@ -3,7 +3,7 @@
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
 pkgver=20141016
-pkgrel=2
+pkgrel=3
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license="GPL"
@@ -11,9 +11,11 @@ depends=('libupnpp-archphile')
 builddepends=(autoconf)
 arch=('armv6h' 'armv7h')
 source=("git://github.com/medoc92/upmpdcli.git"
-        "upmpdcli.conf")
+        "upmpdcli.conf"
+        "archphile.png")
 sha1sums=('SKIP'
-          '5edee67aeba4ace70961b70aea2ee0685b4f8b76')
+          '5edee67aeba4ace70961b70aea2ee0685b4f8b76'
+          'c23ff56c602942236e3e04af61dd09f0fa3fac21')
 install=upmpdcli.install
 build() {
 
@@ -28,5 +30,6 @@ package() {
   make DESTDIR="${pkgdir}/" install
   mkdir -p ${pkgdir}/etc/
   cp ../../upmpdcli.conf ${pkgdir}/etc/
+  cp ../../archphile.png ${pkgdir}/usr/share/upmpdcli/
   install -Dm644  "../../upmpdcli.service" "$pkgdir/usr/lib/systemd/system/upmpdcli.service"
 }
