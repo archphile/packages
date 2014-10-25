@@ -14,7 +14,7 @@ source=("git://github.com/medoc92/upmpdcli.git"
         "upmpdcli.conf"
         "archphile.png")
 sha1sums=('SKIP'
-          '15f1323672fa1deee0d6ff22955a8f47bc19eea4f9'
+          'f1323672fa1deee0d6ff22955a8f47bc19eea4f9'
           'c23ff56c602942236e3e04af61dd09f0fa3fac21')
 install=upmpdcli.install
 build() {
