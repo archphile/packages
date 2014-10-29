@@ -25,7 +25,7 @@ source=("http://www.musicpd.org/download/mpd/0.19/mpd-${pkgver}.tar.xz"{,.sig}
 sha1sums=('68f1ff43a2dd4de913d6c979db504dc2955f5737'
           'SKIP'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
-          'bf3a087c8d9a1d52f66868a1938eb3c640b41729')
+          'bb6e5a1e9202ae2a0ea26246d9ff78f7447b0fb8')
 backup=('etc/mpd.conf')
 install=mpd.install
 
