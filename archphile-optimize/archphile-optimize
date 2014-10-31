@@ -13,10 +13,14 @@ echo noop > /sys/block/mmcblk0/queue/scheduler
 # enable the command below in order to set swappiness to 0
 #echo 0 > /proc/sys/vm/swappiness
 
-# commands to change various kernel parameters (Similar to Volumio/Runeaudio profiles)
-#echo 6000000 > /proc/sys/kernel/sched_latency_ns
+# commands to change various kernel parameters (Based on Runeaudio default RPI profile)
+#echo 1500000 > /proc/sys/kernel/sched_latency_ns
 #echo 1000000 > /proc/sys/kernel/sched_rt_period_us
 #echo 950000 > /proc/sys/kernel/sched_rt_runtime_us
+#echo 1 > /proc/sys/kernel/sched_autogroup_enabled
+#echo 10 > /proc/sys/kernel/sched_rr_timeslice_ms
+#echo 750000 > /proc/sys/kernel/sched_min_granularity_ns
+#echo 1000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 
 # this command sets the correct time during boot - Please see the link below for ntp
 # and timezone configuration: http://archphile.org/howto/changing-system-configuration-in-archphile 
