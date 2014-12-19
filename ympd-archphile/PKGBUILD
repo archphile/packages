@@ -4,8 +4,8 @@
 
 pkgname=ympd-archphile
 _pkgname=ympd
-pkgver=1.2.2.r1.ga70d87f
-pkgrel=4
+pkgver=1.2.3.r11.ge6e93a0
+pkgrel=1
 pkgdesc="A standalone MPD Web GUI - Default port set to 80"
 arch=('armv6h' 'armv7h')
 url="http://www.ympd.org"
@@ -39,4 +39,3 @@ package() {
   sed '/Environment=WEB_PORT=/c Environment=WEB_PORT=80' -i "${pkgdir}"/usr/lib/systemd/system/ympd.service
 }
 
-# vim:set ts=2 sw=2 et:
