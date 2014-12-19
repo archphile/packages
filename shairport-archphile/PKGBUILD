@@ -5,8 +5,8 @@
 # Contributor: Falk Stern <falk@fourecks.de>
 
 pkgname=shairport-archphile
-pkgver=r475.d679d19
-pkgrel=2
+pkgver=r476.d65b8e8
+pkgrel=1
 pkgdesc='Emulates an AirPort Express for the purpose of streaming music from iTunes and compatible iPods and iPhones'
 url='http://github.com/abrasive/shairport'
 arch=(armv6h armv7h)
