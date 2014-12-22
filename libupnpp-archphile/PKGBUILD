@@ -3,12 +3,12 @@
 pkgname=libupnpp-archphile
 _pkgname=libupnpp
 pkgver=20141016
-pkgrel=1
+pkgrel=2
 pkgdesc="a C++ wrapper for libupnp - used with upmpdcli or upplay"
 url="https://github.com/medoc92/libupnpp"
 license="GPL"
 depends=('libupnp')
-builddepends=(autoconf)
+builddepends=(git autoconf)
 arch=('armv6h' 'armv7h')
 
 source=("git://github.com/medoc92/libupnpp.git")
