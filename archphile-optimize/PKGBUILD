@@ -2,7 +2,7 @@
 
 pkgname=archphile-optimize
 pkgver=1
-pkgrel=5
+pkgrel=6
 pkgdesc="a very basic script to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
