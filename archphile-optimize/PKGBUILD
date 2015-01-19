@@ -17,11 +17,13 @@ backup=()
 options=()
 source=('archphile-optimize'
 	'unmute'
-        'archphile.service')
+        'archphile.service'
+        'archphile.conf')
 
 sha1sums=('d64097e66f057b0b4a79ce622c07ac4f28b08ae9'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
-          'fd8708c6e14c1b951489edc0f060e1e8167a995d')
+          'fd8708c6e14c1b951489edc0f060e1e8167a995d'
+          '7bf11fe658ecc5ee5c2408c96b53341f42d4b8a6')
 
 
 package() {
@@ -29,6 +31,7 @@ package() {
   mkdir -p $pkgdir/etc/systemd/system/
   cp ../archphile-optimize "$pkgdir"/usr/bin
   cp ../unmute "$pkgdir"/usr/bin
+  cp ../archphile.conf "$pkgdir"/etc/sysctl.d
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
   install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
