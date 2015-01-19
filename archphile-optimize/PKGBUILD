@@ -19,7 +19,7 @@ source=('archphile-optimize'
 	'unmute'
         'archphile.service')
 
-sha1sums=('521173d613bf117fe5505ba6fd5c0fe0badb5a25'
+sha1sums=('5d64097e66f057b0b4a79ce622c07ac4f28b08ae9'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d')
 
