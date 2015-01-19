@@ -2,7 +2,7 @@
 
 pkgname=archphile-optimize
 pkgver=1
-pkgrel=7
+pkgrel=8
 pkgdesc="a very basic script to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
@@ -18,21 +18,21 @@ options=()
 source=('archphile-optimize'
 	'unmute'
         'archphile.service'
-        'archphile.conf')
+        'archphile-network.conf')
 
 sha1sums=('d64097e66f057b0b4a79ce622c07ac4f28b08ae9'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
-          '7bf11fe658ecc5ee5c2408c96b53341f42d4b8a6')
+          'cfcbd1e77fe447fb61003749f58c17d708f8c8f2')
 
 
 package() {
   mkdir -p $pkgdir/usr/bin
   mkdir -p $pkgdir/etc/systemd/system/
+  mkdir -p $pkgdir/etc/sysctl.d
   cp ../archphile-optimize "$pkgdir"/usr/bin
   cp ../unmute "$pkgdir"/usr/bin
-  cp ../archphile.conf "$pkgdir"/etc/sysctl.d
+  cp ../archphile-network.conf "$pkgdir"/etc/sysctl.d
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
   install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
-}
