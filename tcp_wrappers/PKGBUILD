@@ -18,7 +18,7 @@ source=(ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${pkgver}.tar.gz
 	hosts.deny)
 md5sums=('e6fa25f71226d090f34de3f6b122fb5a'
          '3e786669e16b78ba726f948ddb73c9db'
-         '32cfeeed797161034f62bb45f3167baa'
+         '78906e16f0bbc7eb35bfa5995376c8ca'
          'e4743ca604a1749c7312f9283b4bb0d1')
 
 prepare() {
