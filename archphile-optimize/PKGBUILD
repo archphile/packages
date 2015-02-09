@@ -36,3 +36,4 @@ package() {
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
   install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
+}
