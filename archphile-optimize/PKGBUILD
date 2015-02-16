@@ -2,7 +2,7 @@
 
 pkgname=archphile-optimize
 pkgver=1
-pkgrel=8
+pkgrel=9
 pkgdesc="a very basic script to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
@@ -20,7 +20,7 @@ source=('archphile-optimize'
         'archphile.service'
         'archphile-network.conf')
 
-sha1sums=('d64097e66f057b0b4a79ce622c07ac4f28b08ae9'
+sha1sums=('4392d85204d72e13c1cdb1736512b7b27a9393ed'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cfcbd1e77fe447fb61003749f58c17d708f8c8f2')
