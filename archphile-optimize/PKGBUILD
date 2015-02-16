@@ -20,7 +20,7 @@ source=('archphile-optimize'
         'archphile.service'
         'archphile-network.conf')
 
-sha1sums=('4392d85204d72e13c1cdb1736512b7b27a9393ed'
+sha1sums=('88d58032af2369694cda101c9e50e37d0392cff7'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cfcbd1e77fe447fb61003749f58c17d708f8c8f2')
