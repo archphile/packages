@@ -28,7 +28,11 @@ echo noop > /sys/block/mmcblk0/queue/scheduler
 #iwconfig wlan0 rts 2347
 #iw reg set GR
 
-
+# local cover art support
+# uncomment below if you use Mpdroid. The path to music is http://xxx.xxx.xxx.xxx:8080/music/
+#mongoose -listening_port 8080 -document_root /var/www/covers
+# uncomment below if you use Mpod or Mpad
+#mongoose -listening_port 8080 -document_root /var/www/Music
 
 
 
