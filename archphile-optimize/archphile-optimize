@@ -28,10 +28,6 @@ echo noop > /sys/block/mmcblk0/queue/scheduler
 #iwconfig wlan0 rts 2347
 #iw reg set GR
 
-# this command sets the correct time during boot – Please see the link below for ntp
-# and timezone configuration: http://archphile.org/howto/changing-system-configuration-in-archphile
-exec /usr/bin/ntpd -gq || true
-
 
 
 
