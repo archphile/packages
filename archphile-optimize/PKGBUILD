@@ -1,8 +1,8 @@
 #Maintainer Tux <info@archphile.org>
 
 pkgname=archphile-optimize
-pkgver=1
-pkgrel=9
+pkgver=2
+pkgrel=0
 pkgdesc="a very basic script to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
@@ -20,7 +20,7 @@ source=('archphile-optimize'
         'archphile.service'
         'archphile-network.conf')
 
-sha1sums=('e8b7e7a17637dea78085ebeb60d393bc22c17be0'
+sha1sums=('0d52b4f0fff95078a3e3d08294387b3a357960d5'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cfcbd1e77fe447fb61003749f58c17d708f8c8f2')
