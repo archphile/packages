@@ -1,6 +1,6 @@
 #Maintainer Tux <info@archphile.org>
 
-pkgname=archphile-optimize
+pkgname=i2select-archphile
 pkgver=1
 pkgrel=0
 pkgdesc="Archphile i2s dac configuration script"
