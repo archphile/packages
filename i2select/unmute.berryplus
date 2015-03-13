@@ -1,1 +1,5 @@
+#!/bin/bash
+# mixer settings for Hifiberry+ i2s Dac
+amixer sset "'Digital',0" 81%
+amixer sset "'Playback Boost',0" 0%
 
