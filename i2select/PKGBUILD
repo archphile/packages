@@ -1,6 +1,6 @@
 #Maintainer Tux <info@archphile.org>
 
-pkgname=i2select-archphile
+pkgname=i2select
 pkgver=1
 pkgrel=0
 pkgdesc="Archphile i2s dac configuration script"
