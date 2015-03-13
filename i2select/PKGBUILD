@@ -1,0 +1,42 @@
+#Maintainer Tux <info@archphile.org>
+
+pkgname=archphile-optimize
+pkgver=1
+pkgrel=0
+pkgdesc="Archphile i2s dac configuration script"
+arch=('any')
+url="http://archphile.org"
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=('i2select'
+      	'unmute.orig'
+      	'unmute.berryplus'
+      	'mpd.conf.i2s
+      	'mpd.conf.orig'
+      	'config.txt.orig')
+
+sha1sums=('0d52b4f0fff95078a3e3d08294387b3a357960d5'
+	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
+          'fd8708c6e14c1b951489edc0f060e1e8167a995d'
+          'cfcbd1e77fe447fb61003749f58c17d708f8c8f2')
+
+
+package() {
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/opt/i2select/
+  cp ../i2select "$pkgdir"/usr/bin
+  cp ../unmute.orig "$pkgdir"/opt/i2select/
+  cp ../unmute.berryplus "$pkgdir"/opt/i2select/
+  cp ../mpd.conf.i2s "$pkgdir"/opt/i2select/
+  cp ../mpd.conf.orig "$pkgdir"/opt/i2select/
+  chmod +x "$pkgdir"/usr/bin/i2select
+  chmod +x "$pkgdir"/opt/i2select/unmute.berryplus
+  
+}
