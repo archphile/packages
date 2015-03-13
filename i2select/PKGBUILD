@@ -22,10 +22,12 @@ source=('i2select'
       	'mpd.conf.orig'
       	'config.txt.orig')
 
-sha1sums=('0d52b4f0fff95078a3e3d08294387b3a357960d5'
-	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
-          'fd8708c6e14c1b951489edc0f060e1e8167a995d'
-          'cfcbd1e77fe447fb61003749f58c17d708f8c8f2')
+sha1sums=('a24bd3691e844377a16102dd66780414b0d662b2'
+	  '7d0cbdcfa28e6c86dbcb9507e6860c50d3b49993'
+          'adc83b19e793491b1c6ea0fd8b46cd9f32e592fcd'
+          '9658f8a1765f0c60aae1c6a0b796a6b5244ddcf0'
+          '9c26b68b03ec1bf204014b326d6c7df121307262'
+          '3a6769e7efb35acd17204c267be506023fecf42d)
 
 
 package() {
@@ -36,6 +38,7 @@ package() {
   cp ../unmute.berryplus "$pkgdir"/opt/i2select/
   cp ../mpd.conf.i2s "$pkgdir"/opt/i2select/
   cp ../mpd.conf.orig "$pkgdir"/opt/i2select/
+  cp ../config.txt.orig "$pkgdir"/opt/i2select/
   chmod +x "$pkgdir"/usr/bin/i2select
   chmod +x "$pkgdir"/opt/i2select/unmute.berryplus
   
