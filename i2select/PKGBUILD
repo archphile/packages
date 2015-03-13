@@ -18,7 +18,7 @@ options=()
 source=('i2select'
       	'unmute.orig'
       	'unmute.berryplus'
-      	'mpd.conf.i2s
+      	'mpd.conf.i2s'
       	'mpd.conf.orig'
       	'config.txt.orig')
 
