@@ -7,7 +7,7 @@
 # Contributor: Paul Mattal <paul@archlinux.org>
 
 pkgname=ffmpeg-archphile
-pkgver=2.5.1
+pkgver=2.6.1
 pkgrel=1
 epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
@@ -25,7 +25,7 @@ depends=(
 )
 makedepends=('yasm' 'hardening-wrapper')
 source=(http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.bz2)
-md5sums=('ad3b4c189e9a7d43ae54c52d409a43ef')
+sha1sums=('dfcd13e7c3e65a59cbe4cab85718ae84da824c5b')
 
 build() {
   cd ffmpeg-$pkgver
