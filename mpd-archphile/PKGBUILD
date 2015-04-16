@@ -65,7 +65,7 @@ build() {
 		--disable-fluidsynth \
 		--disable-gme \
 		--disable-bzip2 \
-		--with-zeroconf=no \
+		--with-zeroconf=avahi \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
 	make
