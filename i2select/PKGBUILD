@@ -22,7 +22,7 @@ source=('i2select'
       	'mpd.conf.orig'
       	'config.txt.orig')
 
-sha1sums=('a24bd3691e844377a16102dd66780414b0d662b2'
+sha1sums=('4f141a2f12ffaf55ec150319824ef6a0200a1ec9'
 	  '7d0cbdcfa28e6c86dbcb9507e6860c50d3b49993'
           'f15a95e2b1b8c784a5642604118a05880ee2e49d'
           '9658f8a1765f0c60aae1c6a0b796a6b5244ddcf0'
