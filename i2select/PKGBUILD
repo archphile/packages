@@ -2,7 +2,7 @@
 
 pkgname=i2select
 pkgver=1
-pkgrel=0
+pkgrel=2
 pkgdesc="Archphile i2s dac configuration script"
 arch=('any')
 url="http://archphile.org"
