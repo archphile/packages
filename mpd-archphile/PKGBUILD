@@ -65,6 +65,13 @@ build() {
 		--disable-fluidsynth \
 		--disable-gme \
 		--disable-bzip2 \
+		--disable-lame-encoder \
+	        --disable-shine-encoder \
+                --disable-twolame-encoder \
+                --disable-vorbis-encoder \
+                --disable-wave-encoder \
+                --disable-nfs \
+                --disable-smbclient \
 		--with-zeroconf=avahi \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
