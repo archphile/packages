@@ -1,0 +1,114 @@
+# Maintainer: Tux <info@archphile.org>
+# Contributor: Marcel <marcel@volkerts.eu>
+# Based on mpd-light from AUR made by the following people:
+# Maintainer: Alexey D. <lq07829icatm@rambler.ru>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Angel Velasquez <angvp@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Damir Perisa <damir.perisa@bluewin.ch>
+# Contributor: Ben <ben@benmazer.net>
+
+pkgname=mpd-archphile-minimal
+_pkgname=mpd
+pkgver=0.19.10	
+pkgrel=1
+pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution'
+url='http://www.musicpd.org/'
+license=('GPL')
+arch=('armv6h' 'armv7h')
+depends=('alsa-lib' 'flac' 'icu' 'libmpdclient' 'sqlite')
+makedepends=('boost' 'doxygen')
+provides=("mpd=$pkgver")
+conflicts=('mpd' 'mpd-archphile-ffmpeg')
+replaces=('mpd')
+source=("http://www.musicpd.org/download/${_pkgname}/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz"
+        'tmpfiles.d'
+	'mpd.conf')
+sha1sums=('4635b33223d3f1e67eed41f6350ef75515153213'
+          'f4d5922abb69abb739542d8e93f4dfd748acdad7'
+          'a156d8eb45b8ee95ed321919cf6ab102ceb2ac5f')
+backup=('etc/mpd.conf')
+install=mpd.install
+
+prepare() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+	touch systemd/mpd.socket
+}
+
+build() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+
+	./configure \
+      --prefix=/usr \
+      --sysconfdir=/etc \
+      --enable-libmpdclient \
+      --disable-ao \
+      --disable-httpd-output \
+      --disable-jack \
+      --disable-openal \
+      --disable-oss \
+      --disable-pulse \
+      --disable-recorder-output \
+      --disable-roar \
+      --disable-shout \
+      --disable-aac \
+      --disable-adplug \
+      --disable-audiofile \
+      --disable-ffmpeg \
+      --disable-fluidsynth \
+      --disable-gme \
+      --disable-mad \
+      --disable-mikmod \
+      --disable-modplug \
+      --disable-mpc \
+      --disable-mpg123 \
+      --disable-opus \
+      --disable-sidplay \
+      --disable-sndfile \
+      --disable-vorbis \
+      --disable-wavpack \
+      --disable-wildmidi \
+      --disable-curl \
+      --disable-expat \
+      --disable-ipv6 \
+      --disable-libwrap \
+      --disable-mms \
+      --disable-nfs \
+      --disable-smbclient \
+      --disable-soundcloud \
+      --disable-tcp \
+      --disable-upnp \
+      --disable-bzip2 \
+      --disable-iso9660 \
+      --disable-zlib \
+      --disable-zzip \
+      --disable-cdio-paranoia \
+      --disable-id3 \
+      --disable-largefile \
+      --disable-lsr \
+      --disable-soxr \
+      --disable-lame-encoder \
+      --disable-shine-encoder \
+      --disable-twolame-encoder \
+      --disable-vorbis-encoder \
+      --disable-wave-encoder \
+      --disable-neighbor-plugins \
+      --with-systemdsystemunitdir=/usr/lib/systemd/system \
+      --with-zeroconf=no
+
+	make
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+	
+	make DESTDIR="${pkgdir}" install
+
+	install -Dm644 ../mpd.conf "${pkgdir}"/etc/mpd.conf
+	install -Dm644 ../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
+	install -d -g 45 -o 45 "${pkgdir}"/var/lib/mpd{,/playlists}
+
+	install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+	sed '/\[Service\]/a User=mpd' -i "${pkgdir}"/usr/lib/systemd/system/mpd.service
+	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+        sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
