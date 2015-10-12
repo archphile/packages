@@ -9,7 +9,7 @@ url="http://www.lesbonscomptes.com/upmpdcli/"
 license="GPL"
 depends=('libupnpp-archphile')
 builddepends=(autoconf)
-arch=('armv6h' 'armv7h')
+arch=('arm' 'armv6h' 'armv7h')
 source=("git://github.com/medoc92/upmpdcli.git"
         "upmpdcli.conf"
         "archphile.png")
