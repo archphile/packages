@@ -66,19 +66,21 @@ build() {
 		--disable-gme \
 		--disable-bzip2 \
 		--disable-lame-encoder \
-	  --disable-shine-encoder \
-	  --disable-twolame-encoder \
-    --disable-vorbis-encoder \
-    --disable-wave-encoder \
-    --disable-nfs \
-    --disable-smbclient \
-    --disable-httpd-output \
-    --disable-oss \
-    --disable-mikmod \
+	        --disable-shine-encoder \
+	        --disable-twolame-encoder \
+                --disable-vorbis-encoder \
+                --disable-wave-encoder \
+                --disable-nfs \
+		--disable-smbclient \
+    		--disable-httpd-output \
+    		--disable-oss \
+    		--disable-mikmod \
 		--disable-modplug \
-    --disable-mpg123 \
-	  --disable-wildmidi \
-    --disable-lsr \
+    		--disable-mpg123 \
+	  	--disable-wildmidi \
+    		--disable-lsr \
+    		--disable-aac \
+    		--disable-vorbis \
 		--with-zeroconf=no \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
