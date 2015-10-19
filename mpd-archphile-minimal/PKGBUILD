@@ -81,6 +81,10 @@ build() {
     		--disable-lsr \
     		--disable-aac \
     		--disable-vorbis \
+    		--disable-audiofile \
+    		--disable-sndfile \
+    		--disable-upnp \
+    		--disable-cdio-paranoia \
 		--with-zeroconf=no \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
