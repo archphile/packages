@@ -7,6 +7,8 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 # Contributor: Damir Perisa <damir.perisa@bluewin.ch>
 # Contributor: Ben <ben@benmazer.net>
+# Inspired by mpd-minimal from AUR made by the following people:
+# Maintainer: Bruno Pagani (a.k.a. ArchangeGabriel) <bruno.n.pagani at gmail dot com>
 
 pkgname=mpd-archphile-minimal
 _pkgname=mpd
