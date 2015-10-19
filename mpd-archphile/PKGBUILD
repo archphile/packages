@@ -72,6 +72,13 @@ build() {
                 --disable-wave-encoder \
                 --disable-nfs \
                 --disable-smbclient \
+                --disable-httpd-output \
+                --disable-oss \
+        	--disable-mikmod \
+		--disable-modplug \
+        	--disable-mpg123 \
+	        --disable-wildmidi \
+                --disable-lsr \
 		--with-zeroconf=avahi \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
