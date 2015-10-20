@@ -23,9 +23,11 @@ conflicts=('mpd' 'mpd-archphile-ffmpeg')
 replaces=('mpd')
 source=("http://www.musicpd.org/download/${_pkgname}/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz"
         'tmpfiles.d'
-	'mpd.conf')
+	'mpd.conf'
+	'0001-Add-native-DSD-support-to-MPD-0.19.10.patch')
 sha1sums=('4635b33223d3f1e67eed41f6350ef75515153213'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
+          'a156d8eb45b8ee95ed321919cf6ab102ceb2ac5f'
           'a156d8eb45b8ee95ed321919cf6ab102ceb2ac5f')
 backup=('etc/mpd.conf')
 install=mpd.install
