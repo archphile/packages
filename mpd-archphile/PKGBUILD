@@ -37,6 +37,8 @@ prepare() {
 
 build() {
 	cd "${srcdir}/${_pkgname}-${pkgver}"
+	
+patch -p1 < ../0001-Add-native-DSD-support-to-MPD-0.19.10.patch
 
 	./configure \
 		--prefix=/usr \
