@@ -2,7 +2,7 @@
 
 pkgname=archphile-optimize
 pkgver=2
-pkgrel=1
+pkgrel=2
 pkgdesc="a very basic script to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
@@ -18,11 +18,15 @@ options=()
 source=('archphile-optimize'
 	'unmute'
         'archphile.service'
-        'archphile-network.conf')
+        'archphile-network.conf'
+        'dbackup'
+        'drestore')
 
 sha1sums=('0d52b4f0fff95078a3e3d08294387b3a357960d5'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
+          'cc04242e0ea50608b28815b153bb96732f768dd6'
+          'cc04242e0ea50608b28815b153bb96732f768dd6'
           'cc04242e0ea50608b28815b153bb96732f768dd6')
 
 
@@ -32,8 +36,12 @@ package() {
   mkdir -p $pkgdir/etc/sysctl.d
   cp ../archphile-optimize "$pkgdir"/usr/bin
   cp ../unmute "$pkgdir"/usr/bin
+  cp ../dbackup "$pkgdir"/usr/bin
+  cp ../drestore "$pkgdir"/usr/bin
   cp ../archphile-network.conf "$pkgdir"/etc/sysctl.d
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
+  chmod +x "$pkgdir"/usr/bin/dbackup
+  chmod +x "$pkgdir"/usr/bin/drestore
   install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
 }
