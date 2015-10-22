@@ -5,7 +5,6 @@ red='\e[0;31m'
 NC='\e[0m'
 
 echo -e "${red}Restoring MPD database...${NC}"
- 
 systemctl stop mpd
 cp /opt/dbackup/mpd.db /var/lib/mpd/mpd.db
 chmod 644 /var/lib/mpd/mpd.db
