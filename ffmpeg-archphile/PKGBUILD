@@ -35,6 +35,20 @@ build() {
     --disable-debug \
     --disable-static \
     --disable-stripping \
+    --disable-avdevice \
+    --disable-avfilter \
+    --disable-swscale \
+    --disable-ffplay \
+    --disable-ffserver \
+    --disable-network \
+    --disable-muxers \
+    --disable-demuxers \
+    --disable-bsfs \
+    --disable-filters \
+    --disable-parsers \
+    --disable-indevs \
+    --disable-outdevs \
+    --disable-encoders \
     --enable-avresample \
     --enable-gnutls \
     --enable-gpl \
