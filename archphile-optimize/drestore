@@ -1,0 +1,6 @@
+systemctl stop mpd
+cp /opt/dbackup/mpd.db /var/lib/mpd/mpd.db
+chmod 644 /var/lib/mpd/mpd.db
+chown mpd:audio /var/lib/mpd/mpd.db
+systemctl start mpd
+systemctl daemon-reload
