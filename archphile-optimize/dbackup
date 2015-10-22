@@ -1,0 +1,5 @@
+#!/bin/bash
+systemctl stop mpd
+cp /var/lib/music/mpd/mpd.db /opt/dbackup/
+systemctl start mpd
+systemctl daemon-reload
