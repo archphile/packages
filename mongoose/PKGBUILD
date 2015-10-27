@@ -11,8 +11,12 @@ arch=(arm armv6h armv7h)
 license=(GPL2)
 depends=(glibc openssl)
 url='https://github.com/cesanta/mongoose'
-source=(https://github.com/cesanta/mongoose/archive/$pkgver.tar.gz)
-sha1sums=('6ce351814405680003bb330959200c375da99f29')
+source=("https://github.com/cesanta/mongoose/archive/${pkgver}.tar.gz"
+        'mongoose.conf'
+        'mongoose.service')
+sha1sums=('6ce351814405680003bb330959200c375da99f29'
+          '698748b41fce03f7900409ac3e4be3e82dda4898'
+          'b883250f064dc1b9d707c18356fa3e65abe435da')
 
 build() {
   cd mongoose-$pkgver
