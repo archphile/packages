@@ -12,6 +12,7 @@ license=(GPL)
 backup=(etc/shairport-sync.conf)
 install=shairport-sync.install
 depends=(openssl avahi popt alsa-lib libconfig)
+replaces=(shairport-sync)
 source=(shairport-sync-$pkgver.zip::https://github.com/mikebrady/shairport-sync/archive/$pkgver.zip)
 sha1sums=('e23914401f89e6ad27a1bf23f92451db8013e458')
 
