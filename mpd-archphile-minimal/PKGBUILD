@@ -26,7 +26,7 @@ replaces=('mpd')
 source=("http://www.musicpd.org/download/${_pkgname}/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz"
         'tmpfiles.d'
       	'mpd.conf')
-sha1sums=('4635b33223d3f1e67eed41f6350ef75515153213'
+sha1sums=('bc39026742b43d851a846b1f09bff94895cd1927'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           '327c20aff05bc78f76bf6f6d0853a793c0a29e7a')
 backup=('etc/mpd.conf')
