@@ -55,7 +55,6 @@ build() {
 		--disable-soundcloud \
 		--disable-wavpack \
 		--disable-opus \
-		--disable-lame-encoder \
 		--disable-vorbis \
 		--disable-ipv6 \
 		--disable-recorder-output \
