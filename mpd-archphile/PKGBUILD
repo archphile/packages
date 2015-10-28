@@ -45,6 +45,7 @@ build() {
 		--enable-mad \
 		--enable-soxr \
 		--enable-ffmpeg \
+		--enable-audiofile \
 		--disable-ao \
 		--disable-jack \
 		--disable-modplug \
