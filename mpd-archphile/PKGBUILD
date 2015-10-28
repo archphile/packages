@@ -28,7 +28,7 @@ sha1sums=('bc39026742b43d851a846b1f09bff94895cd1927'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           'a156d8eb45b8ee95ed321919cf6ab102ceb2ac5f')
 backup=('etc/mpd.conf')
-install=mpd.install
+install=install
 
 build() {
 	cd "${srcdir}/${_pkgname}-${pkgver}"
