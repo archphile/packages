@@ -38,3 +38,4 @@ package() {
   install -D -m755 libmongoose.so "$pkgdir/usr/lib/libmongoose.so"
   install -D -m644 mongoose.h "$pkgdir/usr/include/mongoose.h"
   install -D -m755 examples/web_server/web_server "$pkgdir/usr/bin/mongoose"
+}
