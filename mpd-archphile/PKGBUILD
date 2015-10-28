@@ -11,12 +11,12 @@
 pkgname=mpd-archphile
 _pkgname=mpd
 pkgver=0.19.11	
-pkgrel=2
+pkgrel=3
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution.'
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('arm' 'armv6h' 'armv7h')
-depends=('audiofile' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'libsoxr' 'ffmpeg-archphile' 'avahi')
+depends=('audiofile' 'icu' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'libsoxr' 'ffmpeg-archphile' 'avahi')
 makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile-ffmpeg')
