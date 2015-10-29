@@ -3,7 +3,7 @@
 pkgname=libupnpp-archphile
 _pkgname=libupnpp
 pkgver=20141016
-pkgrel=2
+pkgrel=3
 pkgdesc="a C++ wrapper for libupnp - used with upmpdcli or upplay"
 url="https://github.com/medoc92/libupnpp"
 license="GPL"
