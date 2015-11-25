@@ -1,11 +1,11 @@
-# Taken from https://aur.archlinux.org/packages/alsacap
-# Added only armv6h and armv7h architectures
+# Maintainer: Tux <info@archphile.org>
+
 pkgname=alsacap
 pkgver=0
 pkgrel=1.1
 pkgdesc="ALSA device capability lister"
 depends=('alsa-lib')
-arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+arch=('armv6h' 'armv7h')
 license=('custom:ISC')
 url="http://www.volkerschatz.com/noise/alsa.html#alsacap"
 source=("http://www.volkerschatz.com/noise/$pkgname.tgz")
