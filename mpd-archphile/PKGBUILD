@@ -63,19 +63,19 @@ build() {
 		--disable-gme \
 		--disable-bzip2 \
 		--disable-lame-encoder \
-	    --disable-shine-encoder \
-        --disable-twolame-encoder \
-        --disable-vorbis-encoder \
-        --disable-wave-encoder \
-        --disable-nfs \
-        --disable-smbclient \
-        --disable-httpd-output \
-        --disable-oss \
-        --disable-mikmod \
+	        --disable-shine-encoder \
+                --disable-twolame-encoder \
+                --disable-vorbis-encoder \
+                --disable-wave-encoder \
+                --disable-nfs \
+                --disable-smbclient \
+                --disable-httpd-output \
+                --disable-oss \
+                --disable-mikmod \
 		--disable-modplug \
-        --disable-mpg123 \
-	    --disable-wildmidi \
-        --disable-lsr \
+                --disable-mpg123 \
+	        --disable-wildmidi \
+                --disable-lsr \
 		--with-zeroconf=avahi \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
@@ -94,6 +94,6 @@ package() {
 	install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 	sed '/\[Service\]/a User=mpd' -i "${pkgdir}"/usr/lib/systemd/system/mpd.service
 	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
-    sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+        sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 
 }
