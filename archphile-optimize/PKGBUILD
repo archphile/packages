@@ -3,7 +3,7 @@
 pkgname=archphile-optimize
 pkgver=2
 pkgrel=1
-pkgdesc="a very basic script to change settings for Archphile Distribution"
+pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
 license=('GPL')
