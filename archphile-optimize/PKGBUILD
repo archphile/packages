@@ -20,14 +20,16 @@ source=('archphile-optimize'
         'archphile.service'
         'archphile-network.conf'
         'dbackup'
-        'drestore')
+        'drestore'
+        'bselect')
 
 sha1sums=('593da19ac593c3e73e3819f6612c18c2a7fa01c2'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cc04242e0ea50608b28815b153bb96732f768dd6'
           '9325dada978964aa2433bc5fa2d65a1460e84e89'
-          'a9d3a0cdf069dcbaf8b442ea6ab8cef0a46ab7e8')
+          'a9d3a0cdf069dcbaf8b442ea6ab8cef0a46ab7e8'
+          '583d204530f6967df529d860ed4a53ecf1217721')
 
 
 package() {
@@ -39,10 +41,12 @@ package() {
   cp ../unmute "$pkgdir"/usr/bin
   cp ../dbackup "$pkgdir"/usr/bin
   cp ../drestore "$pkgdir"/usr/bin
+  cp ../bselect "$pkgdir"/usr/bin
   cp ../archphile-network.conf "$pkgdir"/etc/sysctl.d
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
   chmod +x "$pkgdir"/usr/bin/dbackup
   chmod +x "$pkgdir"/usr/bin/drestore
+  chmod +x "$pkgdir"/usr/bin/bselect
   install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
 }
