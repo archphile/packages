@@ -35,6 +35,6 @@ do
               "Quit")
               break
                ;;
-        *) echo Invalid option - Please choose 1-4;;
+               *) echo Invalid option - Please choose 1-4;;
     esac
 done
