@@ -29,7 +29,7 @@ sha1sums=('593da19ac593c3e73e3819f6612c18c2a7fa01c2'
           'cc04242e0ea50608b28815b153bb96732f768dd6'
           '9325dada978964aa2433bc5fa2d65a1460e84e89'
           'a9d3a0cdf069dcbaf8b442ea6ab8cef0a46ab7e8'
-          '8078e01528f9c6c59183b6c0f05307b1adc0e495')
+          '3e0a257fac8e13f55bd3333e48aa0fc807174900')
 
 
 package() {
