@@ -8,7 +8,7 @@ NC='\e[0m'
 echo -e "${red}USB DAC CONFIGURATION TOOL FOR CUBOX-I and ODROID C1+${NC}"
 echo -e "${red}---------------------------${NC}"
 echo -e " "
-PS3='Please select your device: '
+PS3='Please select the desired configuration: '
 options=("Odroid C1+" "Cubox-i" "Default Configuration" "Quit")
 select opt in "${options[@]}"
 do
