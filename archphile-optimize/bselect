@@ -26,7 +26,7 @@ do
               echo -e "${red}Your USB Dac is now ready to be used with Cubox-i...${NC}"  
               exit
               ;;
-              "Cubox-i")
+              "Default Configuration")
               sed -i 's/^device.*/device          "hw:0,0"/' /etc/mpd.conf
               systemctl restart mpd
               echo -e "${red}Applied default configuration...${NC}"  
