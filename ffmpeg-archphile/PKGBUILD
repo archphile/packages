@@ -25,7 +25,7 @@ depends=(
 )
 makedepends=('yasm' 'hardening-wrapper')
 source=(http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.bz2)
-sha1sums=('1952aeb9ec3f569514d8db4f30c195b765392639 ')
+sha1sums=('b249bdbe14d17edb9a2091f361bfe9c77578cba5')
 
 build() {
   cd ffmpeg-$pkgver
