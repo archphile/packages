@@ -25,9 +25,9 @@ source=('i2select'
 sha1sums=('4f141a2f12ffaf55ec150319824ef6a0200a1ec9'
 	  '7d0cbdcfa28e6c86dbcb9507e6860c50d3b49993'
           'f15a95e2b1b8c784a5642604118a05880ee2e49d'
-          '9658f8a1765f0c60aae1c6a0b796a6b5244ddcf0'
-          '9c26b68b03ec1bf204014b326d6c7df121307262'
-          '67a6287eff3e26de18548d0efa740aa562f04c46')
+          '8c43b6fd4be9b925c0f63827d38739feb7586d9f'
+          'b4ecfe48f7f747d5c9a1193805afef2a3c4ba29d'
+          '8faa0353ffba6a222ddf8c2dcc0876c0e0e25426')
 
 
 package() {
