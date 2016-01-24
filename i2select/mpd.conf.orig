@@ -25,14 +25,15 @@ mixer_type      "disabled"
 group   "audio"
 max_connections "20"
 restore_paused "yes"
+#samplerate_converter "soxr very high"
 
 decoder {
-                plugin "ffmpeg"
-        	enabled "no"
+plugin          "ffmpeg"
+enabled         "no"
 }
 
 input {
-                plugin "curl"
+plugin          "curl"
 }
 
 audio_output {
@@ -40,8 +41,18 @@ enabled         "yes"
 type            "alsa"
 name            "MY DAC"
 device          "hw:0,0"
+#use the line below when enabling sox resampler
+#format "192000:24:2"
 auto_resample   "no"
 auto_channels   "no"
 auto_format     "no"
-dsd_usb         "yes"
+dop             "yes"
 }
+
+#audio_output {
+#type           "pipe"
+#name           "brutefir pipe"
+#command        "aplay -f cd 2>/dev/null"
+#command        "/usr/bin/brutefir -nodefault /opt/brutefir/brutefir_config 2>/dev/null"
+#format         "44100:32:2"
+#}
