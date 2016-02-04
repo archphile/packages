@@ -1,7 +1,7 @@
 # arg 1:  the new package version
 # arg 2:  the old package version
 
-KERNEL_NAME=-raspberrypi
+KERNEL_NAME=-raspberrypi-archphile
 KERNEL_VERSION=3.18.3-1-ARCH
 
 disable_cma() {
