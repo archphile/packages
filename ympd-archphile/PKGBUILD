@@ -16,7 +16,7 @@ optdepends=()
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 replaces=('ympd-git')
-source=("git+https://github.com/archphile/ympd.git")
+source=("git+https://github.com/notandy/ympd.git")
 
 sha1sums=('SKIP')
 
