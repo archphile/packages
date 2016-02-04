@@ -1,3 +1,6 @@
+# Maintainer: Tux <info@archphile.org>
+# Contributor: Marcel <marcel@volkerts.eu>
+# Based on official ArchlinuxARM PKGBUILD made by the following people:
 # Maintainer: Dave Higham <pepedog@archlinuxarm.org>
 # Maintainer: Kevin Mihelich <kevin@archlinuxarm.org>
 # Maintainer: Oleg Rakhmanov <oleg@archlinuxarm.org>
@@ -44,6 +47,7 @@ md5sums=('0767555c2df6efc19e6b905ae2deccf1'
 prepare() {
   cd "${srcdir}/${_srcname}"
 
+  # Patch that enables 24 bit capability with I2S drivers
   msg2 "I2S 24 Bit patch"
   patch -Np1 -i ../fix_24_bit_i2s.patch
 
