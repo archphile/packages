@@ -1,0 +1,67 @@
+From 92a6a92bbc5af73bdfa9fea8d8a3deef6f51ccd6 Mon Sep 17 00:00:00 2001
+From: Archphile <archphile@users.noreply.github.com>
+Date: Thu, 4 Feb 2016 11:40:24 +0200
+Subject: [PATCH] Update mpd.js
+
+---
+ htdocs/js/mpd.js | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 51e8fdc..2f8262d 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -764,7 +764,7 @@ function dirble_load_categories() {
+ 
+     dirble_page = 1;
+ 
+-    $.getJSON( "http://api.dirble.com/v2/categories?token=2e223c9909593b94fc6577361a", function( data ) {
++    $.getJSON( "http://api.dirble.com/v2/categories?token=4df8efb47771f0652e542eb8d0", function( data ) {
+ 
+         $('#dirble_loading').addClass('hide');
+ 
+@@ -812,7 +812,7 @@ function dirble_load_categories() {
+ 
+ function dirble_load_stations() {
+ 
+-    $.getJSON( "http://api.dirble.com/v2/category/"+dirble_catid+"/stations?page="+dirble_page+"&per_page=20&token=2e223c9909593b94fc6577361a", function( data ) {
++    $.getJSON( "http://api.dirble.com/v2/category/"+dirble_catid+"/stations?page="+dirble_page+"&per_page=20&token=4df8efb47771f0652e542eb8d0", function( data ) {
+ 
+         $('#dirble_loading').addClass('hide');
+         if (data.length == 20) $('#next').removeClass('hide');
+@@ -839,7 +839,7 @@ function dirble_load_stations() {
+             click: function() {
+                 var _this = $(this);
+ 
+-                $.getJSON( "http://api.dirble.com/v2/station/"+$(this).attr("radioid")+"?token=2e223c9909593b94fc6577361a", function( data ) {
++                $.getJSON( "http://api.dirble.com/v2/station/"+$(this).attr("radioid")+"?token=4df8efb47771f0652e542eb8d0", function( data ) {
+ 
+                     socket.send("MPD_API_ADD_TRACK," + data.streams[0].stream);
+                     $('.top-right').notify({
+@@ -857,7 +857,7 @@ function dirble_load_stations() {
+                 "<span class=\"glyphicon glyphicon-play\"></span></a>").find('a').click(function(e) {
+                     e.stopPropagation();
+ 
+-                    $.getJSON( "http://api.dirble.com/v2/station/"+_this.attr("radioid")+"?token=2e223c9909593b94fc6577361a", function( data ) {
++                    $.getJSON( "http://api.dirble.com/v2/station/"+_this.attr("radioid")+"?token=4df8efb47771f0652e542eb8d0", function( data ) {
+ 
+                         socket.send("MPD_API_ADD_PLAY_TRACK," + data.streams[0].stream);
+                         $('.top-right').notify({
+@@ -878,7 +878,7 @@ function dirble_load_stations() {
+             click: function() {
+                 var _this = $(this);
+ 
+-                $.getJSON( "http://api.dirble.com/v2/station/"+$(this).attr("radioid")+"?token=2e223c9909593b94fc6577361a", function( data ) {
++                $.getJSON( "http://api.dirble.com/v2/station/"+$(this).attr("radioid")+"?token=4df8efb47771f0652e542eb8d0", function( data ) {
+ 
+                     socket.send("MPD_API_ADD_TRACK," + data.streams[0].stream);
+                     $('.top-right').notify({
+@@ -896,7 +896,7 @@ function dirble_load_stations() {
+                 "<span class=\"glyphicon glyphicon-play\"></span></a>").find('a').click(function(e) {
+                     e.stopPropagation();
+ 
+-                    $.getJSON( "http://api.dirble.com/v2/station/"+_this.attr("radioid")+"?token=2e223c9909593b94fc6577361a", function( data ) {
++                    $.getJSON( "http://api.dirble.com/v2/station/"+_this.attr("radioid")+"?token=4df8efb47771f0652e542eb8d0", function( data ) {
+ 
+                         socket.send("MPD_API_ADD_PLAY_TRACK," + data.streams[0].stream);
+                         $('.top-right').notify({
