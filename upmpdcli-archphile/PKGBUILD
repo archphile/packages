@@ -22,7 +22,7 @@ build() {
 
   cd ${srcdir}/${_pkgname}
   ./autogen.sh
-  ./configure --prefix=/usr
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
