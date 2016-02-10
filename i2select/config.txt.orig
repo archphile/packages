@@ -1,4 +1,4 @@
- Uncomment some or all of these to enable the optional hardware interfaces
+# Uncomment some or all of these to enable the optional hardware interfaces
 # Params:
 #         i2c_arm                  Set to "on" to enable the ARM's i2c interface
 #                                  (default "off")
