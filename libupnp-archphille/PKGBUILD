@@ -1,0 +1,33 @@
+# Maintainer: Tux <info@archphile.org>
+# Based on a PKGBUILD created byespakman
+# http://archphile.org/forum/viewtopic.php?f=11&t=219&sid=8b60a9da541529c1e5939a0f06317678#p917
+
+pkgname=libupnp-archphile
+_pkgname=pupnp16
+pkgver=1.6.19.jfd2
+pkgrel=1
+pkgdesc="Portable Open Source UPnP Development Kit"
+url="https://github.com/medoc92/pupnp16"
+license=('GPL')
+depends=('glibc')
+makedepends=('git' 'autoconf')
+arch=('arm' 'armv6h' 'armv7h')
+conflicts=('libupnp')
+replaces=('libupnp')
+
+source=("git://github.com/medoc92/pupnp16.git")
+md5sums=('SKIP')
+
+build() {
+
+cd ${srcdir}/${_pkgname}
+./bootstrap
+./configure --prefix=/usr
+make
+}
+
+package() {
+cd ${srcdir}/${_pkgname}
+make DESTDIR="${pkgdir}/" install
+install -Dm644 LICENSE ${pkgdir}/usr/share/licenses/custom/${pkgname}/LICENSE
+} 
