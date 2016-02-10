@@ -8,7 +8,7 @@ pkgrel=3
 pkgdesc="a C++ wrapper for libupnp - used with upmpdcli or upplay"
 url="https://github.com/medoc92/libupnpp"
 license="GPL"
-depends=('libupnp')
+depends=('libupnp-archphile')
 makedepends=('git' 'autoconf')
 arch=('arm' 'armv6h' 'armv7h')
 
