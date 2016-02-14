@@ -37,7 +37,7 @@ build() {
   msg2 "Applying various patches"
   patch -Np1 -i ../dirble_api_key.patch
   patch -Np1 -i ../fix_handling_of_commas_in_library_item_names.patch
-  patch -Np1 -i ../remember_last_folder_in_browser.patch
+#  patch -Np1 -i ../remember_last_folder_in_browser.patch
   
   mkdir build && cd build
   cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
