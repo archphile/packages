@@ -16,16 +16,12 @@ replaces=()
 backup=()
 options=()
 source=('i2select'
-      	'unmute.orig'
-      	'unmute.berryplus'
-      	'mpd.conf.i2s'
+        'mpd.conf.i2s'
       	'mpd.conf.orig'
       	'config.txt.orig')
 
 sha1sums=('4f141a2f12ffaf55ec150319824ef6a0200a1ec9'
-	  '7d0cbdcfa28e6c86dbcb9507e6860c50d3b49993'
-          'f15a95e2b1b8c784a5642604118a05880ee2e49d'
-          '8c43b6fd4be9b925c0f63827d38739feb7586d9f'
+	  '8c43b6fd4be9b925c0f63827d38739feb7586d9f'
           'b4ecfe48f7f747d5c9a1193805afef2a3c4ba29d'
           '67a6287eff3e26de18548d0efa740aa562f04c46')
 
@@ -34,8 +30,6 @@ package() {
   mkdir -p $pkgdir/usr/bin
   mkdir -p $pkgdir/opt/i2select/
   cp ../i2select "$pkgdir"/usr/bin
-  cp ../unmute.orig "$pkgdir"/opt/i2select/
-  cp ../unmute.berryplus "$pkgdir"/opt/i2select/
   cp ../mpd.conf.i2s "$pkgdir"/opt/i2select/
   cp ../mpd.conf.orig "$pkgdir"/opt/i2select/
   cp ../config.txt.orig "$pkgdir"/opt/i2select/
