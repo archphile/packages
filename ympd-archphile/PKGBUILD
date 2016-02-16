@@ -17,9 +17,7 @@ provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 replaces=('ympd-git')
 source=("git+https://github.com/notandy/ympd.git"
-        "dirble_api_key.patch"
-        "fix_handling_of_commas_in_library_item_names.patch"
-        "remember_last_folder_in_browser.patch")
+        "dirble_api_key.patch")
 
 sha1sums=('SKIP'
           'b7b3192dc9ad3c9368d911127c969de320aff189')
@@ -34,8 +32,6 @@ build() {
 
   msg2 "Applying various patches"
   patch -Np1 -i ../dirble_api_key.patch
-#  patch -Np1 -i ../fix_handling_of_commas_in_library_item_names.patch
-#  patch -Np1 -i ../remember_last_folder_in_browser.patch
   
   mkdir build && cd build
   cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
