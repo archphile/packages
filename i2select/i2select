@@ -37,6 +37,7 @@ do
             "Hifiberry Digi")
             cp /opt/i2select/config.txt.orig /boot/config.txt
             cp /opt/i2select/mpd.conf.i2s /etc/mpd.conf
+            cp/opt/i2select/unmute.berryplus /usr/bin/unmute
             sed -i '0,/#device_tree_overlay=hifiberry-digi/s//device_tree_overlay=hifiberry-digi/' /boot/config.txt
             echo -e "${red}The volume mixer is disabled. If you want to change it, please edit /etc/mpd.conf...${NC}"
             echo
