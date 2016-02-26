@@ -3,7 +3,7 @@
 
 pkgname=i2select
 pkgver=1
-pkgrel=4
+pkgrel=5
 pkgdesc="Archphile i2s dac configuration script"
 arch=('any')
 url="http://archphile.org"
@@ -28,7 +28,7 @@ sha1sums=('94c1e517149ea646e6813d336de2a53a1dca86f5'
           'b4ecfe48f7f747d5c9a1193805afef2a3c4ba29d'
           '26943297b631710160dca7449fe90aea94998bed'
           '7d0cbdcfa28e6c86dbcb9507e6860c50d3b49993'
-          '68447cfc4f894d2223ab3511912f3387b685b231')
+          '58bbc962f4852f2a664bdff331a70dbf003f6c30')
 
 
 package() {
