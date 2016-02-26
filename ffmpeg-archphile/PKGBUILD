@@ -1,4 +1,5 @@
-# Maintainer Tux <info@archphile.org>
+# Maintainer: Tux <info@archphile.org>
+# Website: http://archphile.org
 # Based on ffmpeg-headless from AUR
 # $Id: PKGBUILD 228056 2014-12-26 11:57:24Z bpiotrowski $
 # Maintainer:  Ionut Biru <ibiru@archlinux.org>
