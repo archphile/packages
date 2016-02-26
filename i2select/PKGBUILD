@@ -1,4 +1,5 @@
-#Maintainer Tux <info@archphile.org>
+# Maintainer: Tux <info@archphile.org>
+# Website: http://archphile.org
 
 pkgname=i2select
 pkgver=1
