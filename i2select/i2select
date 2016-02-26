@@ -10,7 +10,7 @@ echo -e "${red}I2s DAC CONFIGURATION TOOL${NC}"
 echo -e "${red}---------------------------${NC}"
 echo -e " "
 PS3='Please select the i2s dac you want to configure: '
-options=("Hifiberry" "Hifiberry Plus" "Hifiberry Digi" "Iqaudio" "Iqaudio Plus" "Mamboberry" "Usb Dac Configuration (Default)" "Quit")
+options=("Hifiberry" "Hifiberry Plus" "Hifiberry Digi" "Iqaudio" "Iqaudio Plus" "Mamboberry" "Usb Dac Configuration (Default)" "Update config.txt" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -75,6 +75,12 @@ do
 	    echo -e "${red}Please reboot immediately using 'systemctl reboot' command...${NC}" 
             exit
 	    ;;
+	    "Update config.txt"
+	    echo -e "${red}Backing up existing config.txt...${NC}" 
+	    cp /boot/config.txt /boot/config.txt.bak
+	    echo -e "${red}Updating to latest config.txt from github...${NC}"
+	    wget https://raw.githubusercontent.com/archphile/recipe/master/files/config.txt -O /boot/config.txt
+	    exit
             "Quit")
             break
             ;;
