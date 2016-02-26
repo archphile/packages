@@ -1,4 +1,5 @@
 # Maintainer: Tux <info@archphile.org>
+# Website: http://archphile.org
 # Based on upmpdcli-git from AUR 
 
 pkgname=upmpdcli-archphile
