@@ -23,7 +23,7 @@ source=('i2select'
       	'unmute.orig'
       	'unmute.berryplus')
 
-sha1sums=('94c1e517149ea646e6813d336de2a53a1dca86f5'
+sha1sums=('7a1661d807ec495d88acafc7635c2829d4aa3fe7'
 	  '8c43b6fd4be9b925c0f63827d38739feb7586d9f'
           'b4ecfe48f7f747d5c9a1193805afef2a3c4ba29d'
           '26943297b631710160dca7449fe90aea94998bed'
