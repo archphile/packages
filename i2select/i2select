@@ -85,7 +85,8 @@ do
 	    echo -e "${red}Backing up existing config.txt...${NC}" 
 	    cp /boot/config.txt /boot/config.txt.bak
 	    echo -e "${red}Updating to latest config.txt from github...${NC}"
-	    wget https://raw.githubusercontent.com/archphile/recipe/master/files/config.txt -O /boot/config.txt
+	    wget https://raw.githubusercontent.com/archphile/recipe/master/files/config.txt -O /opt/i2select/config.txt.orig
+	    cp /opt/i2select/config.txt.orig /boot/config.txt
 	    exit
             "Quit")
             break
