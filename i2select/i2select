@@ -88,6 +88,7 @@ do
 	    wget https://raw.githubusercontent.com/archphile/recipe/master/files/config.txt -O /opt/i2select/config.txt.orig
 	    cp /opt/i2select/config.txt.orig /boot/config.txt
 	    exit
+	    ;;
             "Quit")
             break
             ;;
