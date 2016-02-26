@@ -81,7 +81,7 @@ do
 	    echo -e "${red}Please reboot immediately using 'systemctl reboot' command...${NC}" 
             exit
 	    ;;
-	    "Update config.txt"
+	    "Update config.txt")
 	    echo -e "${red}Backing up existing config.txt...${NC}" 
 	    cp /boot/config.txt /boot/config.txt.bak
 	    echo -e "${red}Updating to latest config.txt from github...${NC}"
