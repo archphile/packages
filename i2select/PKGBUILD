@@ -23,7 +23,7 @@ source=('i2select'
       	'unmute.orig'
       	'unmute.boost')
 
-sha1sums=('9a69f937876454e810222e178360820bae85c991'
+sha1sums=('bb355ca68ab98ca4d3e619b216b447e90442569d'
 	  '8c43b6fd4be9b925c0f63827d38739feb7586d9f'
           'b4ecfe48f7f747d5c9a1193805afef2a3c4ba29d'
           '26943297b631710160dca7449fe90aea94998bed'
