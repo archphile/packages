@@ -44,6 +44,14 @@
 #device_tree_param=spi=on
 #device_tree_param=act_led_trigger=mmc
 
+# Uncomment one of these lines to enable an audio interface
+#device_tree_overlay=hifiberry-dac
+#device_tree_overlay=hifiberry-dacplus
+#device_tree_overlay=hifiberry-digi
+#device_tree_overlay=hifiberry-amp
+#device_tree_overlay=iqaudio-dac
+#device_tree_overlay=iqaudio-dacplus
+
 #
 # See /boot/overlays/README for a detailed list and description of additional
 #   overlays and their configuration options.
