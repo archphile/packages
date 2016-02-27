@@ -6,7 +6,7 @@
 clear
 red='\e[0;31m'
 NC='\e[0m'
-echo -e "${red}I2s Dac Configuration Tool V1.4${NC}"
+echo -e "${red}I2s Dac Configuration Tool V2.0${NC}"
 echo -e "${red}---------------------------${NC}"
 echo -e " "
 PS3='Please select the i2s dac you want to configure: '
@@ -26,7 +26,7 @@ do
             ;;
             "Hifiberry Plus")
             cp /opt/i2select/config.txt.orig /boot/config.txt
-            cp /opt/i2select/unmute.berryplus /usr/bin/unmute
+            cp /opt/i2select/unmute.boost /usr/bin/unmute
             cp /opt/i2select/mpd.conf.i2s /etc/mpd.conf
             sed -i '0,/#device_tree_overlay=hifiberry-dacplus/s//device_tree_overlay=hifiberry-dacplus/' /boot/config.txt
             echo -e "${red}Volume set to 0db and Playback Boost to 0%...${NC}"
@@ -38,7 +38,6 @@ do
             ;;
             "Hifiberry Digi")
             cp /opt/i2select/config.txt.orig /boot/config.txt
-            cp /opt/i2select/unmute.orig /usr/bin/unmute
             cp /opt/i2select/mpd.conf.i2s /etc/mpd.conf
             sed -i '0,/#device_tree_overlay=hifiberry-digi/s//device_tree_overlay=hifiberry-digi/' /boot/config.txt
             echo -e "${red}The volume mixer is disabled. If you want to change it, please edit /etc/mpd.conf...${NC}"
@@ -58,7 +57,7 @@ do
 	    ;;
 	    "Iqaudio Plus")
 	    cp /opt/i2select/config.txt.orig /boot/config.txt
-	    cp /opt/i2select/unmute.orig /usr/bin/unmute
+	    cp /opt/i2select/unmute.boost /usr/bin/unmute
             cp /opt/i2select/mpd.conf.i2s /etc/mpd.conf
             sed -i '0,/#device_tree_overlay=iqaudio-dacplus/s//device_tree_overlay=iqaudio-dacplus/' /boot/config.txt
             echo -e "${red}The volume mixer is disabled. If you want to change it, please edit /etc/mpd.conf...${NC}"
