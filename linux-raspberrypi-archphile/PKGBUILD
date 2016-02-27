@@ -1,7 +1,5 @@
 # Maintainer: Tux <info@archphile.org>
 # Website: http://archphile.org
-# Contributor: Marcel <marcel@volkerts.eu>
-# Based on official ArchlinuxARM PKGBUILD made by the following people:
 # Maintainer: Dave Higham <pepedog@archlinuxarm.org>
 # Maintainer: Kevin Mihelich <kevin@archlinuxarm.org>
 # Maintainer: Oleg Rakhmanov <oleg@archlinuxarm.org>
@@ -11,19 +9,19 @@
 buildarch=20
 
 pkgbase=linux-raspberrypi-archphile
-_commit=0108373f573aa71e3f2bf48bdccafd09d478ecf5
+_commit=bf0bc44d74d6afd714642f6052c011ceb43375df
 _srcname=linux-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="Raspberry Pi"
-pkgver=4.1.17
-pkgrel=1
+pkgver=4.1.18
+pkgrel=2
 bfqver=v7r8
 arch=('armv6h' 'armv7h')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
-options=('!strip')
 conflicts=('linux-raspberrypi')
+options=('!strip')
 source=("https://github.com/raspberrypi/linux/archive/${_commit}.tar.gz"
         "git+https://github.com/sfjro/aufs4-standalone.git#branch=aufs${pkgver%.*}"
         "ftp://teambelgium.net/bfq/patches/${pkgver%.*}.0-${bfqver}/0001-block-cgroups-kconfig-build-bits-for-BFQ-${bfqver}-${pkgver%.*}.patch"
@@ -32,22 +30,20 @@ source=("https://github.com/raspberrypi/linux/archive/${_commit}.tar.gz"
         'config.txt'
         'cmdline.txt'
         'config.v6'
-        'config.v7'
-	'fix_24_bit_i2s.patch')
-md5sums=('0767555c2df6efc19e6b905ae2deccf1'
+        'config.v7')
+md5sums=('69b043faac78073ccf9388d032d2ee4f'
          'SKIP'
          '74bf103542cbdee0363819309adb97a2'
          'f09baae3c7add4ed9bedde22ae3efe19'
          'bd8cc19a31d1cf8aeeaf9245057c4f9b'
          '9a3c82da627b317ec79c37fd6afba569'
          '60bc3624123c183305677097bcd56212'
-         'db8c931027f6814822ad63424699524c'
-         'fb6a30b7a10b998703161a459ffde256'
-	 '4f359f696e6add663e94ad364e05369c')
+         'a861913c48568f5b026791e809c553f4'
+         'eeac5b88beda926d5def0d2ed6cfd256')
 
 prepare() {
   cd "${srcdir}/${_srcname}"
-
+  
   # Patch that enables 24 bit capability with I2S drivers
   msg2 "I2S 24 Bit patch"
   patch -Np1 -i ../fix_24_bit_i2s.patch
