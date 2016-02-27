@@ -21,7 +21,7 @@ source=('i2select'
       	'mpd.conf.orig'
       	'config.txt.orig'
       	'unmute.orig'
-      	'unmute.berryplus')
+      	'unmute.boost')
 
 sha1sums=('9a69f937876454e810222e178360820bae85c991'
 	  '8c43b6fd4be9b925c0f63827d38739feb7586d9f'
