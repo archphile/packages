@@ -30,7 +30,8 @@ source=("https://github.com/raspberrypi/linux/archive/${_commit}.tar.gz"
         'config.txt'
         'cmdline.txt'
         'config.v6'
-        'config.v7')
+        'config.v7'
+        'fix_24_bit_i2s.patch')
 md5sums=('69b043faac78073ccf9388d032d2ee4f'
          'SKIP'
          '74bf103542cbdee0363819309adb97a2'
@@ -39,7 +40,8 @@ md5sums=('69b043faac78073ccf9388d032d2ee4f'
          '9a3c82da627b317ec79c37fd6afba569'
          '60bc3624123c183305677097bcd56212'
          'a861913c48568f5b026791e809c553f4'
-         'eeac5b88beda926d5def0d2ed6cfd256')
+         'eeac5b88beda926d5def0d2ed6cfd256'
+         '3dc39a9bf236eaa48e00865d35f871a5')
 
 prepare() {
   cd "${srcdir}/${_srcname}"
