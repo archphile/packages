@@ -1,0 +1,3 @@
+#!/bin/bash
+# mixer settings for Hifiberry+ and Iqaudio+ i2s Dac
+amixer sset "'Analogue Playback Boost',0" 0%
