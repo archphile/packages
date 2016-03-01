@@ -49,7 +49,7 @@ build() {
     --disable-parsers \
     --disable-indevs \
     --disable-outdevs \
-    --disable-encoders \
+    --enable-encoders \
     --enable-avresample \
     --enable-gnutls \
     --enable-gpl \
