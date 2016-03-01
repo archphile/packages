@@ -7,6 +7,10 @@
 # Contributor: Tom Newsom <Jeepster@gmx.co.uk>
 # Contributor: Paul Mattal <paul@archlinux.org>
 
+
+# ALARM: Kevin Mihelich <kevin@archlinuxarm.org>
+#  - use -fPIC in host cflags for armv7 to fix print_options.c compile
+
 _pkgname=ffmpeg
 pkgname=ffmpeg-archphile
 pkgver=3.0
