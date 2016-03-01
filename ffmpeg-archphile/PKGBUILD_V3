@@ -19,14 +19,10 @@ pkgdesc='Complete solution to record, convert and stream audio and video; optimi
 arch=('i686' 'x86_64' 'armv7h')
 url='http://ffmpeg.org/'
 license=('GPL3') #enabling libfdk_aac makes ffmpeg incompatible with the GPL!
-depends=('bzip2' gnutls' 'lame' 
-         'libmodplug' 'libtheora'  'opencore-amr'
-         'zlib' 'libvorbis.so' 'libfdk-aac' 'rtmpdump')
+depends=('bzip2' gnutls' 'lame' 'libmodplug' 'libtheora'  'opencore-amr' 'zlib' 'libvorbis.so' 'libfdk-aac' 'rtmpdump')
 optdepends=('libdcadec.so')
 makedepends=('hardening-wrapper' 'yasm')
-provides=('libavcodec.so' 'libavdevice.so' 'libavformat.so'
-          'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
-          'libswscale.so' "ffmpeg=${pkgver}")
+provides=('libavcodec.so' 'libavdevice.so' 'libavformat.so' 'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so' 'libswscale.so' "ffmpeg=${pkgver}")
 conflicts=('ffmpeg')
 replaces=('ffmpeg')
 source=(http://ffmpeg.org/releases/${_pkgname}-${pkgver}.tar.bz2)
