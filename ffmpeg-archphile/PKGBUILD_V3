@@ -35,7 +35,7 @@ build() {
   cd ffmpeg-$pkgver
 
   ./configure \
-    --prefix=/usr \
+    --prefix='/usr' \
     --disable-debug \
     --disable-static \
     --disable-stripping \
@@ -45,9 +45,7 @@ build() {
     --disable-ffplay \
     --disable-ffserver \
     --disable-network \
-    --disable-muxers \
-    --disable-demuxers \
-    --disable-bsfs \
+     --disable-bsfs \
     --disable-filters \
     --disable-parsers \
     --disable-indevs \
