@@ -45,7 +45,7 @@ build() {
     --disable-ffplay \
     --disable-ffserver \
     --disable-network \
-     --disable-bsfs \
+    --disable-bsfs \
     --disable-filters \
     --disable-parsers \
     --disable-indevs \
