@@ -25,7 +25,7 @@ depends=(
       'bzip2' 'gnutls' 'lame'
       'libmodplug' 'libtheora' 'libvorbis'
       'opencore-amr' 'rtmpdump'
-      'zlib' 'libfdk-aac' libvorbis.so'
+      'zlib' 'libfdk-aac' 'libvorbis.so'
 )
 makedepends=('yasm' 'hardening-wrapper')
 source=(http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.bz2)
