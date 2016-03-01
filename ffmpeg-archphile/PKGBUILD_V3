@@ -36,13 +36,13 @@ build() {
   cd ${_pkgname}-${pkgver}
 
   ./configure \
-    --prefix='/usr' \
-    --disable-debug \
-    --disable-static \
-    --disable-stripping \
+    	--prefix='/usr' \
+    	--disable-debug \
+    	--disable-static \
+    	--disable-stripping \
 	--disable-fontconfig \
 	--disable-libx264 \
-    --disable-libx265 \
+    	--disable-libx265 \
 	--disable-libvpx \
 	--disable-encoders \
 	--disable-libvidstab \
@@ -61,22 +61,22 @@ build() {
 	--disable-libschroedinger \
 	--disable-libdcadec \
 	--enable-decoders \
-    --enable-avisynth \
-    --enable-avresample \
-    --enable-gnutls \
-    --enable-gpl \ 
-    --enable-libmodplug \
-    --enable-libmp3lame \
-    --enable-libopencore_amrnb \
-    --enable-libopencore_amrwb \
-    --enable-libtheora \
-    --enable-libvorbis \ 
-    --enable-shared \
-    --enable-version3 \
-    --enable-librtmp \
-    --enable-runtime-cpudetect \
-    --enable-libfdk_aac \
-    --enable-nonfree
+    	--enable-avisynth \
+    	--enable-avresample \
+    	--enable-gnutls \
+    	--enable-gpl \ 
+    	--enable-libmodplug \
+    	--enable-libmp3lame \
+    	--enable-libopencore_amrnb \
+    	--enable-libopencore_amrwb \
+    	--enable-libtheora \
+    	--enable-libvorbis \ 
+    	--enable-shared \
+    	--enable-version3 \
+    	--enable-librtmp \
+    	--enable-runtime-cpudetect \
+    	--enable-libfdk_aac \
+    	--enable-nonfree
 
   make
   make doc/ff{mpeg,play,server}.1
