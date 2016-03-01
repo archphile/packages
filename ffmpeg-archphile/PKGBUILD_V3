@@ -12,74 +12,70 @@ pkgname=ffmpeg-archphile
 pkgver=3.0
 pkgrel=1
 epoch=1
-pkgdesc='Complete solution to record, convert and stream audio and video; optimised for server (headless) systems'
-arch=('armv7h')
+pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
+arch=('x86_64' 'arm' 'armv6h' 'armv7h')
 url='http://ffmpeg.org/'
-license=('GPL3') #enabling libfdk_aac makes ffmpeg incompatible with the GPL!
-depends=('bzip2' 'gnutls' 'lame' 
-         'libmodplug' 'libtheora' 'opencore-amr'
-         'zlib' 'libvorbis.so' 'rtmpdump' 'libfdk-aac')
-optdepends=('libdcadec.so')
-makedepends=('hardening-wrapper' 'yasm')
+license=('GPL')
 provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
           'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
           'libswscale.so' "ffmpeg=${pkgver}")
-conflicts=('ffmpeg')
-replaces=('ffmpeg')
-source=(http://ffmpeg.org/releases/${_pkgname}-${pkgver}.tar.bz2)
+conflicts=("ffmpeg")
+replaces=("ffmpeg")
+depends=(
+      'bzip2' 'gnutls' 'lame'
+      'libmodplug' 'libtheora' 'libvorbis'
+      'opencore-amr' 'rtmpdump'
+      'zlib' 'libfdk-aac'
+)
+makedepends=('yasm' 'hardening-wrapper')
+source=(http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.bz2)
 sha256sums=('f19ff77a2f7f736a41dd1499eef4784bf3cb7461f07c13a268164823590113c0')
 
 build() {
-  cd ${_pkgname}-${pkgver}
+  cd ffmpeg-$pkgver
 
   ./configure \
-    --prefix='/usr' \
+    --prefix=/usr \
     --disable-debug \
     --disable-static \
     --disable-stripping \
-    --disable-fontconfig \
-    --disable-libx264 \
-    --disable-libx265 \
-    --disable-libvpx \
-    --disable-encoders \
-    --disable-libvidstab \
-    --disable-libbluray \
-    --disable-libass \
+    --disable-avdevice \
     --disable-avfilter \
-    --disable-libfribidi \
-    --disable-libgsm \
-    --disable-libopus \
-    --disable-libfreetype \
-    --disable-libspeex \
-    --disable-libopenjpeg \
-    --disable-libv4l2 \
-    --disable-libxvid \
-    --disable-libwebp \
-    --disable-libschroedinger \
-    --disable-libdcadec \
+    --disable-swscale \
+    --disable-ffplay \
+    --disable-ffserver \
+    --disable-network \
+    --disable-muxers \
+    --disable-demuxers \
+    --disable-bsfs \
+    --disable-filters \
+    --disable-parsers \
+    --disable-indevs \
+    --disable-outdevs \
+    --disable-encoders \
     --enable-decoders \
-    --enable-avisynth \
     --enable-avresample \
     --enable-gnutls \
-    --enable-gpl \ 
+    --enable-gpl \
     --enable-libmodplug \
     --enable-libmp3lame \
     --enable-libopencore_amrnb \
     --enable-libopencore_amrwb \
-    --enable-libtheora \
-    --enable-libvorbis \ 
-    --enable-shared \
-    --enable-version3 \
     --enable-librtmp \
+    --enable-libtheora \
+    --enable-libvorbis \
     --enable-runtime-cpudetect \
+    --enable-shared \
+    --enable-swresample \
+    --enable-version3 \
     --enable-libfdk_aac \
     --enable-nonfree
 
   make
-  make doc/ff{mpeg,play,server}.1
+  make doc/ff{mpeg,server}.1
 }
 
 package() {
-  cd ${_pkgname}-${pkgver}
-  make DESTDIR="${pkgdir}" install install-man
+  cd ffmpeg-$pkgver
+  make DESTDIR="$pkgdir" install install-man
 }
