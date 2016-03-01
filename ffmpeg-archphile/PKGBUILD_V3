@@ -20,9 +20,9 @@ pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
 arch=('x86_64' 'arm' 'armv6h' 'armv7h')
 url='http://ffmpeg.org/'
 license=('GPL')
-provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
+provides=('libavcodec.so' 'libavformat.so'
           'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
-          'libswscale.so' "ffmpeg=${pkgver}")
+          "ffmpeg=${pkgver}")
 conflicts=("ffmpeg")
 replaces=("ffmpeg")
 depends=(
