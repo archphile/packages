@@ -12,7 +12,7 @@ url="https://github.com/medoc92/pupnp16"
 license=('GPL')
 depends=('glibc')
 makedepends=('git' 'autoconf')
-arch=('arm' 'armv6h' 'armv7h')
+arch=('arm' 'armv6h' 'armv7h' 'aarch64'')
 conflicts=('libupnp')
 replaces=('libupnp')
 
