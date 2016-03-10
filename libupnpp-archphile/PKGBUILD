@@ -11,7 +11,7 @@ url="https://github.com/medoc92/libupnpp"
 license=("GPL")
 depends=('libupnp-archphile')
 makedepends=('git' 'autoconf')
-arch=('arm' 'armv6h' 'armv7h' 'aarch64)
+arch=('arm' 'armv6h' 'armv7h' 'aarch64')
 
 source=("git://github.com/medoc92/libupnpp.git")
 md5sums=('SKIP')
