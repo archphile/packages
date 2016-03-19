@@ -10,6 +10,9 @@
 # this command sets noop scheduler during boot
 echo noop > /sys/block/mmcblk0/queue/scheduler
 
+# this command sets a custom cpu governor
+#echo ondemand | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+
 # enable the command below in order to set swappiness to 0
 #echo 0 > /proc/sys/vm/swappiness
 
