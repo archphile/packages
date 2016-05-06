@@ -1,0 +1,34 @@
+# Maintainer: jason ryan <jasonwryan@gmail.com>
+# Contributor:  BartΕ‚omiej Piotrowski <nospam@bpiotrowwski.pl>
+# Contributor: Thomas Dziedzic < gostrc at gmail >
+# Contributor: evr <evanroman at gmail>
+# Contributor: Luiz Ribeiro <luizribeiro@gmail.com>
+
+pkgname=mpdscribble
+pkgver=0.22
+pkgrel=12
+pkgdesc='MPD client which submits track info to {Libre,Last}.fm'
+url='http://mpd.wikia.com/wiki/Client:Mpdscribble'
+arch=('armv6h' 'armv7h')
+license=('GPL')
+depends=('libsoup' 'glib2' 'libmpdclient')
+install=$pkgname.install
+source=(http://www.musicpd.org/download/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2
+        service)
+md5sums=('652ee927b797e9a4cef45494e77047db'
+         'a57d7d3d41b37fb23b45835aa0cfc325')
+
+prepare() {
+  sed 's:multi-user.target:default.target:;:User=%i:d' service > user.service
+}
+
+build() {
+  cd ${pkgname}-"${pkgver}"
+
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --with-http-client=soup
+
+  make
+}
