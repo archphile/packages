@@ -31,6 +31,12 @@ sha1sums=('41065043589208db1100c5a3f3c15fbd3ac87669'
 backup=('etc/mpd.conf')
 install=install
 
+prepare() {
+	# Temporary; see FS#48372
+	install -d "${srcdir}"/pkg-config
+	ln -s /usr/lib/pkgconfig/libsystemd.pc "${srcdir}"/pkg-config/libsystemd-daemon.pc
+}
+
 build() {
 	cd "${srcdir}/${_pkgname}-${pkgver}"
 
