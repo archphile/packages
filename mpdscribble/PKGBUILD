@@ -15,7 +15,7 @@ depends=('libsoup' 'glib2' 'libmpdclient')
 install=$pkgname.install
 source=(http://www.musicpd.org/download/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2
         service)
-md5sums=('652ee927b797e9a4cef45494e77047db'
+md5sums=('bbd8c59e64e4010e4f4ef45fbfc2fb24'
          'a57d7d3d41b37fb23b45835aa0cfc325')
 
 prepare() {
