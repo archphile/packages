@@ -2,7 +2,7 @@
 # Website: http://archphile.org
 
 pkgname=archphile-optimize
-pkgver=2.2
+pkgver=2.3
 pkgrel=1
 pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution"
 arch=('any')
@@ -24,7 +24,7 @@ source=('archphile-optimize'
         'drestore'
         'bselect')
 
-sha1sums=('6f3f21ba88d859d14a2c429bd6d886641f6d5cd6'
+sha1sums=('60a2bc8c47f156a1119fb9425e002f3834c9d01f'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cc04242e0ea50608b28815b153bb96732f768dd6'
