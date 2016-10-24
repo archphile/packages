@@ -1,6 +1,6 @@
 # Maintainer: Tux <info@archphile.org>
 # Website: http://archphile.org
-# Based on a package made by the following people
+# Based on a package made by the following people:
 # Maintainer: Anatol Pomozov anatol dot pomozov at g mail
 # Contributor: Leslie P. Polzer <polzer@gnu.org>
 # Contributor: bender02 at archlinux dot us
@@ -8,9 +8,9 @@
 
 pkgname=mongoose
 pkgver=5.5
-pkgrel=2
+pkgrel=3
 pkgdesc='Easy to use, powerful, embeddable web server'
-arch=('arm' 'armv6h' 'armv7h' 'aarch64')
+arch=('armv7h' 'aarch64')
 license=(GPL2)
 depends=(glibc openssl)
 backup=(etc/mongoose/mongoose.conf)

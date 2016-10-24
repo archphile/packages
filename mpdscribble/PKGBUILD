@@ -1,3 +1,7 @@
+# Maintainer: Tux <info@archphile.org>
+# Website: http://archphile.org
+# Based on the following package from AUR:
+# https://aur.archlinux.org/packages/mpdscribble/
 # Maintainer: jason ryan <jasonwryan@gmail.com>
 # Contributor:  Bartłomiej Piotrowski <nospam@bpiotrowwski.pl>
 # Contributor: Thomas Dziedzic < gostrc at gmail >
@@ -6,7 +10,7 @@
 
 pkgname=mpdscribble
 pkgver=0.22
-pkgrel=12
+pkgrel=1
 pkgdesc='MPD client which submits track info to {Libre,Last}.fm'
 url='http://mpd.wikia.com/wiki/Client:Mpdscribble'
 arch=('armv7h' 'aarch64')

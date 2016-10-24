@@ -1,12 +1,15 @@
 # Maintainer: Tux <info@archphile.org>
 # Website: http://archphile.org
+# Based on the following package from AUR:
+# https://aur.archlinux.org/packages/alsacap/
+
 
 pkgname=alsacap
 pkgver=0
 pkgrel=1.1
 pkgdesc="ALSA device capability lister"
 depends=('alsa-lib')
-arch=('armv6h' 'armv7h' 'aarch64')
+arch=('armv7h' 'aarch64')
 license=('custom:ISC')
 url="http://www.volkerschatz.com/noise/alsa.html#alsacap"
 source=("http://www.volkerschatz.com/noise/$pkgname.tgz")
