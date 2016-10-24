@@ -24,7 +24,7 @@ source=('archphile-optimize'
         'drestore'
         'bselect')
 
-sha1sums=('60a2bc8c47f156a1119fb9425e002f3834c9d01f'
+sha1sums=('36a03099bc211e55798ea2ec47fc5ebf2e905d92'
 	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cc04242e0ea50608b28815b153bb96732f768dd6'
