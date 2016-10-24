@@ -21,7 +21,7 @@ source=("git+https://github.com/notandy/ympd.git"
         "dirble_api_key.patch")
 
 sha1sums=('SKIP'
-          'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b)
+          'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b')
 
 pkgver() {
   cd "${srcdir}/${_pkgname}"
@@ -33,7 +33,6 @@ build() {
 
   msg2 "Applying various patches"
   patch -Np1 -i ../dirble_api_key.patch
-  patch -Np1 -i ../improved-navigation-artwork.patch
   
   mkdir build && cd build
   cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
