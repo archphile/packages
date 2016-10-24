@@ -21,7 +21,7 @@ source=("git+https://github.com/notandy/ympd.git"
         "dirble_api_key.patch")
 
 sha1sums=('SKIP'
-          'b7b3192dc9ad3c9368d911127c969de320aff189')
+          'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b')
 
 pkgver() {
   cd "${srcdir}/${_pkgname}"
