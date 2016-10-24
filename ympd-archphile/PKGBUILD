@@ -18,12 +18,10 @@ provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 replaces=('ympd-git')
 source=("git+https://github.com/notandy/ympd.git"
-        "dirble_api_key.patch"
-	"improved-navigation-artwork.patch")
+        "dirble_api_key.patch")
 
 sha1sums=('SKIP'
-          'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b
-           52ebfbe28656ca03105793d9cecb4198e31cf148')
+          'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b)
 
 pkgver() {
   cd "${srcdir}/${_pkgname}"
