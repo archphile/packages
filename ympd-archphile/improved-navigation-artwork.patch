@@ -1,0 +1,2001 @@
+From b1ed27508f83e601abcf99580ad18def1d70d9b1 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Thu, 16 Jun 2016 17:37:52 +0100
+Subject: [PATCH 01/22] Improved navigation
+
+---
+ .gitignore        |  1 +
+ htdocs/index.html | 12 ++++++++++++
+ htdocs/js/mpd.js  | 34 ++++++++++++++++++++++++++--------
+ src/mpd_client.c  | 46 ++++++++++++++++++++++++++++++++--------------
+ 4 files changed, 71 insertions(+), 22 deletions(-)
+ create mode 100644 .gitignore
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..378eac2
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1 @@
++build
+diff --git a/htdocs/index.html b/htdocs/index.html
+index ed77279..5cd034d 100644
+--- a/htdocs/index.html
++++ b/htdocs/index.html
+@@ -96,6 +96,18 @@
+ 
+           </div><!-- /.panel-body -->
+ 
++		  <div id="quicknav" class="hide">
++			<button type="button" class="btn quicknav-btn">A-C</button>
++			<button type="button" class="btn quicknav-btn">D-F</button>
++			<button type="button" class="btn quicknav-btn">G-I</button>
++			<button type="button" class="btn quicknav-btn">J-L</button>
++			<button type="button" class="btn quicknav-btn">M-O</button>
++			<button type="button" class="btn quicknav-btn">P-R</button>
++			<button type="button" class="btn quicknav-btn">S-U</button>
++			<button type="button" class="btn quicknav-btn">V-X</button>
++			<button type="button" class="btn quicknav-btn">Y-Z</button>
++		  </div>
++
+           <ol id="breadcrump" class="breadcrumb">
+           </ol>
+ 
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 6000b79..28115d3 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -21,10 +21,11 @@ var last_state;
+ var last_outputs;
+ var current_app;
+ var pagination = 0;
++var rootPagination = 0;
+ var browsepath;
+ var lastSongTitle = "";
+ var current_song = new Object();
+-var MAX_ELEMENTS_PER_PAGE = 512;
++var MAX_ELEMENTS_PER_PAGE = 50;
+ var dirble_selected_cat = "";
+ var dirble_catid = "";
+ var dirble_page = 1;
+@@ -35,6 +36,7 @@ var app = $.sammy(function() {
+     function runBrowse() {
+         current_app = 'queue';
+ 
++		$('#quicknav').addClass('hide');
+         $('#breadcrump').addClass('hide');
+         $('#salamisandwich').removeClass('hide').find("tr:gt(0)").remove();
+         $('#dirble_panel').addClass('hide');
+@@ -62,13 +64,21 @@ var app = $.sammy(function() {
+         prepare();
+         browsepath = this.params['splat'][1];
+         pagination = parseInt(this.params['splat'][0]);
++		if (!browsepath || browsepath.length == 0) {
++			rootPagination = pagination;
++		}
+         current_app = 'browse';
+-        $('#breadcrump').removeClass('hide').empty().append("<li><a href=\"#/browse/0/\">root</a></li>");
++		if (browsepath && !browsepath.match(/<[A-Z]-[A-Z]>/)) {
++			$('#quicknav').addClass('hide');
++		} else {
++			$('#quicknav').removeClass('hide');
++		}
++        $('#breadcrump').removeClass('hide').empty().append("<li><a href=\"#/browse/" + rootPagination + "/\">root</a></li>");
+         $('#salamisandwich').removeClass('hide').find("tr:gt(0)").remove();
+         $('#dirble_panel').addClass('hide');
+         socket.send('MPD_API_GET_BROWSE,'+pagination+','+(browsepath ? browsepath : "/"));
+         // Don't add all songs from root
+-        if (browsepath) {
++        if (browsepath && !browsepath.match(/<[A-Z]-[A-Z]>/)) {
+             var add_all_songs = $('#add-all-songs');
+             add_all_songs.off(); // remove previous binds
+             add_all_songs.on('click', function() {
+@@ -90,7 +100,6 @@ var app = $.sammy(function() {
+             $('#breadcrump').append("<li><a href=\"#/browse/0/" + full_path + "\">"+chunk+"</a></li>");
+             full_path += "/";
+         });
+-        $('#browse').addClass('active');
+     });
+ 
+     this.get(/\#\/search\/(.*)/, function() {
+@@ -135,6 +144,7 @@ var app = $.sammy(function() {
+         prepare();
+         current_app = 'dirble';
+         $('#breadcrump').removeClass('hide').empty().append("<li>Categories</li>");
++		$('#quicknav').addClass('hide');
+         $('#salamisandwich').addClass('hide');
+         $('#dirble_panel').removeClass('hide');
+         $('#dirble_loading').removeClass('hide');
+@@ -349,10 +359,8 @@ function webSocketConnect() {
+                         click: function() {
+                             switch($(this).attr('class')) {
+                                 case 'dir':
+-                                    pagination = 0;
+                                     browsepath = $(this).attr("uri");
+-                                    $("#browse > a").attr("href", '#/browse/'+pagination+'/'+browsepath);
+-                                    app.setLocation('#/browse/'+pagination+'/'+browsepath);
++                                    app.setLocation('#/browse/0/'+browsepath);
+                                     break;
+                                 case 'song':
+                                     socket.send("MPD_API_ADD_TRACK," + decodeURI($(this).attr("uri")));
+@@ -661,6 +669,13 @@ $('#search').submit(function () {
+     return false;
+ });
+ 
++$('.quicknav-btn').on('click', function(e) {
++	if (current_app == 'browse') {
++		app.setLocation('#/browse/0/%3C'+$(this).text()+'%3E');
++	}
++	e.preventDefault();
++});
++
+ $('.page-btn').on('click', function (e) {
+ 
+     switch ($(this).text()) {
+@@ -826,7 +841,10 @@ function dirble_load_categories() {
+                 app.setLocation("#/dirble/"+dirble_catid+"/"+dirble_page);
+             }
+         });
+-    });
++    }).fail(function(obj) {
++		var msg = 'Connection failed<br/>' + obj.status + ' - ' + obj.statusText + '<br/>' + obj.responseText; 
++		$('#dirble_loading').html(msg);
++	});
+ }
+ 
+ 
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index 7271984..c1ddf9d 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -584,6 +584,15 @@ int mpd_put_browse(char *buffer, char *path, unsigned int offset)
+     struct mpd_entity *entity;
+     unsigned int entity_count = 0;
+ 
++	char quickStart = 0;
++	char quickEnd;
++	// Looking for <A-C>
++	if(strlen(path) == 5 && *path == '<' && path[strlen(path) - 1] == '>') {
++		quickStart = path[1];
++		quickEnd = path[3];
++		strcpy(path, "/");
++	}
++
+     if (!mpd_send_list_meta(mpd.conn, path))
+         RETURN_ERROR_AND_RECOVER("mpd_send_list_meta");
+ 
+@@ -594,20 +603,29 @@ int mpd_put_browse(char *buffer, char *path, unsigned int offset)
+         const struct mpd_directory *dir;
+         const struct mpd_playlist *pl;
+ 
+-        if(offset > entity_count)
+-        {
+-            mpd_entity_free(entity);
+-            entity_count++;
+-            continue;
+-        }
+-        else if(offset + MAX_ELEMENTS_PER_PAGE - 1 < entity_count)
+-        {
+-            mpd_entity_free(entity);
+-            cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"wrap\",\"count\":");
+-            cur += json_emit_int(cur, end - cur, entity_count);
+-            cur += json_emit_raw_str(cur, end  - cur, "} ");
+-            break;
+-        }
++		if(quickStart == 0) {
++			if(offset > entity_count)
++			{
++				mpd_entity_free(entity);
++				entity_count++;
++				continue;
++			}
++			else if(offset + MAX_ELEMENTS_PER_PAGE - 1 < entity_count)
++			{
++				mpd_entity_free(entity);
++				cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"wrap\",\"count\":");
++				cur += json_emit_int(cur, end - cur, entity_count);
++				cur += json_emit_raw_str(cur, end  - cur, "} ");
++				break;
++			}
++		} else {
++			dir = mpd_entity_get_directory(entity);
++			const char *dirPath = mpd_directory_get_path(dir);
++			if(*dirPath < quickStart || *dirPath > quickEnd) {
++				mpd_entity_free(entity);
++				continue;
++			}
++		}
+ 
+         switch (mpd_entity_get_type(entity)) {
+             case MPD_ENTITY_TYPE_UNKNOWN:
+
+From 681fc79853cc8949a16da768dda56f5f249c106c Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 17 Jun 2016 12:29:01 +0100
+Subject: [PATCH 02/22] Improved navigation and delete playlists
+
+---
+ htdocs/index.html |  3 ++-
+ htdocs/js/mpd.js  | 29 ++++++++++++++++------
+ src/mpd_client.c  | 73 ++++++++++++++++++++++++++++++++++++++++++-------------
+ src/mpd_client.h  |  3 ++-
+ 4 files changed, 82 insertions(+), 26 deletions(-)
+
+diff --git a/htdocs/index.html b/htdocs/index.html
+index 5cd034d..55ad3e4 100644
+--- a/htdocs/index.html
++++ b/htdocs/index.html
+@@ -34,7 +34,7 @@
+ 
+         <ul id="nav_links" class="nav navbar-nav">
+           <li id="queue"><a href="#/">Queue</a></li>
+-          <li id="browse"><a href="#/browse/0/">Browse database</a></li>
++          <li id="browse"><a href="#/browse/0/">Browse</a></li>
+           <li id="dirble"><a href="#/dirble/">Dirble</a></li>
+           <li><a href="#" data-toggle="modal" data-target="#addstream">Add Stream</a></li>
+           <li><a href="#" data-toggle="modal" data-target="#settings" onclick="getHost();">Settings</a></li>
+@@ -106,6 +106,7 @@
+ 			<button type="button" class="btn quicknav-btn">S-U</button>
+ 			<button type="button" class="btn quicknav-btn">V-X</button>
+ 			<button type="button" class="btn quicknav-btn">Y-Z</button>
++			<button type="button" class="btn quicknav-btn">Playlists</button>
+ 		  </div>
+ 
+           <ol id="breadcrump" class="breadcrumb">
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 28115d3..ee618e8 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -87,7 +87,7 @@ var app = $.sammy(function() {
+             add_all_songs.show();
+         }
+ 
+-        $('#panel-heading').text("Browse database: "+browsepath);
++        $('#panel-heading').text("Browse: "+browsepath);
+         var path_array = browsepath.split('/');
+         var full_path = "";
+         $.each(path_array, function(index, chunk) {
+@@ -332,23 +332,34 @@ function webSocketConnect() {
+                             .find('a').click(function(e) {
+                                 e.stopPropagation();
+                                 socket.send(onClickAction + "," + decodeURI($(this).parents("tr").attr("uri")));
+-                            $('.top-right').notify({
+-                                message:{
+-                                    text: $('td:nth-child(2)', $(this).parents("tr")).text() + " added"
+-                                } }).show();
++								var msg;
++								if($(this).parents("tr").attr("class") == 'plist') {
++									msg = ' deleted';
++									$('#salamisandwich').find("tr:gt(0)").remove();
++									socket.send('MPD_API_GET_BROWSE,'+pagination+','+(browsepath ? browsepath : "/"));
++								} else {
++									msg = ' added';
++								}
++								$('.top-right').notify({
++									message:{
++										text: $('td:nth-child(2)', $(this).parents("tr")).text() + msg
++									} }).show();
+                             }).fadeTo('fast',1);
+                     }
+ 
+                     if ( isTouch ) {
+                         appendClickableIcon($("#salamisandwich > tbody > tr.dir > td:last-child"), 'MPD_API_ADD_TRACK', 'plus');
+                         appendClickableIcon($("#salamisandwich > tbody > tr.song > td:last-child"), 'MPD_API_ADD_TRACK', 'play');
++                        appendClickableIcon($("#salamisandwich > tbody > tr.plist > td:last-child"), 'MPD_API_RM_PLAYLIST', 'trash');
+                     } else {
+                         $('#salamisandwich > tbody > tr').on({
+                             mouseenter: function() {
+                                 if($(this).is(".dir")) 
+                                     appendClickableIcon($(this).children().last(), 'MPD_API_ADD_TRACK', 'plus');
+                                 else if($(this).is(".song"))
+-                                    appendClickableIcon($(this).children().last(), 'MPD_API_ADD_PLAY_TRACK', 'play');
++                                    appendClickableIcon($(this).children().last(), 'MPD_API_ADD_PLAY_TRACK', 'play')
++								else if($(this).is(".plist"))
++									appendClickableIcon($(this).children().last(), 'MPD_API_RM_PLAYLIST', 'trash');
+                             },
+                             mouseleave: function(){
+                                 $(this).children().last().find("a").stop().remove();
+@@ -671,7 +682,11 @@ $('#search').submit(function () {
+ 
+ $('.quicknav-btn').on('click', function(e) {
+ 	if (current_app == 'browse') {
+-		app.setLocation('#/browse/0/%3C'+$(this).text()+'%3E');
++		var text = $(this).text();
++		if(text == 'Playlists') {
++			text = 'LST';
++		}
++		app.setLocation('#/browse/0/%5B'+text+'%5D');
+ 	}
+ 	e.preventDefault();
+ });
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index c1ddf9d..a64db0d 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -201,6 +201,20 @@ int callback_mpd(struct mg_connection *c)
+ out_playlist:
+             free(p_charbuf);
+             break;
++		case MPD_API_RM_PLAYLIST:
++			p_charbuf = strdup(c->content);
++			if(strcmp(strtok(p_charbuf, ","), "MPD_API_RM_PLAYLIST"))
++				goto out_rm_playlist;
++
++			if((token = strtok(NULL, ",")) == NULL)
++				goto out_rm_playlist;
++
++			free(p_charbuf);
++			p_charbuf = strdup(c->content);
++			mpd_run_rm(mpd.conn, get_arg1(p_charbuf));
++out_rm_playlist:
++			free(p_charbuf);
++			break;
+         case MPD_API_SAVE_QUEUE:
+             p_charbuf = strdup(c->content);
+             if(strcmp(strtok(p_charbuf, ","), "MPD_API_SAVE_QUEUE"))
+@@ -586,10 +600,15 @@ int mpd_put_browse(char *buffer, char *path, unsigned int offset)
+ 
+ 	char quickStart = 0;
+ 	char quickEnd;
+-	// Looking for <A-C>
+-	if(strlen(path) == 5 && *path == '<' && path[strlen(path) - 1] == '>') {
++	char quickList = 0;
++	// Looking for [A-C]
++	// special case [LST] for playlists only
++	if(strlen(path) == 5 && *path == '[' && path[strlen(path) - 1] == ']') {
+ 		quickStart = path[1];
+ 		quickEnd = path[3];
++		if(!strcmp("[LST]", path)) {
++			quickList = 1;
++		}
+ 		strcpy(path, "/");
+ 	}
+ 
+@@ -603,30 +622,50 @@ int mpd_put_browse(char *buffer, char *path, unsigned int offset)
+         const struct mpd_directory *dir;
+         const struct mpd_playlist *pl;
+ 
+-		if(quickStart == 0) {
+-			if(offset > entity_count)
+-			{
++		if(quickList) {
++			if(mpd_entity_get_type(entity) != MPD_ENTITY_TYPE_PLAYLIST) {
+ 				mpd_entity_free(entity);
+-				entity_count++;
+ 				continue;
+ 			}
+-			else if(offset + MAX_ELEMENTS_PER_PAGE - 1 < entity_count)
+-			{
+-				mpd_entity_free(entity);
+-				cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"wrap\",\"count\":");
+-				cur += json_emit_int(cur, end - cur, entity_count);
+-				cur += json_emit_raw_str(cur, end  - cur, "} ");
+-				break;
++		}
++		else if(quickStart) {
++			const char *name;
++
++			switch (mpd_entity_get_type(entity)) {
++				case MPD_ENTITY_TYPE_SONG:
++					name = mpd_get_title(mpd_entity_get_song(entity));
++					break;
++				case MPD_ENTITY_TYPE_DIRECTORY:
++					name = mpd_directory_get_path(mpd_entity_get_directory(entity));
++					break;
++				case MPD_ENTITY_TYPE_PLAYLIST:
++					name = mpd_playlist_get_path(mpd_entity_get_playlist(entity));
++					break;
++				default:
++					mpd_entity_free(entity);
++					continue;
+ 			}
+-		} else {
+-			dir = mpd_entity_get_directory(entity);
+-			const char *dirPath = mpd_directory_get_path(dir);
+-			if(*dirPath < quickStart || *dirPath > quickEnd) {
++			if(*name < quickStart || *name > quickEnd) {
+ 				mpd_entity_free(entity);
+ 				continue;
+ 			}
+ 		}
+ 
++		if(offset > entity_count)
++		{
++			mpd_entity_free(entity);
++			entity_count++;
++			continue;
++		}
++		else if(offset + MAX_ELEMENTS_PER_PAGE - 1 < entity_count)
++		{
++			mpd_entity_free(entity);
++			cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"wrap\",\"count\":");
++			cur += json_emit_int(cur, end - cur, entity_count);
++			cur += json_emit_raw_str(cur, end  - cur, "} ");
++			break;
++		}
++
+         switch (mpd_entity_get_type(entity)) {
+             case MPD_ENTITY_TYPE_UNKNOWN:
+                 break;
+diff --git a/src/mpd_client.h b/src/mpd_client.h
+index dd78af9..fdf93c3 100644
+--- a/src/mpd_client.h
++++ b/src/mpd_client.h
+@@ -32,7 +32,7 @@
+ 
+ 
+ #define MAX_SIZE 1024 * 100
+-#define MAX_ELEMENTS_PER_PAGE 512
++#define MAX_ELEMENTS_PER_PAGE 50
+ 
+ #define GEN_ENUM(X) X,
+ #define GEN_STR(X) #X,
+@@ -43,6 +43,7 @@
+     X(MPD_API_ADD_TRACK) \
+     X(MPD_API_ADD_PLAY_TRACK) \
+     X(MPD_API_ADD_PLAYLIST) \
++	X(MPD_API_RM_PLAYLIST) \
+     X(MPD_API_PLAY_TRACK) \
+     X(MPD_API_SAVE_QUEUE) \
+     X(MPD_API_RM_TRACK) \
+
+From 872d2ecfcf31882801de14f7b0bce289dd770285 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 17 Jun 2016 21:52:35 +0100
+Subject: [PATCH 03/22] Tidied up play status
+
+---
+ htdocs/index.html |  2 +-
+ htdocs/js/mpd.js  | 17 +++++++++++++----
+ 2 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/htdocs/index.html b/htdocs/index.html
+index 55ad3e4..3b99142 100644
+--- a/htdocs/index.html
++++ b/htdocs/index.html
+@@ -183,7 +183,7 @@
+           </div>
+ 
+           <div id="btn-responsive-block" class="btn-group-vertical btn-block btn-group-lg">
+-            <button type="button" class="btn btn-default" onclick="socket.send('MPD_API_RM_ALL');">
++            <button type="button" class="btn btn-default" onclick="clearPlaylist();">
+               <span class="glyphicon glyphicon-trash"></span> Clear queue
+             </button>
+             <a href="#" data-toggle="modal" data-target="#savequeue" class="btn btn-default">
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index ee618e8..e4db5cc 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -68,7 +68,7 @@ var app = $.sammy(function() {
+ 			rootPagination = pagination;
+ 		}
+         current_app = 'browse';
+-		if (browsepath && !browsepath.match(/<[A-Z]-[A-Z]>/)) {
++		if (browsepath && !browsepath.match(/\[[A-Z-]{3}\]/)) {
+ 			$('#quicknav').addClass('hide');
+ 		} else {
+ 			$('#quicknav').removeClass('hide');
+@@ -78,7 +78,7 @@ var app = $.sammy(function() {
+         $('#dirble_panel').addClass('hide');
+         socket.send('MPD_API_GET_BROWSE,'+pagination+','+(browsepath ? browsepath : "/"));
+         // Don't add all songs from root
+-        if (browsepath && !browsepath.match(/<[A-Z]-[A-Z]>/)) {
++        if (browsepath && !browsepath.match(/\[[A-Z-]{3}\]/)) {
+             var add_all_songs = $('#add-all-songs');
+             add_all_songs.off(); // remove previous binds
+             add_all_songs.on('click', function() {
+@@ -590,15 +590,24 @@ var updatePlayIcon = function(state)
+     if(state == 1) { // stop
+         $("#play-icon").addClass("glyphicon-play");
+         $('#track-icon').addClass("glyphicon-stop");
+-    } else if(state == 2) { // pause
++		$('#progressbar').slider(0);
++    } else if(state == 2) { // playing
+         $("#play-icon").addClass("glyphicon-pause");
+         $('#track-icon').addClass("glyphicon-play");
+-    } else { // play
++    } else { // paused
+         $("#play-icon").addClass("glyphicon-play");
+         $('#track-icon').addClass("glyphicon-pause");
+     }
+ }
+ 
++function clearPlaylist() {
++	socket.send('MPD_API_RM_ALL');
++	$('#currenttrack').text('');
++	$('#artist').text('');
++	$('#album').text('');
++	$('#counter').text('');
++}
++
+ function updateDB() {
+     socket.send('MPD_API_UPDATE_DB');
+     $('.top-right').notify({
+
+From bdb3c3582bd55cd67c3ebcb3e3c5b70e654e975e Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Sat, 18 Jun 2016 09:07:56 +0100
+Subject: [PATCH 04/22] Improved screen refresh
+
+---
+ htdocs/js/mpd.js | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index e4db5cc..26bd7a5 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -335,8 +335,7 @@ function webSocketConnect() {
+ 								var msg;
+ 								if($(this).parents("tr").attr("class") == 'plist') {
+ 									msg = ' deleted';
+-									$('#salamisandwich').find("tr:gt(0)").remove();
+-									socket.send('MPD_API_GET_BROWSE,'+pagination+','+(browsepath ? browsepath : "/"));
++									$(this).parents("tr").remove();
+ 								} else {
+ 									msg = ' added';
+ 								}
+
+From d4d3be87f36919d0c7a9af129482e26adf3cb152 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Thu, 23 Jun 2016 12:17:29 +0100
+Subject: [PATCH 05/22] artwork support added
+
+---
+ CMakeLists.txt       |   1 +
+ htdocs/css/mpd.css   |   6 ++++
+ htdocs/img/cover.jpg | Bin 0 -> 14414 bytes
+ htdocs/index.html    |   3 ++
+ htdocs/js/mpd.js     |   7 +++++
+ src/mpd_client.c     |  76 +++++++++++++++++++++++++++++++++++++++++++++++----
+ src/mpd_client.h     |   7 +++++
+ src/ympd.c           |  15 +++++-----
+ 8 files changed, 103 insertions(+), 12 deletions(-)
+ create mode 100644 htdocs/img/cover.jpg
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cce24fe..410a726 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,6 +42,7 @@ file(GLOB RESOURCES
+     htdocs/assets/*
+     htdocs/css/*.css
+     htdocs/fonts/*
++	htdocs/img/*
+     htdocs/index.html
+ )
+ 
+diff --git a/htdocs/css/mpd.css b/htdocs/css/mpd.css
+index 647bfc7..240e74f 100644
+--- a/htdocs/css/mpd.css
++++ b/htdocs/css/mpd.css
+@@ -32,6 +32,12 @@ body {
+   margin-right: -10px;
+ }
+ 
++#artwork {
++    width: 100px;
++    height: 100px;
++    border: 1px solid black;
++}
++
+ .btn-group-hover {
+     opacity: 20%;
+ }
+diff --git a/htdocs/img/cover.jpg b/htdocs/img/cover.jpg
+new file mode 100644
+index 0000000000000000000000000000000000000000..74ee5097323068cdaed651615c17c4ae8c53979f
+GIT binary patch
+literal 14414
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/htdocs/index.html b/htdocs/index.html
+index 3b99142..2d1dcc4 100644
+--- a/htdocs/index.html
++++ b/htdocs/index.html
+@@ -82,6 +82,9 @@
+           <div class="panel-heading"><b id="panel-heading">Queue</b></div>
+           <div class="panel-body">
+             <h1>
++                <span>
++                    <img id="artwork" src="img/cover.jpg" />
++                </span>
+               <span id="track-icon" onclick="clickPlay();" class="glyphicon glyphicon-play"></span>
+               <span id="currenttrack"></span>
+             </h1>
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 26bd7a5..2398652 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -495,6 +495,12 @@ function webSocketConnect() {
+                         $('#artist').text(obj.data.artist);
+                         notification += obj.data.artist + "<br />";
+                     }
++                    if(obj.data.artwork) {
++						var artworkUrl = encodeURI(obj.data.artwork);
++						$('#artwork').attr('src', artworkUrl).on('error', function() {
++							$(this).attr('src', '/img/cover.jpg');
++						});
++                    }
+ 
+                     if ($.cookie("notification") === "true")
+                         songNotify(obj.data.title, obj.data.artist, obj.data.album );
+@@ -605,6 +611,7 @@ function clearPlaylist() {
+ 	$('#artist').text('');
+ 	$('#album').text('');
+ 	$('#counter').text('');
++	$('#artwork').attr('src', '/img/cover.jpg');
+ }
+ 
+ function updateDB() {
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index a64db0d..e8e89db 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -27,6 +27,8 @@
+ #include "config.h"
+ #include "json_encode.h"
+ 
++extern const char *template;
++
+ /* forward declaration */
+ static int mpd_notify_callback(struct mg_connection *c, enum mg_event ev);
+ 
+@@ -42,6 +44,59 @@ char * get_arg2 (char *p) {
+ 	return get_arg1(get_arg1(p));
+ }
+ 
++char *parse_templ(const char *templ, struct t_meta data) {
++    static char buffer[1024];
++    char *bptr = buffer;
++    const char *dptr;
++
++    while(*templ != 0) {
++        dptr = 0;
++        if(*templ == '%') {
++            switch(*(templ + 1)) {
++                case 'A':
++                    dptr = data.artist;
++                    break;
++                case 'a':
++                    dptr = data.album;
++                    break;
++                case 't':
++                    dptr = data.track;
++                    break;
++                case 'T':
++                    dptr = data.title;
++                    break;
++                case '%':
++                    *bptr++ = *templ;
++                    templ += 2;
++                    break;
++                default:
++                    printf("Unrecognised token %c\n", *(templ + 1));
++            }
++            if(dptr != 0) {
++                //strcpy(bptr, dptr);
++                //bptr += strlen(dptr);
++				while(*dptr != 0) {
++					if(*dptr == '/') {
++						*bptr = '_';
++					} else {
++						*bptr = *dptr;
++					}
++					bptr++;
++					dptr++;
++				}
++                templ += 2;
++            } else {
++                templ += 2;
++            }
++        } else {
++            *bptr++ = *templ++;
++        }
++    }
++	*bptr = 0;
++
++    return buffer;
++}
++
+ static inline enum mpd_cmd_ids get_cmd_id(char *cmd)
+ {
+     for(int i = 0; i < sizeof(mpd_cmd_strs)/sizeof(mpd_cmd_strs[0]); i++)
+@@ -525,26 +580,37 @@ int mpd_put_current_song(char *buffer)
+     char *cur = buffer;
+     const char *end = buffer + MAX_SIZE;
+     struct mpd_song *song;
++    struct t_meta data;
+ 
+     song = mpd_run_current_song(mpd.conn);
+     if(song == NULL)
+         return 0;
+ 
++    data.title = mpd_get_title(song);
++    data.artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
++    data.album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
++    data.track = mpd_song_get_tag(song, MPD_TAG_TRACK, 0);
++
+     cur += json_emit_raw_str(cur, end - cur, "{\"type\": \"song_change\", \"data\":{\"pos\":");
+     cur += json_emit_int(cur, end - cur, mpd_song_get_pos(song));
+     cur += json_emit_raw_str(cur, end - cur, ",\"title\":");
+-    cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
++    cur += json_emit_quoted_str(cur, end - cur, data.title);
+ 
+-    if(mpd_song_get_tag(song, MPD_TAG_ARTIST, 0) != NULL)
++    if(data.artist != NULL)
+     {
+         cur += json_emit_raw_str(cur, end - cur, ",\"artist\":");
+-        cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
++        cur += json_emit_quoted_str(cur, end - cur, data.artist);
+     }
+ 
+-    if(mpd_song_get_tag(song, MPD_TAG_ALBUM, 0) != NULL)
++    if(data.album != NULL)
+     {
+         cur += json_emit_raw_str(cur, end - cur, ",\"album\":");
+-        cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ALBUM, 0));
++        cur += json_emit_quoted_str(cur, end - cur, data.album);
++    }
++
++    if(template != 0) {
++        cur += json_emit_raw_str(cur, end - cur, ",\"artwork\":");
++        cur += json_emit_quoted_str(cur, end - cur, parse_templ(template, data));
+     }
+ 
+     cur += json_emit_raw_str(cur, end - cur, "}}");
+diff --git a/src/mpd_client.h b/src/mpd_client.h
+index fdf93c3..dab6730 100644
+--- a/src/mpd_client.h
++++ b/src/mpd_client.h
+@@ -100,6 +100,13 @@ struct t_mpd_client_session {
+     unsigned queue_version;
+ };
+ 
++struct t_meta {
++    const char *artist;
++    const char *album;
++    const char *track;
++    const char *title;
++};
++
+ void mpd_poll(struct mg_server *s);
+ int callback_mpd(struct mg_connection *c);
+ int mpd_close_handler(struct mg_connection *c);
+diff --git a/src/ympd.c b/src/ympd.c
+index afa25c6..6c929c3 100644
+--- a/src/ympd.c
++++ b/src/ympd.c
+@@ -29,6 +29,8 @@
+ #include "mpd_client.h"
+ #include "config.h"
+ 
++const char *template = 0;
++
+ extern char *optarg;
+ 
+ int force_exit = 0;
+@@ -85,12 +87,13 @@ int main(int argc, char **argv)
+         {"port",         required_argument, 0, 'p'},
+         {"webport",      required_argument, 0, 'w'},
+         {"user",         required_argument, 0, 'u'},
++        {"artwork",      required_argument, 0, 'a'},
+         {"version",      no_argument,       0, 'v'},
+         {"help",         no_argument,       0,  0 },
+         {0,              0,                 0,  0 }
+     };
+ 
+-    while((n = getopt_long(argc, argv, "h:p:w:u:v",
++    while((n = getopt_long(argc, argv, "h:p:w:u:a:v",
+                 long_options, &option_index)) != -1) {
+         switch (n) {
+             case 'h':
+@@ -105,6 +108,9 @@ int main(int argc, char **argv)
+             case 'u':
+                 run_as_user = strdup(optarg);
+                 break;
++            case 'a':
++                template = strdup(optarg);
++                break;
+             case 'v':
+                 fprintf(stdout, "ympd  %d.%d.%d\n"
+                         "Copyright (C) 2014 Andrew Karpow <andy@ndyk.de>\n"
+@@ -117,18 +123,13 @@ int main(int argc, char **argv)
+                         " -h, --host <host>\t\tconnect to mpd at host [localhost]\n"
+                         " -p, --port <port>\t\tconnect to mpd at port [6600]\n"
+                         " -w, --webport [ip:]<port>\tlisten interface/port for webserver [8080]\n"
++                        " -a, --artwork [url template] for artwork fetch\n"
+                         " -u, --user <username>\t\tdrop priviliges to user after socket bind\n"
+                         " -V, --version\t\t\tget version\n"
+                         " --help\t\t\t\tthis help\n"
+                         , argv[0]);
+                 return EXIT_FAILURE;
+         }
+-
+-        if(error_msg)
+-        {
+-            fprintf(stderr, "Mongoose error: %s\n", error_msg);
+-            return EXIT_FAILURE;
+-        }
+     }
+ 
+     error_msg = mg_set_option(server, "listening_port", webport);
+
+From 250eb4025e5d62a679913856ea74b44b0066de43 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 24 Jun 2016 15:40:02 +0100
+Subject: [PATCH 06/22] Updated for artwork
+
+---
+ README.md | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/README.md b/README.md
+index 08ef76d..8a56500 100644
+--- a/README.md
++++ b/README.md
+@@ -31,10 +31,24 @@ Usage: ./ympd [OPTION]...
+  -h, --host <host>          connect to mpd at host [localhost]
+  -p, --port <port>          connect to mpd at port [6600]
+  -w, --webport [ip:]<port>  listen interface/port for webserver [8080]
++ -a, --artwork [url template] for artwork fetch
+  -u, --user <username>      drop priviliges to user after socket bind
+  -V, --version              get version
+  --help                     this help
+ ```
++Artwork
++-------
++Provide a template where the artwork may be fetched from:
++```
++ http://server/music/%A/%a/cover.jpg
++```
++The available substitutions are:
++```
++ %A - Artist
++ %a - Album
++ %T - Title
++ %t - track
++```
+ 
+ SSL Support
+ -----------
+
+From fbc5bc453f198f221c3d67a0476c65ffbce53606 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 24 Jun 2016 15:42:36 +0100
+Subject: [PATCH 07/22] Update README.md
+
+---
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/README.md b/README.md
+index 8a56500..f002ab6 100644
+--- a/README.md
++++ b/README.md
+@@ -48,6 +48,7 @@ The available substitutions are:
+  %a - Album
+  %T - Title
+  %t - track
++ %% - %
+ ```
+ 
+ SSL Support
+
+From 243bd2d329dec4c33e84f89b2a83240b752c3a8a Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 24 Jun 2016 15:47:46 +0100
+Subject: [PATCH 08/22] Added literal %
+
+---
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/README.md b/README.md
+index 8a56500..f002ab6 100644
+--- a/README.md
++++ b/README.md
+@@ -48,6 +48,7 @@ The available substitutions are:
+  %a - Album
+  %T - Title
+  %t - track
++ %% - %
+ ```
+ 
+ SSL Support
+
+From e3a0e661fdfdb7330259eadca7b6945722feeaa0 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 24 Jun 2016 16:35:10 +0100
+Subject: [PATCH 09/22] fixed mime type
+
+---
+ tools/mkdata.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tools/mkdata.c b/tools/mkdata.c
+index d22c8e7..6e0606f 100644
+--- a/tools/mkdata.c
++++ b/tools/mkdata.c
+@@ -50,6 +50,8 @@ static const char* get_mime(char* filename)
+         return "image/svg+xml";
+     if(!strcmp(extension, ".html"))
+         return "text/html";
++	if(!strcmp(extension, ".jpg"))
++		return "image/jpeg";
+     return "text/plain";
+ }
+ 
+
+From 7ad87e0acfc2cf28445154b90941622ee9e5937e Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Mon, 27 Jun 2016 15:42:54 +0100
+Subject: [PATCH 10/22] tweaked colours
+
+---
+ htdocs/css/mpd.css | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/htdocs/css/mpd.css b/htdocs/css/mpd.css
+index 240e74f..795a8e1 100644
+--- a/htdocs/css/mpd.css
++++ b/htdocs/css/mpd.css
+@@ -1,6 +1,11 @@
+ body {
+   padding-top: 50px;
+   padding-bottom: 50px;
++  background-color: #ddccdd;
++}
++
++.panel {
++	background-color: #ffffee;
+ }
+ 
+ .starter-template {
+@@ -35,7 +40,7 @@ body {
+ #artwork {
+     width: 100px;
+     height: 100px;
+-    border: 1px solid black;
++    border: 1px solid #cccccc;
+ }
+ 
+ .btn-group-hover {
+
+From f633caf028d6d75e1efaaca39f586ea586e08aea Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Mon, 27 Jun 2016 16:33:36 +0000
+Subject: [PATCH 11/22] quick nav button colours
+
+---
+ htdocs/css/mpd.css | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/htdocs/css/mpd.css b/htdocs/css/mpd.css
+index 795a8e1..19b791d 100644
+--- a/htdocs/css/mpd.css
++++ b/htdocs/css/mpd.css
+@@ -8,6 +8,10 @@ body {
+ 	background-color: #ffffee;
+ }
+ 
++.quicknav-btn {
++    background-color: #428bca;
++}
++
+ .starter-template {
+   padding: 40px 15px;
+ }
+
+From 210d80fda89d0bbc0ee89db575aa6cdfadb6ce61 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Fri, 1 Jul 2016 12:42:52 +0100
+Subject: [PATCH 12/22] added artist to queue
+
+---
+ htdocs/js/mpd.js | 2 +-
+ src/mpd_client.c | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 2398652..f4606b6 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -229,7 +229,7 @@ function webSocketConnect() {
+ 
+                         $('#salamisandwich > tbody').append(
+                             "<tr trackid=\"" + obj.data[song].id + "\"><td>" + (obj.data[song].pos + 1) + "</td>" +
+-                                "<td>"+ obj.data[song].title +"</td>" + 
++                                "<td>"+ obj.data[song].title + " / " + obj.data[song].artist + "</td>" + 
+                                 "<td>"+ minutes + ":" + (seconds < 10 ? '0' : '') + seconds +
+                         "</td><td></td></tr>");
+                     }
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index e8e89db..f9fec8b 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -76,7 +76,7 @@ char *parse_templ(const char *templ, struct t_meta data) {
+                 //strcpy(bptr, dptr);
+                 //bptr += strlen(dptr);
+ 				while(*dptr != 0) {
+-					if(*dptr == '/') {
++					if(*dptr == '/' || *dptr == '?') {
+ 						*bptr = '_';
+ 					} else {
+ 						*bptr = *dptr;
+@@ -645,6 +645,8 @@ int mpd_put_queue(char *buffer, unsigned int offset)
+             cur += json_emit_int(cur, end - cur, mpd_song_get_duration(song));
+             cur += json_emit_raw_str(cur, end - cur, ",\"title\":");
+             cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
++			cur += json_emit_raw_str(cur, end - cur, ",\"artist\":");
++			cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
+             cur += json_emit_raw_str(cur, end - cur, "},");
+         }
+         mpd_entity_free(entity);
+
+From 0581eab8f17e6b90b16176eb45c2895c497f77e4 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Thu, 7 Jul 2016 12:05:24 +0100
+Subject: [PATCH 14/22] play next and extra template
+
+---
+ README.md        |  1 +
+ htdocs/js/mpd.js |  7 ++-----
+ src/mpd_client.c | 54 +++++++++++++++++++++++++++++++++---------------------
+ src/mpd_client.h |  3 ++-
+ 4 files changed, 38 insertions(+), 27 deletions(-)
+
+diff --git a/README.md b/README.md
+index f002ab6..5337b94 100644
+--- a/README.md
++++ b/README.md
+@@ -48,6 +48,7 @@ The available substitutions are:
+  %a - Album
+  %T - Title
+  %t - track
++ %P - Path to track (dirname)
+  %% - %
+ ```
+ 
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 677558c..6772406 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -26,9 +26,6 @@ var browsepath;
+ var lastSongTitle = "";
+ var current_song = new Object();
+ var MAX_ELEMENTS_PER_PAGE = 50;
+-var dirble_selected_cat = "";
+-var dirble_catid = "";
+-var dirble_page = 1;
+ var isTouch = Modernizr.touch ? 1 : 0;
+ 
+ var app = $.sammy(function() {
+@@ -302,7 +299,7 @@ function webSocketConnect() {
+ 
+                     if ( isTouch ) {
+                         appendClickableIcon($("#salamisandwich > tbody > tr.dir > td:last-child"), 'MPD_API_ADD_TRACK', 'plus');
+-                        appendClickableIcon($("#salamisandwich > tbody > tr.song > td:last-child"), 'MPD_API_ADD_TRACK', 'play');
++                        appendClickableIcon($("#salamisandwich > tbody > tr.song > td:last-child"), 'MPD_API_INSERT_TRACK', 'play');
+                         appendClickableIcon($("#salamisandwich > tbody > tr.plist > td:last-child"), 'MPD_API_RM_PLAYLIST', 'trash');
+                     } else {
+                         $('#salamisandwich > tbody > tr').on({
+@@ -310,7 +307,7 @@ function webSocketConnect() {
+                                 if($(this).is(".dir")) 
+                                     appendClickableIcon($(this).children().last(), 'MPD_API_ADD_TRACK', 'plus');
+                                 else if($(this).is(".song"))
+-                                    appendClickableIcon($(this).children().last(), 'MPD_API_ADD_PLAY_TRACK', 'play')
++                                    appendClickableIcon($(this).children().last(), 'MPD_API_INSERT_TRACK', 'play')
+ 								else if($(this).is(".plist"))
+ 									appendClickableIcon($(this).children().last(), 'MPD_API_RM_PLAYLIST', 'trash');
+                             },
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index f9fec8b..63a5184 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -49,6 +49,7 @@ char *parse_templ(const char *templ, struct t_meta data) {
+     char *bptr = buffer;
+     const char *dptr;
+ 
++	int is_path = 0;
+     while(*templ != 0) {
+         dptr = 0;
+         if(*templ == '%') {
+@@ -65,6 +66,10 @@ char *parse_templ(const char *templ, struct t_meta data) {
+                 case 'T':
+                     dptr = data.title;
+                     break;
++				case 'P':
++					dptr = data.uri;
++					is_path = 1;
++					break;
+                 case '%':
+                     *bptr++ = *templ;
+                     templ += 2;
+@@ -73,21 +78,26 @@ char *parse_templ(const char *templ, struct t_meta data) {
+                     printf("Unrecognised token %c\n", *(templ + 1));
+             }
+             if(dptr != 0) {
+-                //strcpy(bptr, dptr);
+-                //bptr += strlen(dptr);
+-				while(*dptr != 0) {
+-					if(*dptr == '/' || *dptr == '?') {
+-						*bptr = '_';
+-					} else {
+-						*bptr = *dptr;
++				if(is_path) {
++					char *pptr = strdup(dptr);
++					char *dir = dirname(pptr);
++					while(*dir != 0) {
++						*bptr++ = *dir++;
++					}
++					free(pptr);
++				} else {
++					while(*dptr != 0) {
++						if(*dptr == '/' || *dptr == '?') {
++							*bptr = '_';
++						} else {
++							*bptr = *dptr;
++						}
++						bptr++;
++						dptr++;
+ 					}
+-					bptr++;
+-					dptr++;
+ 				}
+-                templ += 2;
+-            } else {
+-                templ += 2;
+-            }
++			}
++			templ += 2;
+         } else {
+             *bptr++ = *templ++;
+         }
+@@ -226,20 +236,21 @@ int callback_mpd(struct mg_connection *c)
+ out_add_track:
+             free(p_charbuf);
+             break;
+-        case MPD_API_ADD_PLAY_TRACK:
++        case MPD_API_INSERT_TRACK:
+             p_charbuf = strdup(c->content);
+-            if(strcmp(strtok(p_charbuf, ","), "MPD_API_ADD_PLAY_TRACK"))
+-                goto out_play_track;
++            if(strcmp(strtok(p_charbuf, ","), "MPD_API_INSERT_TRACK"))
++                goto out_insert_track;
+ 
+             if((token = strtok(NULL, ",")) == NULL)
+-                goto out_play_track;
++                goto out_insert_track;
+ 
+ 			free(p_charbuf);
+             p_charbuf = strdup(c->content);
+-            int_buf = mpd_run_add_id(mpd.conn, get_arg1(p_charbuf));
+-            if(int_buf != -1)
+-                mpd_run_play_id(mpd.conn, int_buf);
+-out_play_track:
++			struct mpd_status *status = mpd_run_status(mpd.conn);
++			int playing_pos = mpd_status_get_song_pos(status) + 1;
++			mpd_status_free(status);
++			mpd_run_add_id_to(mpd.conn, get_arg1(p_charbuf), playing_pos);
++out_insert_track:
+             free(p_charbuf);
+             break;
+         case MPD_API_ADD_PLAYLIST:
+@@ -590,6 +601,7 @@ int mpd_put_current_song(char *buffer)
+     data.artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+     data.album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
+     data.track = mpd_song_get_tag(song, MPD_TAG_TRACK, 0);
++	data.uri = mpd_song_get_uri(song);
+ 
+     cur += json_emit_raw_str(cur, end - cur, "{\"type\": \"song_change\", \"data\":{\"pos\":");
+     cur += json_emit_int(cur, end - cur, mpd_song_get_pos(song));
+diff --git a/src/mpd_client.h b/src/mpd_client.h
+index dab6730..ba6938f 100644
+--- a/src/mpd_client.h
++++ b/src/mpd_client.h
+@@ -41,7 +41,7 @@
+     X(MPD_API_GET_BROWSE) \
+     X(MPD_API_GET_MPDHOST) \
+     X(MPD_API_ADD_TRACK) \
+-    X(MPD_API_ADD_PLAY_TRACK) \
++    X(MPD_API_INSERT_TRACK) \
+     X(MPD_API_ADD_PLAYLIST) \
+ 	X(MPD_API_RM_PLAYLIST) \
+     X(MPD_API_PLAY_TRACK) \
+@@ -105,6 +105,7 @@ struct t_meta {
+     const char *album;
+     const char *track;
+     const char *title;
++	const char *uri;
+ };
+ 
+ void mpd_poll(struct mg_server *s);
+
+From 1a2205e407b303420ea0b8ad3f76739f5edf425f Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Thu, 7 Jul 2016 17:41:57 +0100
+Subject: [PATCH 15/22] drag and drop playlist order
+
+---
+ htdocs/css/dragula.min.css |  1 +
+ htdocs/css/mpd.css         |  5 +++++
+ htdocs/index.html          |  3 +++
+ htdocs/js/dragula.min.js   |  1 +
+ htdocs/js/mpd.js           | 29 +++++++++++++++++++++++++++++
+ src/mpd_client.c           |  5 +++++
+ src/mpd_client.h           |  1 +
+ 7 files changed, 45 insertions(+)
+ create mode 100644 htdocs/css/dragula.min.css
+ create mode 100644 htdocs/js/dragula.min.js
+
+diff --git a/htdocs/css/dragula.min.css b/htdocs/css/dragula.min.css
+new file mode 100644
+index 0000000..cdcb2bc
+--- /dev/null
++++ b/htdocs/css/dragula.min.css
+@@ -0,0 +1 @@
++.gu-mirror{position:fixed!important;margin:0!important;z-index:9999!important;opacity:.8;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";filter:alpha(opacity=80)}.gu-hide{display:none!important}.gu-unselectable{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.gu-transit{opacity:.2;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";filter:alpha(opacity=20)}
+\ No newline at end of file
+diff --git a/htdocs/css/mpd.css b/htdocs/css/mpd.css
+index 19b791d..f5a2e45 100644
+--- a/htdocs/css/mpd.css
++++ b/htdocs/css/mpd.css
+@@ -41,6 +41,11 @@ body {
+   margin-right: -10px;
+ }
+ 
++.queue-track {
++  cursor: move;
++  cursor: -webkit-grab;
++}
++
+ #artwork {
+     width: 100px;
+     height: 100px;
+diff --git a/htdocs/index.html b/htdocs/index.html
+index 71f535f..43af053 100644
+--- a/htdocs/index.html
++++ b/htdocs/index.html
+@@ -12,6 +12,8 @@
+   <!-- Bootstrap core CSS -->
+   <link href="css/bootstrap.css" rel="stylesheet">
+   <link href="css/bootstrap-theme.css" rel="stylesheet">
++  <!-- Dragula -->
++  <link href="css/dragula.min.css" rel="stylesheet">
+ 
+   <!-- Custom styles for this template -->
+   <link href="css/mpd.css" rel="stylesheet">
+@@ -322,6 +324,7 @@ <h2 class="modal-title" id="savequeueLabel"><span class="glyphicon glyphicon-wre
+   <script src="js/bootstrap-notify.js"></script>
+   <script src="js/bootstrap-slider.js"></script>
+   <script src="js/sammy.js"></script>
++  <script src="js/dragula.min.js"></script>
+   <script src="js/mpd.js"></script>
+ </body>
+ </html>
+diff --git a/htdocs/js/dragula.min.js b/htdocs/js/dragula.min.js
+new file mode 100644
+index 0000000..b7860b9
+--- /dev/null
++++ b/htdocs/js/dragula.min.js
+@@ -0,0 +1 @@
++!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n;n="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,n.dragula=e()}}(function(){return function e(n,t,r){function o(u,c){if(!t[u]){if(!n[u]){var a="function"==typeof require&&require;if(!c&&a)return a(u,!0);if(i)return i(u,!0);var f=new Error("Cannot find module '"+u+"'");throw f.code="MODULE_NOT_FOUND",f}var l=t[u]={exports:{}};n[u][0].call(l.exports,function(e){var t=n[u][1][e];return o(t?t:e)},l,l.exports,e,n,t,r)}return t[u].exports}for(var i="function"==typeof require&&require,u=0;u<r.length;u++)o(r[u]);return o}({1:[function(e,n,t){"use strict";function r(e){var n=u[e];return n?n.lastIndex=0:u[e]=n=new RegExp(c+e+a,"g"),n}function o(e,n){var t=e.className;t.length?r(n).test(t)||(e.className+=" "+n):e.className=n}function i(e,n){e.className=e.className.replace(r(n)," ").trim()}var u={},c="(?:^|\\s)",a="(?:\\s|$)";n.exports={add:o,rm:i}},{}],2:[function(e,n,t){(function(t){"use strict";function r(e,n){function t(e){return-1!==le.containers.indexOf(e)||fe.isContainer(e)}function r(e){var n=e?"remove":"add";o(S,n,"mousedown",O),o(S,n,"mouseup",L)}function c(e){var n=e?"remove":"add";o(S,n,"mousemove",N)}function m(e){var n=e?"remove":"add";w[n](S,"selectstart",C),w[n](S,"click",C)}function h(){r(!0),L({})}function C(e){ce&&e.preventDefault()}function O(e){ne=e.clientX,te=e.clientY;var n=1!==i(e)||e.metaKey||e.ctrlKey;if(!n){var t=e.target,r=T(t);r&&(ce=r,c(),"mousedown"===e.type&&(p(t)?t.focus():e.preventDefault()))}}function N(e){if(ce){if(0===i(e))return void L({});if(void 0===e.clientX||e.clientX!==ne||void 0===e.clientY||e.clientY!==te){if(fe.ignoreInputTextSelection){var n=y("clientX",e),t=y("clientY",e),r=x.elementFromPoint(n,t);if(p(r))return}var o=ce;c(!0),m(),D(),B(o);var a=u(W);Z=y("pageX",e)-a.left,ee=y("pageY",e)-a.top,E.add(ie||W,"gu-transit"),K(),U(e)}}}function T(e){if(!(le.dragging&&J||t(e))){for(var n=e;v(e)&&t(v(e))===!1;){if(fe.invalid(e,n))return;if(e=v(e),!e)return}var r=v(e);if(r&&!fe.invalid(e,n)){var o=fe.moves(e,r,n,g(e));if(o)return{item:e,source:r}}}}function X(e){return!!T(e)}function Y(e){var n=T(e);n&&B(n)}function B(e){$(e.item,e.source)&&(ie=e.item.cloneNode(!0),le.emit("cloned",ie,e.item,"copy")),Q=e.source,W=e.item,re=oe=g(e.item),le.dragging=!0,le.emit("drag",W,Q)}function P(){return!1}function D(){if(le.dragging){var e=ie||W;M(e,v(e))}}function I(){ce=!1,c(!0),m(!0)}function L(e){if(I(),le.dragging){var n=ie||W,t=y("clientX",e),r=y("clientY",e),o=a(J,t,r),i=q(o,t,r);i&&(ie&&fe.copySortSource||!ie||i!==Q)?M(n,i):fe.removeOnSpill?R():A()}}function M(e,n){var t=v(e);ie&&fe.copySortSource&&n===Q&&t.removeChild(W),k(n)?le.emit("cancel",e,Q,Q):le.emit("drop",e,n,Q,oe),j()}function R(){if(le.dragging){var e=ie||W,n=v(e);n&&n.removeChild(e),le.emit(ie?"cancel":"remove",e,n,Q),j()}}function A(e){if(le.dragging){var n=arguments.length>0?e:fe.revertOnSpill,t=ie||W,r=v(t),o=k(r);o===!1&&n&&(ie?r.removeChild(ie):Q.insertBefore(t,re)),o||n?le.emit("cancel",t,Q,Q):le.emit("drop",t,r,Q,oe),j()}}function j(){var e=ie||W;I(),z(),e&&E.rm(e,"gu-transit"),ue&&clearTimeout(ue),le.dragging=!1,ae&&le.emit("out",e,ae,Q),le.emit("dragend",e),Q=W=ie=re=oe=ue=ae=null}function k(e,n){var t;return t=void 0!==n?n:J?oe:g(ie||W),e===Q&&t===re}function q(e,n,r){function o(){var o=t(i);if(o===!1)return!1;var u=H(i,e),c=V(i,u,n,r),a=k(i,c);return a?!0:fe.accepts(W,i,Q,c)}for(var i=e;i&&!o();)i=v(i);return i}function U(e){function n(e){le.emit(e,f,ae,Q)}function t(){s&&n("over")}function r(){ae&&n("out")}if(J){e.preventDefault();var o=y("clientX",e),i=y("clientY",e),u=o-Z,c=i-ee;J.style.left=u+"px",J.style.top=c+"px";var f=ie||W,l=a(J,o,i),d=q(l,o,i),s=null!==d&&d!==ae;(s||null===d)&&(r(),ae=d,t());var p=v(f);if(d===Q&&ie&&!fe.copySortSource)return void(p&&p.removeChild(f));var m,h=H(d,l);if(null!==h)m=V(d,h,o,i);else{if(fe.revertOnSpill!==!0||ie)return void(ie&&p&&p.removeChild(f));m=re,d=Q}(null===m&&s||m!==f&&m!==g(f))&&(oe=m,d.insertBefore(f,m),le.emit("shadow",f,d,Q))}}function _(e){E.rm(e,"gu-hide")}function F(e){le.dragging&&E.add(e,"gu-hide")}function K(){if(!J){var e=W.getBoundingClientRect();J=W.cloneNode(!0),J.style.width=d(e)+"px",J.style.height=s(e)+"px",E.rm(J,"gu-transit"),E.add(J,"gu-mirror"),fe.mirrorContainer.appendChild(J),o(S,"add","mousemove",U),E.add(fe.mirrorContainer,"gu-unselectable"),le.emit("cloned",J,W,"mirror")}}function z(){J&&(E.rm(fe.mirrorContainer,"gu-unselectable"),o(S,"remove","mousemove",U),v(J).removeChild(J),J=null)}function H(e,n){for(var t=n;t!==e&&v(t)!==e;)t=v(t);return t===S?null:t}function V(e,n,t,r){function o(){var n,o,i,u=e.children.length;for(n=0;u>n;n++){if(o=e.children[n],i=o.getBoundingClientRect(),c&&i.left+i.width/2>t)return o;if(!c&&i.top+i.height/2>r)return o}return null}function i(){var e=n.getBoundingClientRect();return u(c?t>e.left+d(e)/2:r>e.top+s(e)/2)}function u(e){return e?g(n):n}var c="horizontal"===fe.direction,a=n!==e?i():o();return a}function $(e,n){return"boolean"==typeof fe.copy?fe.copy:fe.copy(e,n)}var G=arguments.length;1===G&&Array.isArray(e)===!1&&(n=e,e=[]);var J,Q,W,Z,ee,ne,te,re,oe,ie,ue,ce,ae=null,fe=n||{};void 0===fe.moves&&(fe.moves=l),void 0===fe.accepts&&(fe.accepts=l),void 0===fe.invalid&&(fe.invalid=P),void 0===fe.containers&&(fe.containers=e||[]),void 0===fe.isContainer&&(fe.isContainer=f),void 0===fe.copy&&(fe.copy=!1),void 0===fe.copySortSource&&(fe.copySortSource=!1),void 0===fe.revertOnSpill&&(fe.revertOnSpill=!1),void 0===fe.removeOnSpill&&(fe.removeOnSpill=!1),void 0===fe.direction&&(fe.direction="vertical"),void 0===fe.ignoreInputTextSelection&&(fe.ignoreInputTextSelection=!0),void 0===fe.mirrorContainer&&(fe.mirrorContainer=x.body);var le=b({containers:fe.containers,start:Y,end:D,cancel:A,remove:R,destroy:h,canMove:X,dragging:!1});return fe.removeOnSpill===!0&&le.on("over",_).on("out",F),r(),le}function o(e,n,r,o){var i={mouseup:"touchend",mousedown:"touchstart",mousemove:"touchmove"},u={mouseup:"pointerup",mousedown:"pointerdown",mousemove:"pointermove"},c={mouseup:"MSPointerUp",mousedown:"MSPointerDown",mousemove:"MSPointerMove"};t.navigator.pointerEnabled?w[n](e,u[r],o):t.navigator.msPointerEnabled?w[n](e,c[r],o):(w[n](e,i[r],o),w[n](e,r,o))}function i(e){if(void 0!==e.touches)return e.touches.length;if(void 0!==e.which&&0!==e.which)return e.which;if(void 0!==e.buttons)return e.buttons;var n=e.button;return void 0!==n?1&n?1:2&n?3:4&n?2:0:void 0}function u(e){var n=e.getBoundingClientRect();return{left:n.left+c("scrollLeft","pageXOffset"),top:n.top+c("scrollTop","pageYOffset")}}function c(e,n){return"undefined"!=typeof t[n]?t[n]:S.clientHeight?S[e]:x.body[e]}function a(e,n,t){var r,o=e||{},i=o.className;return o.className+=" gu-hide",r=x.elementFromPoint(n,t),o.className=i,r}function f(){return!1}function l(){return!0}function d(e){return e.width||e.right-e.left}function s(e){return e.height||e.bottom-e.top}function v(e){return e.parentNode===x?null:e.parentNode}function p(e){return"INPUT"===e.tagName||"TEXTAREA"===e.tagName||"SELECT"===e.tagName||m(e)}function m(e){return e?"false"===e.contentEditable?!1:"true"===e.contentEditable?!0:m(v(e)):!1}function g(e){function n(){var n=e;do n=n.nextSibling;while(n&&1!==n.nodeType);return n}return e.nextElementSibling||n()}function h(e){return e.targetTouches&&e.targetTouches.length?e.targetTouches[0]:e.changedTouches&&e.changedTouches.length?e.changedTouches[0]:e}function y(e,n){var t=h(n),r={pageX:"clientX",pageY:"clientY"};return e in r&&!(e in t)&&r[e]in t&&(e=r[e]),t[e]}var b=e("contra/emitter"),w=e("crossvent"),E=e("./classes"),x=document,S=x.documentElement;n.exports=r}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"./classes":1,"contra/emitter":4,crossvent:8}],3:[function(e,n,t){"use strict";var r=e("ticky");n.exports=function(e,n,t){e&&r(function(){e.apply(t||null,n||[])})}},{ticky:6}],4:[function(e,n,t){"use strict";var r=e("atoa"),o=e("./debounce");n.exports=function(e,n){var t=n||{},i={};return void 0===e&&(e={}),e.on=function(n,t){return i[n]?i[n].push(t):i[n]=[t],e},e.once=function(n,t){return t._once=!0,e.on(n,t),e},e.off=function(n,t){var r=arguments.length;if(1===r)delete i[n];else if(0===r)i={};else{var o=i[n];if(!o)return e;o.splice(o.indexOf(t),1)}return e},e.emit=function(){var n=r(arguments);return e.emitterSnapshot(n.shift()).apply(this,n)},e.emitterSnapshot=function(n){var u=(i[n]||[]).slice(0);return function(){var i=r(arguments),c=this||e;if("error"===n&&t["throws"]!==!1&&!u.length)throw 1===i.length?i[0]:i;return u.forEach(function(r){t.async?o(r,i,c):r.apply(c,i),r._once&&e.off(n,r)}),e}},e}},{"./debounce":3,atoa:5}],5:[function(e,n,t){n.exports=function(e,n){return Array.prototype.slice.call(e,n)}},{}],6:[function(e,n,t){var r,o="function"==typeof setImmediate;r=o?function(e){setImmediate(e)}:function(e){setTimeout(e,0)},n.exports=r},{}],7:[function(e,n,t){(function(e){function t(){try{var e=new r("cat",{detail:{foo:"bar"}});return"cat"===e.type&&"bar"===e.detail.foo}catch(n){}return!1}var r=e.CustomEvent;n.exports=t()?r:"function"==typeof document.createEvent?function(e,n){var t=document.createEvent("CustomEvent");return n?t.initCustomEvent(e,n.bubbles,n.cancelable,n.detail):t.initCustomEvent(e,!1,!1,void 0),t}:function(e,n){var t=document.createEventObject();return t.type=e,n?(t.bubbles=Boolean(n.bubbles),t.cancelable=Boolean(n.cancelable),t.detail=n.detail):(t.bubbles=!1,t.cancelable=!1,t.detail=void 0),t}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],8:[function(e,n,t){(function(t){"use strict";function r(e,n,t,r){return e.addEventListener(n,t,r)}function o(e,n,t){return e.attachEvent("on"+n,f(e,n,t))}function i(e,n,t,r){return e.removeEventListener(n,t,r)}function u(e,n,t){var r=l(e,n,t);return r?e.detachEvent("on"+n,r):void 0}function c(e,n,t){function r(){var e;return p.createEvent?(e=p.createEvent("Event"),e.initEvent(n,!0,!0)):p.createEventObject&&(e=p.createEventObject()),e}function o(){return new s(n,{detail:t})}var i=-1===v.indexOf(n)?o():r();e.dispatchEvent?e.dispatchEvent(i):e.fireEvent("on"+n,i)}function a(e,n,r){return function(n){var o=n||t.event;o.target=o.target||o.srcElement,o.preventDefault=o.preventDefault||function(){o.returnValue=!1},o.stopPropagation=o.stopPropagation||function(){o.cancelBubble=!0},o.which=o.which||o.keyCode,r.call(e,o)}}function f(e,n,t){var r=l(e,n,t)||a(e,n,t);return h.push({wrapper:r,element:e,type:n,fn:t}),r}function l(e,n,t){var r=d(e,n,t);if(r){var o=h[r].wrapper;return h.splice(r,1),o}}function d(e,n,t){var r,o;for(r=0;r<h.length;r++)if(o=h[r],o.element===e&&o.type===n&&o.fn===t)return r}var s=e("custom-event"),v=e("./eventmap"),p=t.document,m=r,g=i,h=[];t.addEventListener||(m=o,g=u),n.exports={add:m,remove:g,fabricate:c}}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"./eventmap":9,"custom-event":7}],9:[function(e,n,t){(function(e){"use strict";var t=[],r="",o=/^on/;for(r in e)o.test(r)&&t.push(r.slice(2));n.exports=t}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[2])(2)});
+\ No newline at end of file
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 6772406..1dcebb5 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -46,6 +46,7 @@ var app = $.sammy(function() {
+         $('#nav_links > li').removeClass('active');
+         $('.page-btn').addClass('hide');
+         $('#add-all-songs').hide();
++        $('#search > div > input').val('');
+         pagination = 0;
+         browsepath = '';
+     }
+@@ -99,6 +100,8 @@ var app = $.sammy(function() {
+ 
+     this.get(/\#\/search\/(.*)/, function() {
+         current_app = 'search';
++		$('#quicknav').addClass('hide');
++        $('#breadcrump').removeClass('hide').empty().append("<li>Search Results</li>");
+         $('#salamisandwich').find("tr:gt(0)").remove();
+         var searchstr = this.params['splat'][0];
+ 
+@@ -139,6 +142,30 @@ $(document).ready(function(){
+     else
+         if ($.cookie("notification") === "true")
+             $('#btnnotify').addClass("active")
++
++	var vampire = dragula({
++		moves: function(el, source, handle, sibling) {
++			if(current_app == 'queue') {
++				return true;
++			} else {
++				return false;
++			}
++		}
++	});
++	vampire.containers.push($('#salamisandwich > tbody')[0]);
++	vampire.on('drop', function(el, target, source, sibling) {
++		var moveFrom = el.firstChild.textContent - 1;
++		var moveTo = target.children.length - 1;
++		if(sibling) {
++			moveTo = sibling.firstChild.textContent - 2;
++		}
++		if(moveTo < 0) {
++			moveTo = 0;
++		}
++		socket.send('MPD_API_MOVE_TRACK,'+moveFrom+','+moveTo);
++	});
++
++	console.log('ready');
+ });
+ 
+ 
+@@ -185,6 +212,8 @@ function webSocketConnect() {
+                         "</td><td></td></tr>");
+                     }
+ 
++					$('#salamisandwich > tbody > tr').addClass('queue-track');
++
+                     if(obj.data[obj.data.length-1].pos + 1 >= pagination + MAX_ELEMENTS_PER_PAGE)
+                         $('#next').removeClass('hide');
+                     if(pagination > 0)
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index 63a5184..49994be 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -253,6 +253,11 @@ int callback_mpd(struct mg_connection *c)
+ out_insert_track:
+             free(p_charbuf);
+             break;
++		case MPD_API_MOVE_TRACK:
++            if(sscanf(c->content, "MPD_API_MOVE_TRACK,%u,%u", &uint_buf, &uint_buf_2)) {
++                mpd_run_move(mpd.conn, uint_buf, uint_buf_2);
++			}
++			break;
+         case MPD_API_ADD_PLAYLIST:
+             p_charbuf = strdup(c->content);
+             if(strcmp(strtok(p_charbuf, ","), "MPD_API_ADD_PLAYLIST"))
+diff --git a/src/mpd_client.h b/src/mpd_client.h
+index ba6938f..a9e1623 100644
+--- a/src/mpd_client.h
++++ b/src/mpd_client.h
+@@ -41,6 +41,7 @@
+     X(MPD_API_GET_BROWSE) \
+     X(MPD_API_GET_MPDHOST) \
+     X(MPD_API_ADD_TRACK) \
++	X(MPD_API_MOVE_TRACK) \
+     X(MPD_API_INSERT_TRACK) \
+     X(MPD_API_ADD_PLAYLIST) \
+ 	X(MPD_API_RM_PLAYLIST) \
+
+From 776cbdaeb4adb82c04d12bfb919734bdd0253f6e Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Thu, 7 Jul 2016 19:43:03 +0100
+Subject: [PATCH 16/22] search results show artist
+
+---
+ htdocs/js/mpd.js | 6 +++++-
+ src/mpd_client.c | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 1dcebb5..62ca3a1 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -278,11 +278,15 @@ function webSocketConnect() {
+                             case "song":
+                                 var minutes = Math.floor(obj.data[item].duration / 60);
+                                 var seconds = obj.data[item].duration - minutes * 60;
++								var name = obj.data[item].title;
++								if(current_app == 'search') {
++									name += ' / ' + obj.data[item].artist;
++								}
+ 
+                                 $('#salamisandwich > tbody').append(
+                                     "<tr uri=\"" + encodeURI(obj.data[item].uri) + "\" class=\"song\">" +
+                                     "<td><span class=\"glyphicon glyphicon-music\"></span></td>" +
+-                                    "<td>" + obj.data[item].title +"</td>" +
++                                    "<td>" + name +"</td>" +
+                                     "<td>"+ minutes + ":" + (seconds < 10 ? '0' : '') + seconds +
+                                     "</td><td></td></tr>"
+                                 );
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index 49994be..bf0ea31 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -821,6 +821,8 @@ int mpd_search(char *buffer, char *searchstr)
+             cur += json_emit_int(cur, end - cur, mpd_song_get_duration(song));
+             cur += json_emit_raw_str(cur, end - cur, ",\"title\":");
+             cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
++			cur += json_emit_raw_str(cur, end - cur, ",\"artist\":");
++			cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
+             cur += json_emit_raw_str(cur, end - cur, "},");
+             mpd_song_free(song);
+ 
+
+From 980922c43d3710ab2c9a7d511dec2e8b6a16c150 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Mon, 11 Jul 2016 10:52:15 +0100
+Subject: [PATCH 17/22] Fixed playlist move
+
+---
+ htdocs/js/mpd.js | 7 +++++--
+ src/mpd_client.c | 2 ++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 62ca3a1..8e3c0c0 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -157,7 +157,10 @@ $(document).ready(function(){
+ 		var moveFrom = el.firstChild.textContent - 1;
+ 		var moveTo = target.children.length - 1;
+ 		if(sibling) {
+-			moveTo = sibling.firstChild.textContent - 2;
++			moveTo = sibling.firstChild.textContent - 1;
++			if(moveTo > moveFrom) {
++				moveTo--;
++			}
+ 		}
+ 		if(moveTo < 0) {
+ 			moveTo = 0;
+@@ -280,7 +283,7 @@ function webSocketConnect() {
+                                 var seconds = obj.data[item].duration - minutes * 60;
+ 								var name = obj.data[item].title;
+ 								if(current_app == 'search') {
+-									name += ' / ' + obj.data[item].artist;
++									name += ' / ' + obj.data[item].album + ' / ' + obj.data[item].artist;
+ 								}
+ 
+                                 $('#salamisandwich > tbody').append(
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index bf0ea31..08b9454 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -823,6 +823,8 @@ int mpd_search(char *buffer, char *searchstr)
+             cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
+ 			cur += json_emit_raw_str(cur, end - cur, ",\"artist\":");
+ 			cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
++			cur += json_emit_raw_str(cur, end - cur, ",\"album\":");
++			cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ALBUM, 0));
+             cur += json_emit_raw_str(cur, end - cur, "},");
+             mpd_song_free(song);
+ 
+
+From 9aca65fda376c3205a57a45e73418b3712f00905 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Tue, 12 Jul 2016 17:45:59 +0100
+Subject: [PATCH 18/22] minor ui fix
+
+---
+ htdocs/js/mpd.js | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 8e3c0c0..5033f09 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -65,6 +65,7 @@ var app = $.sammy(function() {
+ 			rootPagination = pagination;
+ 		}
+         current_app = 'browse';
++		$('#browse').addClass('active');
+ 		if (browsepath && !browsepath.match(/\[[A-Z-]{3}\]/)) {
+ 			$('#quicknav').addClass('hide');
+ 		} else {
+@@ -100,6 +101,7 @@ var app = $.sammy(function() {
+ 
+     this.get(/\#\/search\/(.*)/, function() {
+         current_app = 'search';
++        $('#nav_links > li').removeClass('active');
+ 		$('#quicknav').addClass('hide');
+         $('#breadcrump').removeClass('hide').empty().append("<li>Search Results</li>");
+         $('#salamisandwich').find("tr:gt(0)").remove();
+@@ -467,7 +469,6 @@ function webSocketConnect() {
+                         socket.send('MPD_API_GET_QUEUE,'+pagination);
+                     break;
+                 case "song_change":
+-
+                     $('#album').text("");
+                     $('#artist').text("");
+ 
+
+From 9f36b23ad2971d3e76b0379e147161c14105ef1d Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Sat, 16 Jul 2016 20:10:13 +0100
+Subject: [PATCH 19/22] added notifiction to add all
+
+---
+ htdocs/js/mpd.js | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index 5033f09..a670bfc 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -80,6 +80,10 @@ var app = $.sammy(function() {
+             add_all_songs.off(); // remove previous binds
+             add_all_songs.on('click', function() {
+                 socket.send('MPD_API_ADD_TRACK,'+browsepath);
++				$('.top-right').notify({
++					message:{
++						text: browsepath + ' added'
++				}}).show();
+             });
+             add_all_songs.show();
+         }
+
+From ad86a52eb000f2d57ed818495c1db31e1af509a8 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Tue, 19 Jul 2016 11:35:53 +0000
+Subject: [PATCH 20/22] add drop shadow
+
+---
+ htdocs/css/mpd.css | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/htdocs/css/mpd.css b/htdocs/css/mpd.css
+index f5a2e45..36abe47 100644
+--- a/htdocs/css/mpd.css
++++ b/htdocs/css/mpd.css
+@@ -6,6 +6,7 @@ body {
+ 
+ .panel {
+ 	background-color: #ffffee;
++    box-shadow: 5px 5px 5px #888888;
+ }
+ 
+ .quicknav-btn {
+
+From ba4d7f35e629033ee464ca862faf5a7669422942 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Wed, 7 Sep 2016 21:26:55 +0100
+Subject: [PATCH 21/22] stats added
+
+---
+ htdocs/css/mpd.css | 13 +++++++++++++
+ htdocs/index.html  | 11 ++++++++++-
+ htdocs/js/mpd.js   | 28 +++++++++++++++++++++++++++-
+ src/mpd_client.c   | 17 +++++++++++++++++
+ src/mpd_client.h   |  1 +
+ 5 files changed, 68 insertions(+), 2 deletions(-)
+
+diff --git a/htdocs/css/mpd.css b/htdocs/css/mpd.css
+index 36abe47..2a7dd31 100644
+--- a/htdocs/css/mpd.css
++++ b/htdocs/css/mpd.css
+@@ -109,3 +109,16 @@ td:last-child, td:first-child {
+ button {
+   overflow: hidden;
+ }
++
++#welcome {
++	margin: 20px;
++	padding: 5px;
++	border: 1px solid #ddccdd;
++}
++
++.stats {
++	padding: 5px;
++	display: inline-block;
++	margin: 0px;
++}
++
+diff --git a/htdocs/index.html b/htdocs/index.html
+index 43af053..1232d1a 100644
+--- a/htdocs/index.html
++++ b/htdocs/index.html
+@@ -35,7 +35,7 @@
+       <div class="collapse navbar-collapse">
+ 
+         <ul id="nav_links" class="nav navbar-nav">
+-          <li id="queue"><a href="#/">Queue</a></li>
++          <li id="queue"><a href="#/0">Queue</a></li>
+           <li id="browse"><a href="#/browse/0/">Browse</a></li>
+           <li><a href="#" data-toggle="modal" data-target="#addstream">Add Stream</a></li>
+           <li><a href="#" data-toggle="modal" data-target="#settings" onclick="getHost();">Settings</a></li>
+@@ -135,6 +135,15 @@
+             </tbody>
+           </table>
+ 
++		<!-- Welcome page -->
++		<div id="welcome">
++			<div><span class="stats">Artists</span><span id="stat_artists" class="stats"></span></div>
++			<div><span class="stats">Albums</span><span id="stat_albums" class="stats"></span></div>
++			<div><span class="stats">Songs</span><span id="stat_songs" class="stats"></span></div>
++			<div><span class="stats">Total play time</span><span id="stat_ttime" class="stats"></span></div>
++			<div><span class="stats">Last DB update</span><span id="stat_update" class="stats"></span></div>
++		</div>
++
+         </div><!-- /.panel -->
+         <ul class="pager">
+           <li id="prev" class="page-btn hide"><a href="">Previous</a></li>
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index a670bfc..f3453dd 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -33,6 +33,7 @@ var app = $.sammy(function() {
+     function runBrowse() {
+         current_app = 'queue';
+ 
++		$('#welcome').addClass('hide');
+ 		$('#quicknav').addClass('hide');
+         $('#breadcrump').addClass('hide');
+         $('#salamisandwich').removeClass('hide').find("tr:gt(0)").remove();
+@@ -65,6 +66,7 @@ var app = $.sammy(function() {
+ 			rootPagination = pagination;
+ 		}
+         current_app = 'browse';
++		$('#welcome').addClass('hide');
+ 		$('#browse').addClass('active');
+ 		if (browsepath && !browsepath.match(/\[[A-Z-]{3}\]/)) {
+ 			$('#quicknav').addClass('hide');
+@@ -107,7 +109,9 @@ var app = $.sammy(function() {
+         current_app = 'search';
+         $('#nav_links > li').removeClass('active');
+ 		$('#quicknav').addClass('hide');
++		$('#welcome').addClass('hide');
+         $('#breadcrump').removeClass('hide').empty().append("<li>Search Results</li>");
++        $('#salamisandwich').removeClass('hide');
+         $('#salamisandwich').find("tr:gt(0)").remove();
+         var searchstr = this.params['splat'][0];
+ 
+@@ -118,7 +122,13 @@ var app = $.sammy(function() {
+     });
+ 
+     this.get("/", function(context) {
+-        context.redirect("#/0");
++		prepare();
++		current_app = 'welcome';
++		$('#quicknav').addClass('hide');
++		$('#salamisandwich').addClass('hide');
++		$('#welcome').removeClass('hide');
++		$('#breadcrump').removeClass('hide').empty().append("<li>Welcome</li>");
++        socket.send('MPD_API_GET_STATS');
+     });
+ });
+ 
+@@ -509,6 +519,22 @@ function webSocketConnect() {
+                     if(obj.data.passwort_set)
+                         $('#mpd_password_set').removeClass('hide');
+                     break;
++				case "mpdstats":
++					$('#stat_artists').text(obj.data.artists);
++					$('#stat_albums').text(obj.data.albums);
++					$('#stat_songs').text(obj.data.songs);
++					var update = new Date(obj.data.update * 1000);
++					$('#stat_update').text(update.toString());
++					var ttime = obj.data.ttime;
++					var days = Math.floor(ttime / 86400);
++					ttime -= days * 86400;
++					var hours = Math.floor(ttime / 3600) % 24;
++					ttime -= hours * 3600;
++					var mins = Math.floor(ttime / 60) % 60;
++					ttime -= mins * 60;
++					var secs = ttime % 60;
++					$('#stat_ttime').text(days + ' days ' + hours + ' hours ' + mins + ' mins ' + secs + ' secs');
++					break;
+                 case "error":
+                     $('.top-right').notify({
+                         message:{text: obj.data},
+diff --git a/src/mpd_client.c b/src/mpd_client.c
+index 08b9454..4652c1c 100644
+--- a/src/mpd_client.c
++++ b/src/mpd_client.c
+@@ -360,6 +360,23 @@ int callback_mpd(struct mg_connection *c)
+             free(p_charbuf);
+             break;
+ #endif
++		case MPD_API_GET_STATS:
++			{
++				struct mpd_stats *stats = mpd_run_stats(mpd.conn);
++				unsigned int artists = mpd_stats_get_number_of_artists(stats);
++				unsigned int albums = mpd_stats_get_number_of_albums(stats);
++				unsigned int songs = mpd_stats_get_number_of_songs(stats);
++				unsigned long db_update = mpd_stats_get_db_update_time(stats);
++				unsigned long total_time = mpd_stats_get_db_play_time(stats);
++				n = snprintf(mpd.buf, MAX_SIZE, "{\"type\":\"mpdstats\", \"data\":"
++					"{\"artists\": %u, \"albums\": %u, \"songs\": %u, "
++					"\"update\": %lu, \"ttime\": %lu}}", artists, albums, songs, db_update, total_time);
++				mpd_stats_free(stats);
++			}
++			break;
++		default:
++			printf("Unknown token %d\n", cmd_id);
++			break;
+     }
+ 
+     if(mpd.conn_state == MPD_CONNECTED && mpd_connection_get_error(mpd.conn) != MPD_ERROR_SUCCESS)
+diff --git a/src/mpd_client.h b/src/mpd_client.h
+index a9e1623..90967b3 100644
+--- a/src/mpd_client.h
++++ b/src/mpd_client.h
+@@ -37,6 +37,7 @@
+ #define GEN_ENUM(X) X,
+ #define GEN_STR(X) #X,
+ #define MPD_CMDS(X) \
++	X(MPD_API_GET_STATS) \
+     X(MPD_API_GET_QUEUE) \
+     X(MPD_API_GET_BROWSE) \
+     X(MPD_API_GET_MPDHOST) \
+
+From 6b393a202135fead704315996bb8cb5e6caf40a8 Mon Sep 17 00:00:00 2001
+From: steveww <s@steveww.org>
+Date: Wed, 28 Sep 2016 17:16:34 +0100
+Subject: [PATCH 22/22] Minor refresh fix
+
+---
+ htdocs/js/mpd.js | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/htdocs/js/mpd.js b/htdocs/js/mpd.js
+index f3453dd..4589e8d 100644
+--- a/htdocs/js/mpd.js
++++ b/htdocs/js/mpd.js
+@@ -239,7 +239,7 @@ function webSocketConnect() {
+                         $('#prev').removeClass('hide');
+                     if ( isTouch ) {
+                         $('#salamisandwich > tbody > tr > td:last-child').append(
+-                                    "<a class=\"pull-right btn-group-hover\" href=\"#/\" " +
++                                    "<a class=\"pull-right btn-group-hover\" href=\"#/0\" " +
+                                         "onclick=\"socket.send('MPD_API_RM_TRACK,' + $(this).parents('tr').attr('trackid')); $(this).parents('tr').remove();\">" +
+                                 "<span class=\"glyphicon glyphicon-trash\"></span></a>");
+                     } else {
+@@ -247,7 +247,7 @@ function webSocketConnect() {
+                             mouseover: function(){
+                                 if($(this).children().last().has("a").length == 0)
+                                     $(this).children().last().append(
+-                                        "<a class=\"pull-right btn-group-hover\" href=\"#/\" " +
++                                        "<a class=\"pull-right btn-group-hover\" href=\"#/0\" " +
+                                             "onclick=\"socket.send('MPD_API_RM_TRACK," + $(this).attr("trackid") +"'); $(this).parents('tr').remove();\">" +
+                                     "<span class=\"glyphicon glyphicon-trash\"></span></a>")
+                                 .find('a').fadeTo('fast',1);
