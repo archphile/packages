@@ -17,15 +17,15 @@ replaces=(unmute-archphile)
 backup=()
 options=()
 source=('archphile-optimize'
-	'unmute'
+	    'unmute'
         'archphile.service'
         'archphile-network.conf'
         'dbackup'
         'drestore'
         'bselect')
 
-sha1sums=('36a03099bc211e55798ea2ec47fc5ebf2e905d92'
-	  '3f78d57f4a240755566749594e54b0fbdfcadbc2'
+sha1sums=('dc0e872083abc9bbfc97491bda350cc620317210 '
+	      '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           'cc04242e0ea50608b28815b153bb96732f768dd6'
           '9325dada978964aa2433bc5fa2d65a1460e84e89'
