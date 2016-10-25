@@ -32,7 +32,7 @@ echo 0 > /proc/sys/vm/swappiness
 #/usr/bin/irq-archphile
 
 # set various processes to be run on specific cores 
-#taskset -c -p 2 $(pidof mpd)
+#taskset -c -p 1 $(pidof mpd)
 #taskset -c -p 0 $(pidof ympd)
 #taskset -c -p 0 $(pidof rngd)
 #taskset -c -p 0 $(pidof systemd-journald)
