@@ -50,7 +50,7 @@ function system_configuration
 		echo "  3.) Edit resolv.conf in order to change DNS"
 		echo "  4.) Edit fstab in order to configure samba/NFS shares"
 		echo "  5.) Edit ntp.conf in order to configure NTP servers"
-		echo "  6.) Return to previus menu"
+		echo "  6.) Return to previous menu"
 		echo "  7.) Exit"
 		echo ""
 		echo -n "Enter choice: "
@@ -62,7 +62,7 @@ function system_configuration
 		3 ) nano /etc/resolv.conf; tput setf 5; clear;;
 		4 ) nano /etc/fstab; tput setf 5; clear;;
 		5 ) nano /etc/ntp.conf; tput setf 5; clear;;
-		6 ) clear; break ; tput setf 1;;
+		6 ) clear; tput setf 1; break ;; 
 		7 ) tput setf 7; exit;;
 		* ) echo "Please enter from 1 to 7"; 
 	esac
