@@ -6,10 +6,10 @@
 #
 function main_menu 
 {
-    clear
-    tput setf 4	
-    option=0
-    until [ "$option" = "4" ]; do
+	clear
+	tput setf 4	
+	option=0
+	until [ "$option" = "4" ]; do
 		echo "  1.) System Configuration"
 		echo "  2.) MPD Configuration"
 		echo "  3.) Extra stuff configuration"
@@ -18,14 +18,14 @@ function main_menu
 		echo -n "Enter choice: "
 		read option
 		echo ""
-    case $option in
+	case $option in
 		1 ) system_configuration;;
 		2 ) mpd_configuration;;
 		3 ) archphile_extra;;
 		4 ) exit;;
 		* ) echo "Please enter 1, 2 3 or 4";;
-    esac
-    done
+	esac
+	done
  }
  
 # Function for the system configuration. It will allow the user to
