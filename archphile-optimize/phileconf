@@ -7,9 +7,12 @@
 function main_menu 
 {
 	clear
-	tput setf 4	
+	tput setf 1
 	option=0
 	until [ "$option" = "4" ]; do
+	    
+	    echo "############## Archphile Configuration Script v0.1 ##############"
+	    echo ""	
 		echo "  1.) System Configuration"
 		echo "  2.) MPD Configuration"
 		echo "  3.) Extra stuff configuration"
@@ -22,7 +25,7 @@ function main_menu
 		1 ) system_configuration;;
 		2 ) mpd_configuration;;
 		3 ) archphile_extra;;
-		4 ) exit;;
+		4 ) tput setf 7; exit;;
 		* ) echo "Please enter 1, 2 3 or 4";;
 	esac
 	done
@@ -34,7 +37,37 @@ function main_menu
 #
 function system_configuration 
 {
+    clear 	
+	tput setf 5	
+	option=0
+	until [ "$option" = "7" ]; do
+		echo "############## Archphile Configuration Script v0.1 ##############"
+		echo ""	
+		echo "  SYSTEM CONFIGURATION"
+		echo ""
+		echo "  1.) Change root pasword"
+		echo "  2.) Change network configuration"
+		echo "  3.) Edit resolv.conf in order to change DNS"
+		echo "  4.) Edit fstab in order to configure samba/NFS shares"
+		echo "  5.) Edit ntp.conf in order to configure NTP servers"
+		echo "  6.) Return to previus menu"
+		echo "  7.) Exit"
+		echo ""
+		echo -n "Enter choice: "
+		read option
+		echo ""
+	case $option in
+		1 ) passwd root; tput setf 5;; 
+		2 ) nano /etc/netctl/archphile-network; netctl reenable archphile-network; tput setf 5; clear;;
+		3 ) nano /etc/resolv.conf; tput setf 5; clear;;
+		4 ) nano /etc/fstab; tput setf 5; clear;;
+		5 ) nano /etc/ntp.conf; tput setf 5; clear;;
+		6 ) clear; break ; tput setf 1;;
+		7 ) tput setf 7; exit;;
+		* ) echo "Please enter from 1 to 7"; 
+	esac
 
+	done
 }
 
 # Function for the MPD configuration. It will allow the user to
@@ -45,12 +78,15 @@ function mpd_configuration
 	clear	
 	tput setf 2	
 	option=0
-	until [ "$option" = "3" ]; do
-		echo "MPD Configuration"
+	until [ "$option" = "4" ]; do
+	    echo "############## Archphile Configuration Script v0.1 ##############"
+	    echo ""	
+		echo "  MPD CONFIGURATION"
 		echo ""
 		echo "  1.) Choose MPD Package To Install"
 		echo "  2.) Edit mpd.conf"
-		echo "  3.) Return to menu"
+		echo "  3.) Return to previous menu"
+		echo "  4.) Exit"
 		echo ""
 		echo -n "Enter choice: "
 		read option
@@ -58,8 +94,9 @@ function mpd_configuration
 	case $option in
 		1 ) mpd_packages;; 
 		2 ) mpd_edit;;
-		3 ) clear; tput setf 4; break ;;
-		* ) echo "Please enter 1, 2 or 3"; 
+		3 ) clear; tput setf 1; break ;;
+		4 ) tput setf 7; exit; ;;
+		* ) echo "Please enter from 1 to 4"; 
 	esac
 
 	done
@@ -69,66 +106,37 @@ function mpd_configuration
 # 
 function mpd_packages
 {
-	clear
+	clear	
 	tput setf 2	
 	option=0
 	until [ "$option" = "5" ]; do
-		echo "MPD Configuration"
+	    echo "############## Archphile Configuration Script v0.1 ##############"
+	    echo ""
+		echo "  MPD CONFIGURATION"
 		echo ""
-		echo "  Choose one of the following packages to install/reinstall"
+		echo "  Choose one of the following packages to install/reinstall:"
 		echo ""
 		echo "  1.) mpd-archphile"
 		echo "  2.) mpd-archphile-minimal"
 		echo "  3.) mpd-archphile-native-dsd"
 		echo "  4.) mpd-archphile-sacd"
-		echo "  5.) Return to menu"
+		echo "  5.) Return to previous menu"
 		echo ""
 		echo -n "Enter choice: "
 		read option
 		echo ""
 	case $option in
-			1 ) mpd_archphile;;
-			2 ) mpd_archphile_minimal;;
-			3 ) mpd_archphile_native_dsd;;
-			4 ) mpd_archphile_sacd;;
+			1 ) pacman -Sy mpd-archphile; mpd_post_install;;
+			2 ) pacman -Sy mpd-archphile-minimal; mpd_post_install;;
+			3 ) pacman -Sy mpd-archphile-native-dsd; mpd_post_install;;
+			4 ) pacman -Sy mpd-archphile-sacd; mpd_post_install;;
 			5 ) clear; break ;;
-			* ) echo "Please enter 1, 2, 3, 4 or 5";; 
+			* ) echo "Please enter from 1 to 5";; 
 	esac
 
 	done
 } 
 
-# Function that installs mpd-archphile.
-#
-function mpd_archphile
-{
-	pacman -Sy mpd-archphile
-	mpd_post_install	
-}
-
-# Function that installs mpd-archphile-minimal.
-#
-function mpd_archphile_minimal
-{
-	pacman -Sy mpd-archphile-minimal
-	mpd_post_install
-}
-
-# Function that installs mpd-archphile-native-dsd.
-#
-function mpd_archphile_native_dsd
-{
-	pacman -Sy mpd-archphile-native-dsd
-	mpd_post_install	
-}
-
-# Function that installs mpd-archphile-sacd.
-#
-function mpd_archphile_sacd
-{
-	pacman -Sy mpd-archphile-sacd
-	mpd_post_install
-}
 
 # Function that is used after the installation of each of the offered MPD packages.
 # It calls mpd_device function so that the user will be able to choose between USB/I2S
@@ -152,7 +160,7 @@ function mpd_device
 		echo "  Please choose your configuration:"
 		echo "  1.) USB DAC"
 		echo "  2.) I2S DAC"
-		echo "  3.) Return to menu"
+		echo "  3.) Return to previous menu"
  
 		echo -n "Enter choice: "
 		read option
@@ -178,7 +186,7 @@ function usb_device
 		echo "  Please choose your board:"
 		echo "  1.) Raspberry Pi 2/3"
 		echo "  2.) Odroid C1+/C2"
-		echo "  3.) Return to menu"
+		echo "  3.) Return to previous menu"
 		echo ""
 		echo -n "Enter choice: "
 		read option
@@ -187,7 +195,7 @@ function usb_device
 		1 ) break;;
 		2 ) sed -i 's/^device          "hw:0,0".*/device          "hw:1,0"/' /etc/mpd.conf;;
 		3 ) break;;
-		* ) tput setf 3;echo "Please enter 1, 2, 3";tput setf 3; 
+		* ) tput setf 3;echo "Please enter from 1 to 3";tput setf 3; 
 	esac
 	done
  }
@@ -196,8 +204,8 @@ function usb_device
 #
 function mpd_edit
 {
-nano /etc/mpd.conf
-systemctl restart mpd
+	nano /etc/mpd.conf
+	systemctl restart mpd
 }
 
 #function archphile_extra
