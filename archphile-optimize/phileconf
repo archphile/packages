@@ -1,6 +1,6 @@
 #!/bin/bash
 # A simple script to configure Archphile Distribution.
-# It's still at a very early stage and it's not functional.
+# It's still at a very early stage and it's not yet functional.
 
 # Function for the main menu.
 #
