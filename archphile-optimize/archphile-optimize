@@ -4,19 +4,26 @@
 /usr/bin/unmute
 
 # please replace x with the id of your device 
+#
 # for further information visit http://archphile.org/howto/troubleshooting-pops-and-clicks
 #echo -n "x-x.x:x.x" > /sys/bus/usb/drivers/usbhid/unbind
 
 # this command sets noop scheduler during boot
+#
 echo noop > /sys/block/mmcblk0/queue/scheduler
 
-# this command sets a custom cpu governor
+# this command sets ondemand cpu governor
+#
 echo ondemand | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
 
-# enable the command below in order to set swappiness to 0
+# this command sets swappiness to 0
+#
 echo 0 > /proc/sys/vm/swappiness
 
-# commands to change various kernel parameters (Based on Runeaudio default RPI profile)
+# commands to change various kernel parameters
+# please note that some of them might already have the mentioned value
+# feel free to experiment if you know what you' re doing!
+#
 #echo 1500000 > /proc/sys/kernel/sched_latency_ns
 #echo 1000000 > /proc/sys/kernel/sched_rt_period_us
 #echo 950000 > /proc/sys/kernel/sched_rt_runtime_us
@@ -26,12 +33,16 @@ echo 0 > /proc/sys/vm/swappiness
 #echo 1000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 
 # Disable Odroid C1+/C2 heartbeat blue led
+#
 #echo default-on > /sys/class/leds/blue\:heartbeat/trigger
 
-# IRQ affinity optimization - Do not apply it if you are using Raspberry Pi 2 !!!
+# IRQ affinity optimization - Do not apply it if you have a Raspberry Pi!!!
+#
 #/usr/bin/irq-archphile
 
 # set various processes to be run on specific cores 
+# enabling all of these lines is not a very good idea
+#
 #taskset -c -p 1 $(pidof mpd)
 #taskset -c -p 0 $(pidof ympd)
 #taskset -c -p 0 $(pidof rngd)
@@ -43,6 +54,7 @@ echo 0 > /proc/sys/vm/swappiness
 #taskset -c -p 0 $(pidof lircd)
 
 # wireless connection tweaks
+#
 #iwconfig wlan0 power off
 #iwconfig wlan0 frag 2346
 #iwconfig wlan0 rts 2347
