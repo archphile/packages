@@ -10,8 +10,8 @@
 
 _pkgname=ffmpeg
 pkgname=ffmpeg-archphile
-pkgver=3.2
-pkgrel=2
+pkgver=3.2.1
+pkgrel=1
 epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
 arch=('armv7h' 'aarch64')
@@ -30,7 +30,7 @@ depends=(
 )
 makedepends=('yasm' 'hardening-wrapper')
 source=(http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.bz2)
-sha256sums=('76d6cd9f5e64463a5b9940736da8a515c990bcbbe506a722e2040916cb366d74')
+sha256sums=('1ecf93da5d601e6fb3096c65cbe33fdaf042d690a3c50c4efadb0a9b74f2badf')
 
 
 build() {
