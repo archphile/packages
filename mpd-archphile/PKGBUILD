@@ -11,7 +11,7 @@
 
 pkgname=mpd-archphile
 _pkgname=mpd
-pkgver=0.19.19	
+pkgver=0.19.20	
 pkgrel=1
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution.'
 url='http://www.musicpd.org/'
@@ -22,10 +22,11 @@ makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile-sacd' 'mpd-archphile-native-dsd' 'mpd-archphile-minimal')
 replaces=('mpd')
-source=("http://www.musicpd.org/download/${_pkgname}/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz"
+source=("https://www.musicpd.org/download/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"{,.sig}
         'tmpfiles.d'
 	'mpd.conf')
-sha1sums=('8c281b823825cab6677cb142b564acbf09a2874d'
+sha1sums=('7f8ec89d9bfee6a85e03746c69c5bf7c7190cba7'
+	  'SKIP'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           'bad7f67b4aef0dbdb8014e3d30d976172b2dba2d')
 backup=('etc/mpd.conf')
@@ -93,7 +94,6 @@ package() {
 	cd "${srcdir}/${_pkgname}-${pkgver}"
 	
 	make DESTDIR="${pkgdir}" install
-
 	install -Dm644 ../mpd.conf "${pkgdir}"/etc/mpd.conf
 	install -Dm644 ../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
 	install -d -g 45 -o 45 "${pkgdir}"/var/lib/mpd{,/playlists}
