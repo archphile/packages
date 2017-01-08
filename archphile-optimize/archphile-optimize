@@ -45,7 +45,6 @@ echo 0 > /proc/sys/vm/swappiness
 #
 #taskset -c -p 1 $(pidof mpd)
 #taskset -c -p 0 $(pidof ympd)
-#taskset -c -p 0 $(pidof rngd)
 #taskset -c -p 0 $(pidof systemd-journald)
 #taskset -c -p 0 $(pidof systemd-logind)
 #taskset -c -p 0 $(pidof systemd-udevd)
