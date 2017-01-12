@@ -22,7 +22,7 @@ makedepends=('boost' 'doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd' 'mpd-archphile-sacd' 'mpd-archphile-native-dsd' 'mpd-archphile-minimal')
 replaces=('mpd')
-source=("https://www.musicpd.org/download/${_pkgname}/${pkgver}/${_pkgname}-${pkgver}.tar.xz"
+source=("https://www.musicpd.org/download/${_pkgname}/0.20/${_pkgname}-${pkgver}.tar.xz"
         'tmpfiles.d'
 	'mpd.conf')
 sha1sums=('afa490380e094006b50360f13b48df6643030ae6'
