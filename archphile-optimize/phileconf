@@ -208,30 +208,27 @@ function mpd_edit
 	systemctl restart mpd
 }
 
-#function archphile_extra
-#{
-#	option=0
-#until [ "$option" = "3" ]; do
-#echo "  Please choose your board:"
-#echo "  1.) Upnp/dlna"
-#echo "  2.) Shairport"
-#echo "  3.) Spotify"
-#echo "  4.) Squeezelite"
-#echo "  5.) Return to menu"
-#echo ""
-#echo -n "Enter choice: "
-#read option
-#echo ""
-#case $option in
-#    1 ) upnp_dlna_extra;;
-#    2 ) shairport_extra;;
-#    3 ) spotify_extra;;
-#    4 )
-#    * ) tput setaf 3;echo "Please enter 1, 2, 3";tput setaf 3; 
-#esac
-#done
-#	
-#	}
+function archphile_extra
+{
+	option=0
+until [ "$option" = "3" ]; do
+echo "  Please choose your board:"
+echo "  1.) Upnp/dlna"
+echo "  2.) Shairport"
+echo "  3.) Return to menu"
+echo ""
+echo -n "Enter choice: "
+read option
+echo ""
+case $option in
+    1 ) upnp_dlna_extra;;
+    2 ) shairport_extra;;
+    3 ) break;;
+    * ) tput setaf 3;echo "Please enter 1, 2, 3";tput setaf 3; 
+esac
+done
+	
+	}
 
 #function upnp_dlna_extra{
 #}
@@ -239,7 +236,6 @@ function mpd_edit
 #function shairport_extra{
 #}
 
-#function spotify_extra{
-#}
+
 
 main_menu
