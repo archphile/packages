@@ -7,7 +7,7 @@
 function main_menu 
 {
 	clear
-	tput setf 1
+	tput setaf 1
 	option=0
 	until [ "$option" = "4" ]; do
 	    
@@ -38,7 +38,7 @@ function main_menu
 function system_configuration 
 {
     clear 	
-	tput setf 5	
+	tput setaf 5	
 	option=0
 	until [ "$option" = "7" ]; do
 		echo "############## Archphile Configuration Script v0.1 ##############"
@@ -57,13 +57,13 @@ function system_configuration
 		read option
 		echo ""
 	case $option in
-		1 ) passwd root; tput setf 5;; 
-		2 ) nano /etc/netctl/archphile-network; netctl reenable archphile-network; tput setf 5; clear;;
-		3 ) nano /etc/resolv.conf; tput setf 5; clear;;
-		4 ) nano /etc/fstab; tput setf 5; clear;;
-		5 ) nano /etc/ntp.conf; tput setf 5; clear;;
-		6 ) clear; tput setf 1; break ;; 
-		7 ) tput setf 7; exit;;
+		1 ) passwd root; tput setaf 5;; 
+		2 ) nano /etc/netctl/archphile-network; netctl reenable archphile-network; tput setaf 5; clear;;
+		3 ) nano /etc/resolv.conf; tput setaf 5; clear;;
+		4 ) nano /etc/fstab; tput setaf 5; clear;;
+		5 ) nano /etc/ntp.conf; tput setaf 5; clear;;
+		6 ) clear; tput setaf 1; break ;; 
+		7 ) tput setaf 7; exit;;
 		* ) echo "Please enter from 1 to 7"; 
 	esac
 
@@ -76,7 +76,7 @@ function system_configuration
 function mpd_configuration 
 {
 	clear	
-	tput setf 2	
+	tput setaf 2	
 	option=0
 	until [ "$option" = "4" ]; do
 	    echo "############## Archphile Configuration Script v0.1 ##############"
@@ -94,8 +94,8 @@ function mpd_configuration
 	case $option in
 		1 ) mpd_packages;; 
 		2 ) mpd_edit;;
-		3 ) clear; tput setf 1; break ;;
-		4 ) tput setf 7; exit; ;;
+		3 ) clear; tput setaf 1; break ;;
+		4 ) tput setaf 7; exit; ;;
 		* ) echo "Please enter from 1 to 4"; 
 	esac
 
@@ -107,7 +107,7 @@ function mpd_configuration
 function mpd_packages
 {
 	clear	
-	tput setf 2	
+	tput setaf 2	
 	option=0
 	until [ "$option" = "5" ]; do
 	    echo "############## Archphile Configuration Script v0.1 ##############"
@@ -169,7 +169,7 @@ function mpd_device
 		1 ) usb_device;;
 		2 ) i2select;;
 		3 ) break ;;
-		* ) tput setf 3;echo "Please enter 1, 2, or 3";tput setf 3; 
+		* ) tput setaf 3;echo "Please enter 1, 2, or 3";tput setaf 3; 
 	esac
 
 	done
@@ -195,7 +195,7 @@ function usb_device
 		1 ) break;;
 		2 ) sed -i 's/^device          "hw:0,0".*/device          "hw:1,0"/' /etc/mpd.conf;;
 		3 ) break;;
-		* ) tput setf 3;echo "Please enter from 1 to 3";tput setf 3; 
+		* ) tput setaf 3;echo "Please enter from 1 to 3";tput setaf 3; 
 	esac
 	done
  }
@@ -227,7 +227,7 @@ function mpd_edit
 #    2 ) shairport_extra;;
 #    3 ) spotify_extra;;
 #    4 )
-#    * ) tput setf 3;echo "Please enter 1, 2, 3";tput setf 3; 
+#    * ) tput setaf 3;echo "Please enter 1, 2, 3";tput setaf 3; 
 #esac
 #done
 #	
