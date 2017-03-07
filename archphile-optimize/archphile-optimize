@@ -43,12 +43,8 @@ echo 0 > /proc/sys/vm/swappiness
 # set various processes to be run on specific cores 
 # enabling all of these lines is not a very good idea
 #
-#taskset -c -p 1 $(pidof mpd)
+#taskset -c -a -p 1 $(pidof mpd)
 #taskset -c -p 0 $(pidof ympd)
-#taskset -c -p 0 $(pidof systemd-journald)
-#taskset -c -p 0 $(pidof systemd-logind)
-#taskset -c -p 0 $(pidof systemd-udevd)
-#taskset -c -p 0 $(pidof dbus-daemon)
 #taskset -c -p 0 $(pidof init)
 #taskset -c -p 0 $(pidof lircd)
 
