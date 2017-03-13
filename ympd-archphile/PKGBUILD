@@ -17,8 +17,7 @@ optdepends=()
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 replaces=('ympd-git')
-source=("git+https://github.com/notandy/ympd.git"
-        "dirble_api_key.patch")
+source=("git+https://github.com/notandy/ympd.git")
 
 sha1sums=('SKIP'
           'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b')
@@ -31,8 +30,8 @@ pkgver() {
 build() {
   cd "${srcdir}/${_pkgname}"
 
-  msg2 "Applying various patches"
-  patch -Np1 -i ../dirble_api_key.patch
+#  msg2 "Applying various patches"
+#  patch -Np1 -i ../dirble_api_key.patch
   
   mkdir build && cd build
   cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
