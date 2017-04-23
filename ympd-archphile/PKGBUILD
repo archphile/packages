@@ -19,8 +19,7 @@ conflicts=("${_pkgname}")
 replaces=('ympd-git')
 source=("git+https://github.com/notandy/ympd.git")
 
-sha1sums=('SKIP'
-          'c2f350d7c11a165dd3fa8b66ba2e18f7ae9c695b')
+sha1sums=('SKIP')
 
 pkgver() {
   cd "${srcdir}/${_pkgname}"
