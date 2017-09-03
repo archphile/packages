@@ -4,17 +4,18 @@
 # Maintainer: Mansour Behabadi <mansour@oxplot.com>
 # Maintainer: Tilman Vatteroth <tilman.vatteroth@udo.edu>
 
-pkgname=upmpdcli
+pkgname=upmpdcli-archphile
+_pkgname=upmpdcli
 pkgver=1.2.15
 pkgrel=2
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
 arch=('armv7h' 'aarch64')
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license=('GPL2')
-depends=('libmpdclient' 'libupnpp>=0.15.3' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat')
+depends=('libmpdclient' 'libupnpp-archphile>=0.15.3' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat')
 optdepends=('python2: OpenHome Radio Service')
 install=upmpdcli.install
-source=('http://www.lesbonscomptes.com/upmpdcli/downloads/$pkgname-$pkgver.tar.gz'
+source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.g"
 	'upmpdcli.conf'
 	'archphile.png')
 sha256sums=('93d2b9cfd6cb8643c5a23d4115b44622d76c71abe15db9bb8d5b4d83f4d9b49c'
@@ -23,13 +24,13 @@ sha256sums=('93d2b9cfd6cb8643c5a23d4115b44622d76c71abe15db9bb8d5b4d83f4d9b49c'
 backup=('etc/upmpdcli.conf')
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$_pkgname-$pkgver"
   ./configure --sysconfdir=/etc --prefix=/usr
   make
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$_pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
   mkdir -p ${pkgdir}/etc/
   cp ../../upmpdcli.conf ${pkgdir}/etc/
