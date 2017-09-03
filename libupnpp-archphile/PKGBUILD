@@ -1,30 +1,27 @@
 # Maintainer: Tux <info@archphile.org>
 # Website: http://archphile.org
-# Based on libupnpp-git from AUR 
+# Based on libupnpp from AUR made by the following people:
+# Maintainer: Fabio Loli <loli_fabio@protonmail.com>
+# Contributor: Tristelune <tristelune@archlinux.info>
 
 pkgname=libupnpp-archphile
-_pkgname=libupnpp
-pkgver=20141016
-pkgrel=3
-pkgdesc="a C++ wrapper for libupnp - used with upmpdcli or upplay"
-url="https://github.com/medoc92/libupnpp"
-license=("GPL")
-depends=('libupnp-archphile')
-makedepends=('git' 'autoconf')
+pkgver=0.15.3
+pkgrel=1
+pkgdesc="A C++ wrapper for libupnp - used with upmpdcli or upplay"
+url="http://www.lesbonscomptes.com/upplay/downloads.html"
 arch=('armv7h' 'aarch64')
+license=('GPL2')
+depends=('libupnp' 'expat' 'curl')
+source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${pkgname}-${pkgver}.tar.gz")
+md5sums=('8af255b4da4dc46eeb3690a3cac6d0b3')
 
-source=("git://github.com/medoc92/libupnpp.git")
-md5sums=('SKIP')
-
-build() {
-
-  cd ${srcdir}/${_pkgname}
-  ./autogen.sh
-  ./configure --prefix=/usr
-  make
+build(){
+	cd "${pkgname}-${pkgver}"
+	./configure --prefix=/usr
+	make
 }
 
-package() {
-  cd ${srcdir}/${_pkgname}
-  make DESTDIR="${pkgdir}/" install
+package(){
+	cd "${pkgname}-${pkgver}"
+	make DESTDIR="$pkgdir" install
 }

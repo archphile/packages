@@ -1,37 +1,39 @@
 # Maintainer: Tux <info@archphile.org>
 # Website: http://archphile.org
-# Based on upmpdcli-git from AUR 
+# Based on upmpdcl from AUR made by the following people:
+# Maintainer: Mansour Behabadi <mansour@oxplot.com>
+# Maintainer: Tilman Vatteroth <tilman.vatteroth@udo.edu>
 
-pkgname=upmpdcli-archphile
-_pkgname=upmpdcli
-pkgver=20141016
-pkgrel=5
-pkgdesc="an UPnP front-end to the Music Player Daemon"
-url="http://www.lesbonscomptes.com/upmpdcli/"
-license=("GPL")
-depends=('libupnpp-archphile' 'libmpdclient' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat')
-builddepends=(autoconf)
+pkgname=upmpdcli
+pkgver=1.2.15
+pkgrel=2
+pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
 arch=('armv7h' 'aarch64')
-source=("git://github.com/medoc92/upmpdcli.git"
-        "upmpdcli.conf"
-        "archphile.png")
-sha1sums=('SKIP'
-          'b7625aa61ad2caa98ddbf4ac7f2c1cc5b9740cec'
-          'c23ff56c602942236e3e04af61dd09f0fa3fac21')
+url="http://www.lesbonscomptes.com/upmpdcli/"
+license=('GPL2')
+depends=('libmpdclient' 'libupnpp>=0.15.3' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat')
+optdepends=('python2: OpenHome Radio Service')
 install=upmpdcli.install
-build() {
+source=('http://www.lesbonscomptes.com/upmpdcli/downloads/$pkgname-$pkgver.tar.gz'
+	'upmpdcli.conf'
+	'archphile.png')
+sha256sums=('93d2b9cfd6cb8643c5a23d4115b44622d76c71abe15db9bb8d5b4d83f4d9b49c'
+	    '19b40980063e4638efac64bb68124562d752ea39876c5d73abcfbb05f4ee3133'
+            '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
+backup=('etc/upmpdcli.conf')
 
-  cd ${srcdir}/${_pkgname}
-  ./autogen.sh
-  ./configure --prefix=/usr --sysconfdir=/etc
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  ./configure --sysconfdir=/etc --prefix=/usr
   make
 }
 
 package() {
-  cd ${srcdir}/${_pkgname}
-  make DESTDIR="${pkgdir}/" install
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
   mkdir -p ${pkgdir}/etc/
   cp ../../upmpdcli.conf ${pkgdir}/etc/
   cp ../../archphile.png ${pkgdir}/usr/share/upmpdcli/
-  install -Dm644  "../../upmpdcli.service" "$pkgdir/usr/lib/systemd/system/upmpdcli.service"
+  install -Dm644 systemd/upmpdcli.service ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
+  sed '/\[Service\]/a User=upmpdcli' -i ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
 }
