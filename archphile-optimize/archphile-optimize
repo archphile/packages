@@ -34,7 +34,7 @@ echo 0 > /proc/sys/vm/swappiness
 
 # Disable Odroid C1+/C2 heartbeat blue led
 #
-#echo default-on > /sys/class/leds/blue\:heartbeat/trigger
+#echo default-on > /sys/class/leds/blue\:heartbeat/trigger 
 
 # IRQ affinity optimization - Do not apply it if you have a Raspberry Pi!!!
 #
