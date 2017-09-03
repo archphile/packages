@@ -5,6 +5,7 @@
 # Contributor: Tristelune <tristelune@archlinux.info>
 
 pkgname=libupnpp-archphile
+_pkgname=libupnpp
 pkgver=0.15.3
 pkgrel=1
 pkgdesc="A C++ wrapper for libupnp - used with upmpdcli or upplay"
@@ -12,16 +13,16 @@ url="http://www.lesbonscomptes.com/upplay/downloads.html"
 arch=('armv7h' 'aarch64')
 license=('GPL2')
 depends=('libupnp' 'expat' 'curl')
-source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${pkgname}-${pkgver}.tar.gz")
+source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz")
 md5sums=('8af255b4da4dc46eeb3690a3cac6d0b3')
 
 build(){
-	cd "${pkgname}-${pkgver}"
+	cd "${_pkgname}-${pkgver}"
 	./configure --prefix=/usr
 	make
 }
 
 package(){
-	cd "${pkgname}-${pkgver}"
+	cd "${_pkgname}-${pkgver}"
 	make DESTDIR="$pkgdir" install
 }
