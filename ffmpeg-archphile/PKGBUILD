@@ -28,9 +28,9 @@ depends=(
       'opencore-amr' 'rtmpdump'
       'zlib' 'libfdk-aac' 'libvorbis.so'
 )
-makedepends=('yasm' 'hardening-wrapper')
+makedepends=('yasm')
 source=(http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.bz2)
-sha256sums=('d2a9002cdc6b533b59728827186c044ad02ba64841f1b7cd6c21779875453a1e')
+sha256sums=('1069ac8fc7f52e566bea28b41b9c437246aeb5096f82fb26fa96dc7d5a10a473')
 
 
 build() {
