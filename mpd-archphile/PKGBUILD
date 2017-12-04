@@ -79,6 +79,7 @@ build() {
 	        --disable-wildmidi \
                 --disable-lsr \
 		--with-zeroconf=avahi \
+		--with-systemduserunitdir=/usr/lib/systemd/user \
 		--with-systemdsystemunitdir=/usr/lib/systemd/system
 
 	make
