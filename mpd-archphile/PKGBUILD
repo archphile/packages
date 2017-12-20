@@ -11,7 +11,7 @@
 
 pkgname=mpd-archphile
 _pkgname=mpd
-pkgver=0.20.12
+pkgver=0.20.13
 pkgrel=1
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution.'
 url='http://www.musicpd.org/'
@@ -25,7 +25,7 @@ replaces=('mpd')
 source=("https://www.musicpd.org/download/${_pkgname}/0.20/${_pkgname}-${pkgver}.tar.xz"
         'tmpfiles.d'
 	'mpd.conf')
-sha256sums=('e159ac0608fb85c891bd19375ed7056d5f9ec4ba492b052f24820513e774f709'
+sha256sums=('46c1c534d80a52de00263e8ef43a6011ff9d765232443749539ef26b1b48ff40'
             'c1683ba35774c85e16c70e89f7e2ed1c09619512b1a273daabbd5e34d40439bd'
             '6b864dbd6938933e1c3af8c6580bb712ae33a9456e0efb460a19f68714e57b63')
 backup=('etc/mpd.conf')
