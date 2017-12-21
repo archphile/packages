@@ -5,24 +5,18 @@
 clear
 red='\e[0;31m'
 NC='\e[0m'
-echo -e "${red}USB DAC CONFIGURATION TOOL FOR CUBOX-I and ODROID C1+${NC}"
+echo -e "${red}USB DAC CONFIGURATION TOOL FOR ODROID C2${NC}"
 echo -e "${red}---------------------------${NC}"
 echo -e " "
 PS3='Please select the desired configuration: '
-options=("Odroid C1+" "Cubox-i" "Default Configuration" "Quit")
+options=("Odroid C2" "Default Configuration" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
-              "Odroid C1+")
+              "Odroid C2")
               sed -i 's/^device.*/device          "hw:1,0"/' /etc/mpd.conf
               systemctl restart mpd
-              echo -e "${red}Your USB Dac is now ready to be used with Odroid C1+...${NC}"  
-              exit
-              ;;
-              "Cubox-i")
-              sed -i 's/^device.*/device          "hw:2,0"/' /etc/mpd.conf
-              systemctl restart mpd
-              echo -e "${red}Your USB Dac is now ready to be used with Cubox-i...${NC}"  
+              echo -e "${red}Your USB Dac is now ready to be used with Odroid C2...${NC}"  
               exit
               ;;
               "Default Configuration")
@@ -34,6 +28,6 @@ do
               "Quit")
               break
                ;;
-               *) echo Invalid option - Please choose 1-4;;
+               *) echo Invalid option - Please choose 1-3;;
     esac
 done
