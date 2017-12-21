@@ -6,7 +6,7 @@
 pkgname=ympd-archphile
 _pkgname=ympd
 pkgver=1.2.3.r55.g4295d15
-pkgrel=1
+pkgrel=2
 pkgdesc="A standalone MPD Web GUI - Default port set to 80"
 arch=('armv7h' 'aarch64')
 url="http://www.ympd.org"
