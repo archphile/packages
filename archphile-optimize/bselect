@@ -14,7 +14,7 @@ select opt in "${options[@]}"
 do
     case $opt in
               "Odroid C2")
-              sed -i 's/^device.*/device          "hw:1,0"/' /etc/mpd.conf
+              sed -i 's/^device.*/device          "hw:0,0"/' /etc/mpd.conf
               systemctl restart mpd
               echo -e "${red}Your USB Dac is now ready to be used with Odroid C2...${NC}"  
               exit

@@ -14,7 +14,7 @@ echo noop > /sys/block/mmcblk0/queue/scheduler
 
 # this command sets ondemand cpu governor
 #
-echo ondemand | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+#echo ondemand | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
 
 # this command sets swappiness to 0
 #
@@ -32,9 +32,9 @@ echo 0 > /proc/sys/vm/swappiness
 #echo 750000 > /proc/sys/kernel/sched_min_granularity_ns
 #echo 1000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 
-# Disable Odroid C1+/C2 heartbeat blue led
+# Disable Odroid C2 heartbeat blue led
 #
-#echo default-on > /sys/class/leds/blue\:heartbeat/trigger 
+echo default-on > /sys/class/leds/c2\:blue\:alive/trigger 
 
 # IRQ affinity optimization - Do not apply it if you have a Raspberry Pi!!!
 #
