@@ -24,48 +24,48 @@ conflicts=('mpd' 'mpd-archphile-sacd' 'mpd-archphile-native-dsd' 'mpd-archphile-
 replaces=('mpd')
 source=("https://www.musicpd.org/download/${_pkgname}/0.20/${_pkgname}-${pkgver}.tar.xz"
         'tmpfiles.d'
+	'sysusers.d'
 	'mpd.conf')
-sha256sums=('46c1c534d80a52de00263e8ef43a6011ff9d765232443749539ef26b1b48ff40'
-            'c1683ba35774c85e16c70e89f7e2ed1c09619512b1a273daabbd5e34d40439bd'
+sha256sums=('4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
+            '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
             '6b864dbd6938933e1c3af8c6580bb712ae33a9456e0efb460a19f68714e57b63')
 backup=('etc/mpd.conf')
-install=install
 
 
 build() {
 	cd "${srcdir}/${_pkgname}-${pkgver}"
 
 	./configure \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--enable-libmpdclient \
-		--enable-mad \
-		--enable-soxr \
-		--enable-ffmpeg \
-		--enable-audiofile \
-		--enable-sndfile \
-		--enable-pipe-output \
-		--disable-ao \
-		--disable-jack \
-		--disable-modplug \
-		--disable-pulse \
-		--disable-shout \
-		--disable-sidplay \
-		--disable-soundcloud \
-		--disable-wavpack \
-		--disable-opus \
-		--disable-vorbis \
-		--disable-ipv6 \
-		--disable-recorder-output \
-		--disable-iso9660 \
-		--disable-zzip \
-		--disable-wildmidi \
-		--disable-oss \
-		--disable-fluidsynth \
-		--disable-gme \
-		--disable-bzip2 \
-		--disable-lame-encoder \
-	    --disable-shine-encoder \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--enable-libmpdclient \
+	--enable-mad \
+	--enable-soxr \
+	--enable-ffmpeg \
+	--enable-audiofile \
+	--enable-sndfile \
+	--enable-pipe-output \
+	--disable-ao \
+	--disable-jack \
+	--disable-modplug \
+	--disable-pulse \
+	--disable-shout \
+	--disable-sidplay \
+	--disable-soundcloud \
+	--disable-wavpack \
+	--disable-opus \
+	--disable-vorbis \
+	--disable-ipv6 \
+	--disable-recorder-output \
+	--disable-iso9660 \
+	--disable-zzip \
+	--disable-wildmidi \
+	--disable-oss \
+	--disable-fluidsynth \
+	--disable-gme \
+	--disable-bzip2 \
+	--disable-lame-encoder \
+	--disable-shine-encoder \
         --disable-twolame-encoder \
         --disable-vorbis-encoder \
         --disable-wave-encoder \
@@ -74,13 +74,13 @@ build() {
         --disable-httpd-output \
         --disable-oss \
         --disable-mikmod \
-		--disable-modplug \
+	--disable-modplug \
         --disable-mpg123 \
-	    --disable-wildmidi \
+	--disable-wildmidi \
         --disable-lsr \
-		--with-zeroconf=avahi \
-		--with-systemduserunitdir=/usr/lib/systemd/user \
-		--with-systemdsystemunitdir=/usr/lib/systemd/system
+	--with-zeroconf=avahi \
+	--with-systemduserunitdir=/usr/lib/systemd/user \
+	--with-systemdsystemunitdir=/usr/lib/systemd/system
 
 	make
 }
@@ -91,10 +91,10 @@ package() {
 	make DESTDIR="${pkgdir}" install
 	install -Dm644 ../mpd.conf "${pkgdir}"/etc/mpd.conf
 	install -Dm644 ../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
-	install -d -g 45 -o 45 "${pkgdir}"/var/lib/mpd{,/playlists}
+	install -Dm644 ../sysusers.d "${pkgdir}"/usr/lib/sysusers.d/mpd.conf
 
 	install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
-    sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+        sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 
 }
