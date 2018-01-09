@@ -26,10 +26,10 @@ source=("https://www.musicpd.org/download/${_pkgname}/0.20/${_pkgname}-${pkgver}
         'tmpfiles.d'
 	'sysusers.d'
 	'mpd.conf')
-sha256sums=('7c69c4f67e665380ea3bbde6cff8958edc85f7cd40e7918ae5ce0a2184ca9eb40'
+sha256sums=('cbd6c4200288df6c76b735fa214e44f8cc2169d788af1b7c801fae66948756b2'
 	    '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
             '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
-            '6b864dbd6938933e1c3af8c6580bb712ae33a9456e0efb460a19f68714e57b63')
+            'cbd6c4200288df6c76b735fa214e44f8cc2169d788af1b7c801fae66948756b2')
 backup=('etc/mpd.conf')
 
 
