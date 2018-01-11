@@ -2,8 +2,8 @@
 # Website: http://archphile.org
 
 pkgname=archphile-optimize
-pkgver=2.3
-pkgrel=2
+pkgver=2.4
+pkgrel=1
 pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution"
 arch=('any')
 url="http://archphile.org"
