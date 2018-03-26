@@ -34,16 +34,19 @@ echo 0 > /proc/sys/vm/swappiness
 
 # Disable Odroid C2 heartbeat blue led
 #
-echo default-on > /sys/class/leds/c2\:blue\:alive/trigger 
+#echo default-on > /sys/class/leds/c2\:blue\:alive/trigger 
 
 # IRQ affinity optimization - Do not apply it if you have a Raspberry Pi!!!
 #
 #/usr/bin/irq-archphile
 
 # set various processes to be run on specific cores 
-#
+#for all boards
 #taskset -c -a -p 1 $(pidof mpd)
+#for Odroid C2
 #taskset -c -p 0 $(pidof ympd)
+#for RPI
+#taskset -c -p 2 $(pidof ympd)
 
 # wireless connection tweaks
 #
