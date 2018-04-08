@@ -6,8 +6,8 @@
 
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
-pkgver=1.2.15
-pkgrel=5
+pkgver=1.2.16
+pkgrel=1
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
 arch=('armv7h' 'aarch64')
 url="http://www.lesbonscomptes.com/upmpdcli/"
@@ -18,8 +18,8 @@ install=upmpdcli.install
 source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz"
 	'upmpdcli.conf'
 	'archphile.png')
-sha256sums=('93d2b9cfd6cb8643c5a23d4115b44622d76c71abe15db9bb8d5b4d83f4d9b49c'
-	    '5e0999cf67a393c5d4ac0e0e2e19c79b327aaabdfa0683c1d80241aca22dde0c'
+sha256sums=('b0dfd33cd5c1c2e4f770660c12d7303b6d8b3fdca4f63530c6a235ce279a9d98'
+			'5e0999cf67a393c5d4ac0e0e2e19c79b327aaabdfa0683c1d80241aca22dde0c'
             '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
 backup=('etc/upmpdcli.conf')
 
