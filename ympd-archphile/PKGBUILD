@@ -43,8 +43,8 @@ package() {
   cd "${srcdir}/${_pkgname}/build"
   make DESTDIR="$pkgdir/" install
   install -Dm644  "${srcdir}/${_pkgname}/contrib/ympd.service" "$pkgdir/usr/lib/systemd/system/ympd.service"
-#  install -Dm644  "../../ympd.service" "$pkgdir/usr/lib/systemd/system/ympd.service"
-  install -Dm644  "${srcdir}/${_pkgname}/contrib/ympd.default" "$pkgdir/etc/default/ympd"
+  install -Dm644  "../../ympd.service" "$pkgdir/usr/lib/systemd/system/ympd.service"
+#  install -Dm644  "${srcdir}/${_pkgname}/contrib/ympd.default" "$pkgdir/etc/default/ympd"
   sed '/WEB_PORT=8080/c WEB_PORT=80' -i "$pkgdir/etc/default/ympd"
 }
 
