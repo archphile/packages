@@ -34,12 +34,10 @@ pkgver() {
 build() {
   cd "${srcdir}/${_pkgname}"
 
-#  msg2 "Applying various patches"
-#  patch -Np1 -i ../dirble_api_key.patch
-  
+ 
   mkdir build && cd build
   cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
-# cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DWITH_DYNAMIC_ASSETS=ON
+# cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DWITH_DYNAMIC_ASSETS=ON -DCMAKE_BUILD_TYPE=RELEASE
   make
 }
 
