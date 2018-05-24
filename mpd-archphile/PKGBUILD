@@ -12,7 +12,7 @@
 pkgname=mpd-archphile
 _pkgname=mpd
 pkgver=0.20.20
-pkgrel=1
+pkgrel=2
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version optimized for Archphile distribution.'
 url='http://www.musicpd.org/'
 license=('GPL')
