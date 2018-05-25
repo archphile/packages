@@ -31,11 +31,7 @@ depends=(
 makedepends=('yasm')
 source=("https://ffmpeg.org/releases/ffmpeg-${pkgver}.tar.xz")
 
-sha256sums=('2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740'
-            '0bfcd12d1992903f21c146ae56d9ad89b52818cfb2303197ee905347c25a5427')
-
-prepare() {
-  cd ffmpeg-${pkgver}
+sha256sums=('ed945daf40b124e77a685893cc025d086f638bc703183460aff49508edb3a43f')
 
 
 build() {
@@ -77,7 +73,8 @@ build() {
     --enable-swresample \
     --enable-version3 \
     --enable-libfdk_aac \
-    --enable-nonfree
+    --enable-nonfree \
+    --enable-shared
 
   make
   make doc/ff{mpeg,server}.1
