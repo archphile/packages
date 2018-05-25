@@ -41,7 +41,7 @@ echo 0 > /proc/sys/vm/swappiness
 
 # IRQ affinity optimization - Do not apply it if you have a Raspberry Pi!!!
 #
-#/usr/bin/irq-archphile
+#/usr/local/bin/irq-archphile
 
 # set various processes to be run on specific cores 
 #for all boards

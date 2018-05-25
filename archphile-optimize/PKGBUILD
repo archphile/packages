@@ -23,7 +23,7 @@ source=('archphile-optimize'
         'dbackup'
         'drestore')
 
-sha1sums=('50d870949e312ea1a3e4777fe73b43d8b3318b7f'
+sha1sums=('e1a60baa7ab066cb0d5dc4b1c5ef447b03bb570a'
           '3f78d57f4a240755566749594e54b0fbdfcadbc2'
           'fd8708c6e14c1b951489edc0f060e1e8167a995d'
           '07a3f7ef595db606cdfbf6f78541050fb5ced52c'
