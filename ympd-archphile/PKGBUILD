@@ -16,10 +16,9 @@ makedepends=('cmake' 'git')
 optdepends=()
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
-replaces=('mympd-archphile')
+replaces=()
 #source=("git+https://github.com/notandy/ympd.git"
 source=("git+https://github.com/superbfg7/ympd.git"
-#source=("git+https://github.com/jcorporation/ympd.git"
 #source=("git+https://github.com/archphile/ympd.git"
     	"ympd.service")
 
@@ -37,7 +36,6 @@ build() {
  
   mkdir build && cd build
   cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
-# cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DWITH_DYNAMIC_ASSETS=ON -DCMAKE_BUILD_TYPE=RELEASE
   make
 }
 
