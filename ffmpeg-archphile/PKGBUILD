@@ -1,12 +1,11 @@
 # Maintainer: Mike Andonov <info@archphile.org>
 # Website: http://archphile.org
 # Based on ffmpeg-headless from AUR made by the following people
-# $Id: PKGBUILD 228056 2014-12-26 11:57:24Z bpiotrowski $
-# Maintainer:  Ionut Biru <ibiru@archlinux.org>
-# Maintainer:  Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
 # Contributor: Tom Newsom <Jeepster@gmx.co.uk>
 # Contributor: Paul Mattal <paul@archlinux.org>
-
 
 _pkgname=ffmpeg
 pkgname=ffmpeg-archphile
@@ -16,70 +15,90 @@ epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
 arch=('armv7h' 'aarch64')
 url='http://ffmpeg.org/'
-license=('GPL')
-provides=('libavcodec.so' 'libavformat.so'
-          'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
-          "ffmpeg=${pkgver}")
-conflicts=("ffmpeg")
-replaces=("ffmpeg")
-depends=(
-      'bzip2' 'gnutls' 'lame'
-      'libmodplug' 'libtheora' 'libvorbis'
-      'opencore-amr' 'rtmpdump'
-      'zlib' 'libfdk-aac' 'libvorbis.so'
-)
+license=('GPL3')
+depends=('bzip2' 'fribidi' 'glibc' 'gmp' 'gnutls' 'gsm'
+         'lame' 'libdrm' 'libmodplug'
+         'libtheora' 'libwebp' 'libxml2'
+         'opencore-amr' 'openjpeg2' 'opus' 'speex' 'v4l-utils'
+         'xz' 'zlib'
+         'libbluray.so' 'libva'
+         'libvorbisenc.so' 'libvorbis.so'
+         'libvpx.so' 'libx264.so' 'libx265.so' 'libxvidcore.so'
+         'rtmpdump')
 makedepends=('yasm')
-source=("https://ffmpeg.org/releases/ffmpeg-${pkgver}.tar.xz")
-
+provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
+          'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
+          'libswscale.so' 'ffmpeg')
+conflicts=('ffmpeg')
+source=("https://ffmpeg.org/releases/${_pkgname}-${pkgver}.tar.xz")
 sha256sums=('ed945daf40b124e77a685893cc025d086f638bc703183460aff49508edb3a43f')
 
 
-build() {
-  
-  cd ffmpeg-$pkgver
+prepare() {
+  cd ${_pkgname}-${pkgver}
 
-  [[ $CARCH == "armv7h" || $CARCH == "aarch64" ]] && CONFIG='--host-cflags="-fPIC"'
+}
+
+build() {
+  cd ${_pkgname}-${pkgver}
 
   ./configure \
     --prefix='/usr' \
     --disable-debug \
     --disable-static \
     --disable-stripping \
-    --disable-avdevice \
-    --disable-avfilter \
-    --disable-swscale \
+    --disable-vdpau \
+    --disable-xlib  \
+    --disable-sdl2 \
+    --disable-htmlpages \
     --disable-ffplay \
-    --disable-network \
-    --disable-bsfs \
-    --disable-filters \
-    --disable-parsers \
-    --disable-indevs \
-    --disable-outdevs \
-    --disable-encoders \
-    --enable-decoders \
+    --disable-ladspa \
+    --disable-libass \
+    --disable-libfreetype \
+    --disable-fontconfig \
+    --disable-libiec61883 \
+    --disable-libpulse \
+    --disable-libsoxr \
+    --disable-libssh \ 
+    --disable-libvidstab \
+    --disable-nvenc \
+    --disable-omx \
+    --disable-libxcb \ 
     --enable-avresample \
+    --enable-gmp \
     --enable-gnutls \
     --enable-gpl \
+    --enable-libbluray \
+    --enable-libdrm \
+    --enable-libfribidi \
+    --enable-libgsm \
     --enable-libmodplug \
     --enable-libmp3lame \
     --enable-libopencore_amrnb \
     --enable-libopencore_amrwb \
-    --enable-librtmp \
+    --enable-libopenjpeg \
+    --enable-libopus \
+    --enable-libspeex \
     --enable-libtheora \
+    --enable-libv4l2 \
     --enable-libvorbis \
-    --enable-runtime-cpudetect \
+    --enable-libvpx \
+    --enable-libwebp \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libxml2 \
+    --enable-libxvid \
     --enable-shared \
-    --enable-swresample \
     --enable-version3 \
-    --enable-libfdk_aac \
-    --enable-nonfree \
-    --enable-shared
+    --enable-vaapi \
+    --enable-librtmp \
+    --enable-runtime-cpudetect
+
 
   make
-  make doc/ff{mpeg,server}.1
 }
 
 package() {
-  cd ffmpeg-$pkgver
-  make DESTDIR="$pkgdir" install install-man
-}
+  cd ${_pkgname}-${pkgver}
+
+  make DESTDIR="${pkgdir}" install install-man
