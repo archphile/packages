@@ -49,7 +49,6 @@ build() {
     --disable-avfilter \
     --disable-swscale \
     --disable-ffplay \
-    --disable-ffserver \
     --disable-network \
     --disable-bsfs \
     --disable-filters \
