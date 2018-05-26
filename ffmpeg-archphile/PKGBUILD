@@ -13,17 +13,15 @@ pkgver=4.0
 pkgrel=2
 epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
-arch=('armv7h' 'aarch64')
+arch=('armv7h' 'aarch64' 'x86_64')
 url='http://ffmpeg.org/'
 license=('GPL3')
-depends=('bzip2' 'fribidi' 'glibc' 'gmp' 'gnutls' 'gsm'
-         'lame' 'libdrm' 'libmodplug'
-         'libtheora' 'libwebp' 'libxml2'
-         'opencore-amr' 'openjpeg2' 'opus' 'speex' 'v4l-utils'
+depends=('bzip2' 'glibc' 'gmp' 'gnutls' 'gsm'
+         'lame' 'libmodplug'
+         'libtheora' 'libxml2'
+         'opus'
          'xz' 'zlib'
-         'libbluray.so' 'libva'
          'libvorbisenc.so' 'libvorbis.so'
-         'libvpx.so' 'libx264.so' 'libx265.so' 'libxvidcore.so'
          'rtmpdump')
 makedepends=('yasm')
 provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
@@ -36,7 +34,6 @@ sha256sums=('ed945daf40b124e77a685893cc025d086f638bc703183460aff49508edb3a43f')
 
 prepare() {
   cd ${_pkgname}-${pkgver}
-
 }
 
 build() {
@@ -48,46 +45,50 @@ build() {
     --disable-static \
     --disable-stripping \
     --disable-vdpau \
-    --disable-xlib  \
+    --disable-xlib \
     --disable-sdl2 \
     --disable-htmlpages \
     --disable-ffplay \
-    --disable-ladspa \
     --disable-libass \
     --disable-libfreetype \
     --disable-fontconfig \
     --disable-libiec61883 \
     --disable-libpulse \
     --disable-libsoxr \
-    --disable-libssh \ 
+    --disable-libssh \
     --disable-libvidstab \
     --disable-nvenc \
     --disable-omx \
-    --disable-libxcb \ 
+    --disable-libxcb \
+    --disable-libopenjpeg \
+    --disable-libx264 \
+    --disable-libx265 \
+    --disable-libv4l2 \
+    --disable-libopencore_amrnb \
+    --disable-libopencore_amrwb \
+    --disable-libdrm \
+    --disable-libspeex \
+    --disable-libbluray \
+    --disable-libfribidi \
+    --disable-libwebp \
+    --disable-filters \
+    --disable-parsers \
+    --disable-indevs \
+    --disable-outdevs \
+    --disable-encoders \
+    --disable-libxvid \
+    --disable-libvpx \
     --enable-avresample \
     --enable-gmp \
     --enable-gnutls \
     --enable-gpl \
-    --enable-libbluray \
-    --enable-libdrm \
-    --enable-libfribidi \
     --enable-libgsm \
     --enable-libmodplug \
     --enable-libmp3lame \
-    --enable-libopencore_amrnb \
-    --enable-libopencore_amrwb \
-    --enable-libopenjpeg \
     --enable-libopus \
-    --enable-libspeex \
     --enable-libtheora \
-    --enable-libv4l2 \
     --enable-libvorbis \
-    --enable-libvpx \
-    --enable-libwebp \
-    --enable-libx264 \
-    --enable-libx265 \
     --enable-libxml2 \
-    --enable-libxvid \
     --enable-shared \
     --enable-version3 \
     --enable-vaapi \
@@ -102,3 +103,4 @@ package() {
   cd ${_pkgname}-${pkgver}
 
   make DESTDIR="${pkgdir}" install install-man
+}
