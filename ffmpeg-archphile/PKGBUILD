@@ -78,6 +78,8 @@ build() {
     --disable-encoders \
     --disable-libxvid \
     --disable-libvpx \
+    --disable-vaapi \
+    --enable-decoders \
     --enable-avresample \
     --enable-gmp \
     --enable-gnutls \
@@ -85,13 +87,13 @@ build() {
     --enable-libgsm \
     --enable-libmodplug \
     --enable-libmp3lame \
+    --enable-swresample \
     --enable-libopus \
     --enable-libtheora \
     --enable-libvorbis \
     --enable-libxml2 \
     --enable-shared \
     --enable-version3 \
-    --enable-vaapi \
     --enable-librtmp \
     --enable-runtime-cpudetect
 
