@@ -21,7 +21,7 @@ depends=('bzip2' 'glibc' 'gmp' 'gnutls' 'gsm'
          'libtheora' 'libxml2'
          'opus'
          'xz' 'zlib'
-         'libvorbisenc.so' 'libvorbis.so'
+         'libvorbis.so'
          'rtmpdump')
 makedepends=('yasm')
 provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'

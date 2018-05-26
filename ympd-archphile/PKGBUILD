@@ -23,7 +23,7 @@ source=("git+https://github.com/superbfg7/ympd.git"
     	"ympd.service")
 
 sha256sums=('SKIP'
-	    '9ed410694cf9c88c2fd5c9df177e912e09cfc151fe254d97925d635c1bc94a0f')
+			'8cdaa3de3b2b5fef63454f7056b9e664f38388de4b51701b24a820a18a7c3014')
 
 pkgver() {
   cd "${srcdir}/${_pkgname}"
