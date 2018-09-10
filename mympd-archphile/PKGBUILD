@@ -1,0 +1,57 @@
+# Maintainer: Mike Andonov <info@archphile.org>
+# Website: http://archphile.org
+# Based on ympd-git from AUR made by the following people:
+# Maintainer: Philippe Mongeau <ph.mongeau@gmail.com>
+
+pkgname=mympd-archphile
+_pkgname=myMPD
+pkgver=3.2.1.r1.gd2438d9
+pkgrel=1
+pkgdesc="A standalone MPD Web GUI based on YMPD - Default port set to 80"
+arch=('x86_64' 'armv7h' 'aarch64')
+url="http://github.org/jcorporation"
+license=('BSD')
+depends=('libmpdclient' 'openssl')
+makedepends=('cmake' 'git')
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+install=mympd-archphile.install
+source=("git+https://github.com/jcorporation/myMPD.git"
+        "mympd.conf")
+sha256sums=('SKIP'
+            '2d2526a1aaf66e7e746cede4681e11b797411b6dc34936c7a5c7bf5a7fb9576c')
+
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  git describe --long --tags | sed -E 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/${_pkgname}"
+
+ 
+  mkdir release && cd release
+  cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
+  make
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}/release"
+  make DESTDIR="$pkgdir/" install
+  
+  install -Dm644  "${srcdir}/${_pkgname}/contrib/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
+  install -Dm644  "${srcdir}/mympd.conf" "$pkgdir/etc/mympd/mympd.conf"
+  
+  # Replacing javascript and stylesheets with minified files
+  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' ${srcdir}/${_pkgname}/htdocs/index.html > ${srcdir}/${_pkgname}/dist/htdocs/index.html
+  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}/htdocs/player.html > ${srcdir}/${_pkgname}/dist/htdocs/player.html
+  sed -i -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}/dist/htdocs/sw.min.js
+  sed -i -e 's/\/sw\.js/\/sw\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/js/mympd.min.js
+  
+  # Minifying html
+  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/index.html
+  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/player.html
+}
+
