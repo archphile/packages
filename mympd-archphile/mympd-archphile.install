@@ -1,5 +1,10 @@
 post_install() {
- chown nobody /var/lib/mympd
+
+if ! [ $(stat -c '%U:%G' /var/lib/mympd/) == 'mympd:mympd' ]
+  then
+    echo "INFO: Fixing ownership of /var/lib/mympd"
+    chown -R mympd.mympd /var/lib/mympd
+fi
 
 if [ -f /etc/mpd.conf ]
 then
