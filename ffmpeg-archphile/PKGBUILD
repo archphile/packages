@@ -31,8 +31,6 @@ conflicts=('ffmpeg')
 source=("git+https://git.ffmpeg.org/ffmpeg.git#tag=n${pkgver}")
 sha256sums=('SKIP')
 
-
-
 build() {
 
 	cd ffmpeg
