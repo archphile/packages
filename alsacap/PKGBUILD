@@ -13,7 +13,7 @@ arch=('armv7h' 'aarch64')
 license=('custom:ISC')
 url="http://www.volkerschatz.com/noise/alsa.html#alsacap"
 source=("http://www.volkerschatz.com/noise/$pkgname.tgz")
-md5sums=('19642bdffd4666caa53344271aa585e9')
+sha256sums=('b90f74e86e853ce4f209ee3f99e395f4f6606dbcd0cdfa1c165d3ea92978cbc2')
 
 build() {
     cd "$srcdir/$pkgname"

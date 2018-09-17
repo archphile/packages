@@ -9,7 +9,7 @@
 
 _pkgname=ffmpeg
 pkgname=ffmpeg-archphile
-pkgver=4.0
+pkgver=4.0.2
 pkgrel=2
 epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
@@ -28,16 +28,16 @@ provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
           'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
           'libswscale.so' 'ffmpeg')
 conflicts=('ffmpeg')
-source=("https://ffmpeg.org/releases/${_pkgname}-${pkgver}.tar.xz")
-sha256sums=('ed945daf40b124e77a685893cc025d086f638bc703183460aff49508edb3a43f')
+source=("git+https://git.ffmpeg.org/ffmpeg.git#tag=n${pkgver}")
+sha256sums=('SKIP')
 
 
-prepare() {
-  cd ${_pkgname}-${pkgver}
-}
 
 build() {
-  cd ${_pkgname}-${pkgver}
+
+	cd ffmpeg
+
+	[[ $CARCH == "armv7h" || $CARCH == "aarch64" ]] && CONFIG='--host-cflags="-fPIC"'
 
   ./configure \
     --prefix='/usr' \

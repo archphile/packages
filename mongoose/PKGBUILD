@@ -8,7 +8,7 @@
 
 pkgname=mongoose
 pkgver=5.5
-pkgrel=5
+pkgrel=6
 pkgdesc='Easy to use, powerful, embeddable web server'
 arch=('armv7h' 'aarch64')
 license=(GPL2)
@@ -18,9 +18,9 @@ url='https://github.com/cesanta/mongoose'
 source=(https://github.com/cesanta/mongoose/archive/$pkgver.tar.gz
         mongoose.conf
         mongoose.service)
-sha1sums=('6759aef533eff64b285e91c5f7cf884494c74f82'
-          '698748b41fce03f7900409ac3e4be3e82dda4898'
-          'b883250f064dc1b9d707c18356fa3e65abe435da')
+sha256sums=('2ea925667e2e8ac09c649fb4848c1702247565a9006da2a7f2b2ba378f4cd534'
+            'abd47aec59ee0b6993a8311a6e7257fe6c0ffad0f30a87989333f89cf32596ad'
+            'd6148e729e43bd8dee2e18798b80d131255ed11953fa2642827f4378e7ba80c6')
 
 build() {
   cd mongoose-$pkgver

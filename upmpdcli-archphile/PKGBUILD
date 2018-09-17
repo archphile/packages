@@ -7,7 +7,7 @@
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
 pkgver=1.2.16
-pkgrel=1
+pkgrel=2
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
 arch=('armv7h' 'aarch64')
 url="http://www.lesbonscomptes.com/upmpdcli/"
