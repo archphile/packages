@@ -32,24 +32,14 @@ echo 0 > /proc/sys/vm/swappiness
 #echo 750000 > /proc/sys/kernel/sched_min_granularity_ns
 #echo 1000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
 
-# Disable Odroid C2 heartbeat blue led
-#
-#echo default-on > /sys/class/leds/c2\:blue\:alive/trigger 
-
 # Disable HDMI for RPI
-#/opt/vc/bin/tvservice -o
-
-# IRQ affinity optimization - Do not apply it if you have a Raspberry Pi!!!
-#
-#/usr/local/bin/irq-archphile
+/opt/vc/bin/tvservice -o
 
 # set various processes to be run on specific cores 
 #for all boards
-#taskset -c -a -p 1 $(pidof mpd)
-#for Odroid C2
-#taskset -c -p 0 $(pidof ympd)
+taskset -c -a -p 1 $(pidof mpd)
 #for RPI
-#taskset -c -p 2 $(pidof ympd)
+taskset -c -p 2 $(pidof mympd)
 
 # wireless connection tweaks
 #

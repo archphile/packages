@@ -1,0 +1,12 @@
+#!/bin/bash
+
+clear
+red='\e[0;31m'
+NC='\e[0m'
+
+echo -e "${red}Backing up MPD database...${NC}" 
+systemctl stop mpd
+cp /var/lib/mpd/mpd.db /opt/dbackup/
+systemctl start mpd
+systemctl daemon-reload
+echo -e "${red}MPD database backup finished. You will find mpd.db in /opt/dbackup...${NC}" 
