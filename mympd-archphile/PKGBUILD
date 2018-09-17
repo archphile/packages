@@ -45,13 +45,13 @@ package() {
   install -Dm644  "${srcdir}/mympd.conf" "$pkgdir/etc/mympd/mympd.conf"
   
   echo "Replacing javascript and stylesheets with minified files"
-  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/htdocs/index.html > ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/index.html
-  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/htdocs/player.html > ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/player.html
-  sed -i -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/sw.min.js
-  sed -i -e 's/\/sw\.js/\/sw\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/js/mympd.min.js
+  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/htdocs/index.html > ${srcdir}/${_pkgname}/dist/htdocs/index.html
+  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}-${pkgver}/htdocs/player.html > ${srcdir}/${_pkgname}/dist/htdocs/player.html
+  sed -i -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}/dist/htdocs/sw.min.js
+  sed -i -e 's/\/sw\.js/\/sw\.min\.js/' ${srcdir}/${_pkgname}/dist/htdocs/js/mympd.min.js
   
   echo "Minifying html"
-  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/index.html
-  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}-${pkgver}/dist/htdocs/player.html
+  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}/dist/htdocs/index.html
+  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}/dist/htdocs/player.html
 }
 
