@@ -100,7 +100,7 @@ build() {
 }
 
 package() {
-  cd ${_pkgname}-${pkgver}
+  cd ${_pkgname}
 
   make DESTDIR="${pkgdir}" install install-man
 }
