@@ -40,10 +40,11 @@ echo 0 > /proc/sys/vm/swappiness
 #/usr/local/bin/hub-ctrl -h 0 -P 2 -p 0
 
 # set various processes to be run on specific cores 
-#for all boards
 taskset -c -a -p 1 $(pidof mpd)
-#for RPI
 taskset -c -p 2 $(pidof mympd)
+
+# set 100M full duplex with auto negotiation enabled
+/sbin/ethtool -s eth0 speed 100 duplex full autoneg on
 
 # wireless connection tweaks
 #
