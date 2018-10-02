@@ -5,53 +5,37 @@
 
 pkgname=mympd-archphile
 _pkgname=myMPD
-pkgver=3.2.1.r1.gd2438d9
+pkgver=4.3.0
 pkgrel=1
 pkgdesc="A standalone MPD Web GUI based on YMPD - Default port set to 80"
 arch=('x86_64' 'armv7h' 'aarch64')
 url="http://github.org/jcorporation"
 license=('BSD')
 depends=('libmpdclient' 'openssl')
-makedepends=('cmake' 'git')
+makedepends=('cmake')
 optdepends=()
 provides=()
 conflicts=()
 replaces=()
 install=mympd-archphile.install
-source=("git+https://github.com/jcorporation/myMPD.git"
+source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
-sha256sums=('SKIP'
-            '2d2526a1aaf66e7e746cede4681e11b797411b6dc34936c7a5c7bf5a7fb9576c')
-
-pkgver() {
-  cd "${srcdir}/${_pkgname}"
-  git describe --long --tags | sed -E 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
-}
+sha256sums=('fc099068df1b40abea25cc12234ae7fc369f08088645d2d576988139f4970aec'
+            '9e299cde127d395edd2ce810cf8a1432c8bbd392805d22b9ef091bbf6d5e5849'
 
 build() {
-  cd "${srcdir}/${_pkgname}"
-
- 
-  mkdir release && cd release
-  cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  
+  [ -d release ] || mkdir release
+  cd release
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
   make
 }
 
 package() {
-  cd "${srcdir}/${_pkgname}/release"
+  cd "${srcdir}/${_pkgname}-${pkgver}/release"
   make DESTDIR="$pkgdir/" install
-  
-  install -Dm644  "${srcdir}/${_pkgname}/contrib/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
-  install -Dm644  "${srcdir}/mympd.conf" "$pkgdir/etc/mympd/mympd.conf"
-  
-  echo "Replacing javascript and stylesheets with minified files"
-  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' ${srcdir}/${_pkgname}/htdocs/index.html > ${srcdir}/${_pkgname}/dist/htdocs/index.html
-  sed -e 's/mympd\.css/mympd\.min\.css/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}/htdocs/player.html > ${srcdir}/${_pkgname}/dist/htdocs/player.html
-  sed -i -e 's/mympd\.css/mympd\.min\.css/' -e 's/mympd\.js/mympd\.min\.js/' -e 's/player\.js/player\.min\.js/' ${srcdir}/${_pkgname}/dist/htdocs/sw.min.js
-  sed -i -e 's/\/sw\.js/\/sw\.min\.js/' ${srcdir}/${_pkgname}/dist/htdocs/js/mympd.min.js
-  
-  echo "Minifying html"
-  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}/dist/htdocs/index.html
-  perl -i -pe 's/^\s*//gm; s/\s*$//gm' ${srcdir}/${_pkgname}/dist/htdocs/player.html
-}
 
+  install -Dm644  "${srcdir}/${_pkgname}-${pkgver}/contrib/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
+  install -Dm644  ../../../mympd.conf "$pkgdir/etc/mympd/mympd.conf" 
+}
