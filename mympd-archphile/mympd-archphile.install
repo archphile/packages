@@ -1,17 +1,56 @@
 post_install() {
+  post_upgrade;
+}
 
-if ! [ $(stat -c '%U:%G' /var/lib/mympd/) == 'mympd:mympd' ]
+post_upgrade() {
+  # create mympd user, group if not already existing
+  echo "INFO: Checking status of mympd system user and group"
+  getent group mympd > /dev/null
+  [ "$?" = "2" ] && groupadd --system mympd
+  getent passwd mympd > /dev/null
+  [ "$?" = "2" ] && useradd --system -d /var/lib/mympd -s /usr/sbin/nologin -g mympd mympd
+
+  # fix ownership of /var/lib/mympd
+  echo "INFO: Fixing ownership of /var/lib/mympd"
+  chown -R mympd.mympd /var/lib/mympd
+
+  # link music directory to mympd if not already exising 
+  echo "INFO: Trying to link musicdir to library"
+  if [ -f /etc/mpd.conf ]
   then
-    echo "INFO: Fixing ownership of /var/lib/mympd"
-    chown -R mympd.mympd /var/lib/mympd
-fi
+    LIBRARY=$(grep ^music_directory /etc/mpd.conf | awk {'print $2'} | sed -e 's/"//g')
+    [ "$LIBRARY" != "" ] && [ ! -e /usr/share/mympd/htdocs/library ] && ln -s "$LIBRARY" /usr/share/mympd/htdocs/library
+  else
+    echo "/etc/mpd.conf not found, you must link your musicdir manually to /usr/share/mympd/htdocs/library"
+  fi
 
-if [ -f /etc/mpd.conf ]
-then
-  LIBRARY=$(grep music /etc/mpd.conf | awk {'print $2'} | sed -e 's/"//g')
-  [ "$LIBRARY" != "" ] && [ ! -e /usr/share/mympd/htdocs/library ] && ln -s $LIBRARY /usr/share/mympd/htdocs/library
-else
-  echo "/etc/mpd.conf not found, you must link your musicdir manually to /usr/share/mympd/htdocs/library"
-fi
+} 
 
+post_remove() {
+  # stop and remove systemd service
+  systemctl daemon-reload
+  if `systemctl is-active --quiet mympd`
+    then
+    echo "stopping mympd.service" && systemctl stop mympd 
+  fi
+  echo "disabling mympd.service" && systemctl disable mympd 
+ 
+  # backup config 
+  if [ -f /etc/mympd/mympd.conf ]
+  then 
+    mv /etc/mympd/mympd.conf /etc/mympd/mympd.conf.pacsave
+    echo -e "\e[93mINFO\e[0m: /etc/mympd/mympd.conf backed up to /etc/mympd/mympd.conf.pacsave"
+  fi
+
+  # remove mympd user and group
+  getent passwd mympd > /dev/null
+  echo -e "\e[93mWARNING\e[0m: Removing \e[1mmympd \e[0muser and group!"
+  [ "$?" != "2" ] && userdel -r mympd
+  getent group mympd > /dev/null
+  [ "$?" != "2" ] && groupdel mympd 
+
+  # remove leftover directories
+  rm -v -f /usr/share/mympd/htdocs/library
+  rmdir -v /usr/share/mympd/htdocs/
+  rmdir -v /usr/share/mympd/
 }
