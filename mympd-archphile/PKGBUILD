@@ -21,7 +21,7 @@ install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
 sha256sums=('fc099068df1b40abea25cc12234ae7fc369f08088645d2d576988139f4970aec'
-            '9e299cde127d395edd2ce810cf8a1432c8bbd392805d22b9ef091bbf6d5e5849'
+            '9e299cde127d395edd2ce810cf8a1432c8bbd392805d22b9ef091bbf6d5e5849')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
