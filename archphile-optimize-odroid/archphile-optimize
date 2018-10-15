@@ -4,11 +4,9 @@
 /usr/bin/unmute
 
 # please replace x with the id of your device 
-#
-# for further information visit http://archphile.org/howto/troubleshooting-pops-and-clicks
 #echo -n "x-x.x:x.x" > /sys/bus/usb/drivers/usbhid/unbind
 
-# this command sets noop scheduler during boot
+# this command sets deadline scheduler during boot
 #
 #echo mq-deadline > /sys/block/mmcblk0/queue/scheduler
 
