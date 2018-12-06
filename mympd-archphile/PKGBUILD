@@ -5,7 +5,7 @@
 
 pkgname=mympd-archphile
 _pkgname=myMPD
-pkgver=4.5.1
+pkgver=4.7.1
 pkgrel=1
 pkgdesc="A standalone MPD Web GUI based on YMPD - Default port set to 80"
 arch=('x86_64' 'armv7h' 'aarch64')
@@ -20,8 +20,8 @@ replaces=()
 install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
-sha256sums=('e15efa1d1a1daf05f218e7a583e75a4ba5141d3ee802d9ba301d7ced5157a8f8'
-            '505d80e5278db3f4cce64f6ce6cc39bb185cd8229694e773a3363e5aadf6467f')
+sha256sums=('0bf8168c248175cbc4b6f6e5d06c6b31140eb9715960139e55ea08abe8cf5a74'
+            '33e560333d37818f4a949f3afd9d4dae6a52f48e47cccf6029ad3548abd20978')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
