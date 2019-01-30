@@ -8,7 +8,7 @@
 
 pkgname=mongoose
 pkgver=5.5
-pkgrel=6
+pkgrel=7
 pkgdesc='Easy to use, powerful, embeddable web server'
 arch=('armv7h' 'aarch64')
 license=(GPL2)

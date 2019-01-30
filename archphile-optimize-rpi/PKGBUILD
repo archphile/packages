@@ -3,7 +3,7 @@
 
 pkgname=archphile-optimize-rpi
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution - RPI version"
 arch=('any')
 url="http://archphile.org"

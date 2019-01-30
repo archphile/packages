@@ -10,7 +10,7 @@
 
 pkgname=mpdscribble
 pkgver=0.22
-pkgrel=4
+pkgrel=5
 pkgdesc='MPD client which submits track info to {Libre,Last}.fm'
 url='http://mpd.wikia.com/wiki/Client:Mpdscribble'
 arch=('armv7h' 'aarch64')

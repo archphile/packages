@@ -7,7 +7,7 @@
 pkgname=libupnpp-archphile
 _pkgname=libupnpp
 pkgver=0.16.1
-pkgrel=5
+pkgrel=6
 pkgdesc="A C++ wrapper for libupnp - used with upmpdcli or upplay"
 url="http://www.lesbonscomptes.com/upplay/downloads.html"
 arch=('armv7h' 'aarch64')
