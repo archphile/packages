@@ -6,23 +6,23 @@
 
 pkgname=libupnpp-archphile
 _pkgname=libupnpp
-pkgver=0.16.1
-pkgrel=6
+pkgver=0.17.0
+pkgrel=1
 pkgdesc="A C++ wrapper for libupnp - used with upmpdcli or upplay"
 url="http://www.lesbonscomptes.com/upplay/downloads.html"
-arch=('armv7h' 'aarch64')
-license=('GPL2')
-depends=('libupnp' 'expat' 'curl')
+arch=(armv7h aarch64)
+license=(GPL2)
+depends=(libupnp expat curl)
 source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz")
-sha256sums=('d2ab5a4bb6df035ddddd11542bd4631ab7031354259145f07fbc3c56a8f50fac')
+sha256sums=('7035dda48207c254cbd8cd64e4e679a9e5f085a35d28c19bc2ddeba0deaff58b')
 
 build(){
-	cd "${_pkgname}-${pkgver}"
-	./configure --prefix=/usr
-	make
+    cd "${pkgname}-${pkgver}"
+    ./configure --prefix=/usr
+    make
 }
 
 package(){
-	cd "${_pkgname}-${pkgver}"
-	make DESTDIR="$pkgdir" install
+    cd "${pkgname}-${pkgver}"
+    make DESTDIR="$pkgdir" install
 }

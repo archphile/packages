@@ -6,19 +6,19 @@
 
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
-pkgver=1.2.16
-pkgrel=2
+pkgver=1.4.0
+pkgrel=1
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
-arch=('armv7h' 'aarch64')
+arch=('i686' 'x86_64' 'armv7h' 'armv6h')
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license=('GPL2')
-depends=('libmpdclient' 'libupnpp-archphile>=0.15.3' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat' 'python2' 'python2-requests')
+depends=('libmpdclient' 'libupnpp-archphile>=0.17.0' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat' 'python-requests' 'recoll' 'python-bottle' 'python-mutagen' 'mutagen' 'aspell-en' 'id3lib' 'python-waitress' 'sqlite3') 
 optdepends=('python2: OpenHome Radio Service')
 install=upmpdcli.install
 source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz"
 	'upmpdcli.conf'
 	'archphile.png')
-sha256sums=('b0dfd33cd5c1c2e4f770660c12d7303b6d8b3fdca4f63530c6a235ce279a9d98'
+sha256sums=('28742910fa16b72f0c4e5b7dc561f59aa7f1a5fdd3e8e4f72f359d2e4af90d35'
 	    '71ee743d0a12c8adcab5cb1cb111a89058eee0110496af90f28350c1d3a64db0'
             '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
 backup=('etc/upmpdcli.conf')
@@ -32,9 +32,6 @@ build() {
 package() {
   cd "$srcdir/$_pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
-  mkdir -p ${pkgdir}/etc/
-  cp ../../upmpdcli.conf ${pkgdir}/etc/
-  cp ../../archphile.png ${pkgdir}/usr/share/upmpdcli/
   install -Dm644 systemd/upmpdcli.service ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
   sed '/\[Service\]/a User=upmpdcli' -i ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
 }
