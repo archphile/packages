@@ -4,15 +4,16 @@
 buildarch=8
 
 pkgbase=linux-aarch64-archphile
-_srcname=linux-4.18
+_srcname=linux-4.20
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
-pkgver=4.18.9
+pkgver=4.20.8
 pkgrel=1
 arch=('aarch64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'vboot-utils' 'dtc')
+replaces=('linux-aarch64')
 options=('!strip')
 source=("http://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
@@ -26,14 +27,14 @@ source=("http://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         'kernel_data_key.vbprivk'
         'linux.preset'
         '99-linux.hook')
-md5sums=('bee5fe53ee1c3142b8f0c12c0d3348f9'
-         '0f4c59c6427fb4f698771a7c851740ec'
-         'be4199c685434f12190bb627bb714ff2'
-         'b4d613a58a28445ce8363d734be3b971'
-         'b9bec2a58df6dff282df758edf8f526e'
-         '9915046e15f82e917bc98c7721e63ac4'
-         '910b7383c8d88d34913ab746ec4b0e6e'
-         '11a4f35c50f0bde59c30182aa7b797b7'
+md5sums=('d39dd4ba2d5861c54b90d49be19eaf31'
+         '737555b69c43ef91956733d89d7457a5'
+         'bca1ec27cc134ad3072dc7aa3ba97e10'
+         'f23af9d37f3d6ac18f95be65a798145d'
+         'b898b0199c7ded6d93e5f0f97568d3bc'
+         '5d31dd54a7e038e12bbeefa124907233'
+         '38e8d478b72e09dbd952638dc4cf348e'
+         '7f1a96e24f5150f790df94398e9525a3'
          '61c5ff73c136ed07a7aadbf58db3d96a'
          '584777ae88bce2c5659960151b64c7d8'
          'b5ef67d6086e20de7b82265f562f88b1'
@@ -158,7 +159,6 @@ _package() {
 _package-headers() {
   pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
   provides=("linux-headers=${pkgver}")
-  replaces=('linux-armv8-headers')
   conflicts=('linux-headers')
 
   install -dm755 "${pkgdir}/usr/lib/modules/${_kernver}"
