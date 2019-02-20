@@ -10,10 +10,6 @@ post_upgrade() {
   getent passwd mympd > /dev/null
   [ "$?" = "2" ] && useradd --system -d /var/lib/mympd -s /usr/sbin/nologin -g mympd mympd
 
-  # fix ownership of /var/lib/mympd
-  echo "INFO: Fixing ownership of /var/lib/mympd"
-  chown -R mympd.mympd /var/lib/mympd
-
   # link music directory to mympd if not already exising 
   echo "INFO: Trying to link musicdir to library"
   if [ -f /etc/mpd.conf ]
@@ -24,7 +20,76 @@ post_upgrade() {
     echo "/etc/mpd.conf not found, you must link your musicdir manually to /usr/share/mympd/htdocs/library"
   fi
 
-} 
+  echo "Linking pics directory"
+  [ -e /usr/share/mympd/htdocs/pics ] || ln -s /var/lib/mympd/pics /usr/share/mympd/htdocs/
+
+  # install systemd service
+  echo "INFO: Installing systemd service"
+  if [ -d /etc/systemd/system ]
+  then
+    echo "INFO: reloading systemd"
+    systemctl daemon-reload
+    if [ ! -f /etc/systemd/system/multi-user.target.wants/mympd.service ]
+    then
+      echo "INFO: enabling mympd.service"
+      systemctl enable mympd
+    fi
+  fi
+
+  # create ssl certificates unless already existing
+  if [ -d /etc/mympd/ssl ]
+  then
+    echo "INFO: Certificates already created"
+  else
+    echo "INFO: Creating certificates"
+    /usr/share/mympd/crcert.sh
+  fi
+
+  # move smartpls into place unless already existing
+  for PLDIST in /var/lib/mympd/smartpls/*.dist
+  do
+    if [ -f "$PLDIST" ]
+    then
+      PLS=$(basename $PLDIST .dist)
+      if [ -f /var/lib/mympd/smartpls/$PLS ]
+      then
+        rm $PLDIST
+      else
+        mv -v $PLDIST /var/lib/mympd/smartpls/$PLS
+      fi
+    fi
+  done
+
+  #default state files
+  [ -f /var/lib/mympd/state/jukeboxMode ] || echo -n "0" > /var/lib/mympd/state/jukeboxMode
+  [ -f /var/lib/mympd/state/jukeboxPlaylist ] || echo -n "Database" > /var/lib/mympd/state/jukeboxPlaylist
+  [ -f /var/lib/mympd/state/jukeboxQueueLength ] || echo -n "1" > /var/lib/mympd/state/jukeboxQueueLength
+  [ -f /var/lib/mympd/state/autoPlay ] || echo -n "false" > /var/lib/mympd/state/autoPlay
+  [ -f /var/lib/mympd/state/notificationPage ] || echo -n "true" > /var/lib/mympd/state/notificationPage
+  [ -f /var/lib/mympd/state/notificationWeb ] || echo -n "false" > /var/lib/mympd/state/notificationWeb
+  [ -f /var/lib/mympd/state/colsBrowseDatabase ] || echo -n '["Track","Title","Duration"]' > /var/lib/mympd/state/colsBrowseDatabase
+  [ -f /var/lib/mympd/state/colsPlayback ] || echo -n '["Artist","Album","Genre"]' > /var/lib/mympd/state/colsPlayback
+  [ -f /var/lib/mympd/state/colsBrowseFilesystem ] || echo -n '["Type","Title","Artist","Album","Duration"]' > /var/lib/mympd/state/colsBrowseFilesystem
+  [ -f /var/lib/mympd/state/colsBrowsePlaylistsDetail ] || echo -n '["Pos","Title","Artist","Album","Duration"]' > /var/lib/mympd/state/colsBrowsePlaylistsDetail
+  [ -f /var/lib/mympd/state/colsQueueCurrent ] || echo -n '["Pos","Title","Artist","Album","Duration"]' > /var/lib/mympd/state/colsQueueCurrent
+  [ -f /var/lib/mympd/state/colsSearch ] || echo -n '["Title","Artist","Album","Duration"]' > /var/lib/mympd/state/colsSearch
+  [ -f /var/lib/mympd/state/colsQueueLastPlayed ] || echo -n '["Pos","Title","Artist","Album","LastPlayed"]' > /var/lib/mympd/state/colsQueueLastPlayed
+
+  # fix ownership of /var/lib/mympd
+  echo "INFO: Fixing ownership of /var/lib/mympd"
+  chown -R mympd.mympd /var/lib/mympd
+
+  # move config into place unless already existing
+  if [ ! -f /etc/mympd/mympd.conf ]
+  then 
+    mv /etc/mympd/mympd.conf.dist /etc/mympd/mympd.conf
+  else
+    echo -e "\e[93mWARNING\e[0m: \e[1mmympd.conf \e[0minstalled as \e[1mmympd.conf.dist\e[0m"
+  fi
+
+  # installation complete
+  echo -e "\e[93mWARNING\e[0m: Edit \e[1m/etc/mympd/mympd.conf \e[0mbefore starting myMPD"
+}
 
 post_remove() {
   # stop and remove systemd service
@@ -42,14 +107,8 @@ post_remove() {
     echo -e "\e[93mINFO\e[0m: /etc/mympd/mympd.conf backed up to /etc/mympd/mympd.conf.pacsave"
   fi
 
-  # remove mympd user and group
-  getent passwd mympd > /dev/null
-  echo -e "\e[93mWARNING\e[0m: Removing \e[1mmympd \e[0muser and group!"
-  [ "$?" != "2" ] && userdel -r mympd
-  getent group mympd > /dev/null
-  [ "$?" != "2" ] && groupdel mympd 
-
   # remove leftover directories
+  rm -v -f /usr/share/mympd/htdocs/pics
   rm -v -f /usr/share/mympd/htdocs/library
   rmdir -v /usr/share/mympd/htdocs/
   rmdir -v /usr/share/mympd/
