@@ -81,7 +81,7 @@ build() {
 	       '-Dmms=disabled'
 	       '-Dnfs=disabled'
 	       '-Dsmbclient=disabled'
-	       '-Dhttpd=disabled'
+	       '-Dhttpd=false'
 	       '-Doss=disabled'
 	       '-Dmikmod=disabled'
 	       '-Dmodplug=disabled'
