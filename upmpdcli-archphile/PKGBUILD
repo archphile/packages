@@ -9,7 +9,7 @@ _pkgname=upmpdcli
 pkgver=1.4.0
 pkgrel=1
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
-arch=('i686' 'x86_64' 'armv7h' 'armv6h')
+arch=('armv7h' 'aarch64')
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license=('GPL2')
 depends=('libmpdclient' 'libupnpp-archphile>=0.17.0' 'libmicrohttpd' 'jsoncpp' 'curl' 'expat' 'python-requests' 'recoll' 'python-bottle' 'python-mutagen' 'mutagen' 'aspell-en' 'id3lib' 'python-waitress' 'sqlite3') 
