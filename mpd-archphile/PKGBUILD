@@ -24,11 +24,13 @@ provides=("mpd=$pkgver")
 conflicts=('mpd')
 replaces=('mpd')
 source=("https://www.musicpd.org/download/mpd/${_majorver}/mpd-${pkgver}.tar.xz"
-        'mpd.tmpfile'
+        'tmpfiles.d'
+        'sysusers.d'
         'mpd.conf')
 sha256sums=('247112eabf1b818a4052db7f0f5917ab00831ebc60a1ec3bf1154da4dc16a5c7'
-            'c1683ba35774c85e16c70e89f7e2ed1c09619512b1a273daabbd5e34d40439bd'
-            'e213c108cd0e076b5cc07091707ef75d74d9ac8c779d0c0128cd0aa69617f8a0')
+            '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
+            '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
+            'b47ece93a405fcf7c5ce7c94ccdaac2f682efa30d89e3c7aad002d951e09207b')
 backup=('etc/mpd.conf')
 
 prepare() {
@@ -45,8 +47,8 @@ build() {
 	       '-Daudiofile=enabled'
 	       '-Dsndfile=enabled'
 	       '-Dffmpeg=enabled'
-	       '-Dzeroconf=enabled'
-               '-Dpipe=enabled'
+	       '-Dzeroconf=avahi'
+               '-Dpipe=true'
                '-Dwavpack=enabled'
                '-Dlibmpdclient=enabled'
                '-Dmad=enabled'
@@ -72,7 +74,6 @@ build() {
                '-Dvorbisenc=disabled'
                '-Dlame=disabled'
                '-Dtwolame=disabled'
-               '-Dshine=disabled'
                '-Dwave_encoder=false'
                '-Dwildmidi=disabled'
                '-Dlibsamplerate=disabled'
