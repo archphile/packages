@@ -74,9 +74,13 @@ build() {
 	       '-Dhttpd=false'
 	       '-Dmikmod=disabled'
 	       '-Dmpg123=disabled'
-	       '-Dchromaprint=disabled' # appears not to be used for anything
-	       '-Dsndio=disabled' # interferes with detection of alsa devices
-	       '-Dshine=disabled' # not in an official repo
+	       '-Dchromaprint=disabled'
+	       '-Dsndio=disabled' 
+	       '-Dshine=disabled' 
+	       '-Dyajl=disabled' 		
+	       '-Dopenal=disabled'
+ 	       '-Dadplug=disabled' 
+ 	       '-Dmpcdec=disabled' 
 
 	)
 	arch-meson --auto-features auto  .. ${_opts[@]}
