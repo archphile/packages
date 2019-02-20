@@ -13,7 +13,7 @@ pkgname=mpd-archphile
 _pkgname=mpd
 _majorver=0.21
 pkgver=0.21.4
-ppkgrel=1
+pkgrel=1
 pkgdesc='Flexible, powerful, server-side application for playing music. Light version without ao, ffmpeg, jack, modplug, pulse, shout, sidplay, soundcloud, wavpack, avahi, smbclient and zziplib support.'
 url='https://www.musicpd.org/'
 license=('GPL')
@@ -30,7 +30,6 @@ sha256sums=('247112eabf1b818a4052db7f0f5917ab00831ebc60a1ec3bf1154da4dc16a5c7'
             'c1683ba35774c85e16c70e89f7e2ed1c09619512b1a273daabbd5e34d40439bd'
             'e213c108cd0e076b5cc07091707ef75d74d9ac8c779d0c0128cd0aa69617f8a0')
 backup=('etc/mpd.conf')
-install=mpd.install
 
 prepare() {
 	cd "${srcdir}/mpd-${pkgver}"

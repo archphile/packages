@@ -17,7 +17,7 @@ source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.
 sha256sums=('7035dda48207c254cbd8cd64e4e679a9e5f085a35d28c19bc2ddeba0deaff58b')
 
 build(){
-    cd "${pkgname}-${pkgver}"
+    cd "${_pkgname}-${pkgver}"
     ./configure --prefix=/usr
     make
 }
