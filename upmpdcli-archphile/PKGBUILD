@@ -19,7 +19,7 @@ source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.
 	'upmpdcli.conf'
 	'archphile.png')
 sha256sums=('28742910fa16b72f0c4e5b7dc561f59aa7f1a5fdd3e8e4f72f359d2e4af90d35'
-	    '71ee743d0a12c8adcab5cb1cb111a89058eee0110496af90f28350c1d3a64db0'
+	    '5fa004b05b811fc0b1d1f71f374a50de9726dcaef82912ffc2af5510a8f1618c'
             '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
 backup=('etc/upmpdcli.conf')
 
@@ -32,6 +32,9 @@ build() {
 package() {
   cd "$srcdir/$_pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
+  mkdir -p ${pkgdir}/etc/
+  cp ../../upmpdcli.conf ${pkgdir}/etc/
+  cp ../../archphile.png ${pkgdir}/usr/share/upmpdcli/
   install -Dm644 systemd/upmpdcli.service ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
   sed '/\[Service\]/a User=upmpdcli' -i ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
 }
