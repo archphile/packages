@@ -28,4 +28,4 @@ package ()
   python3 setup.py install --prefix=/usr --root="$pkgdir" --optimize=1
 }
 
-# vim: set ts=2 sw=2 et:
+#gpg --keyserver pool.sks-keyservers.net --recv-keys 1D1F0DC78F173680

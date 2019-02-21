@@ -17,11 +17,11 @@ optdepends=()
 provides=()
 conflicts=()
 replaces=()
-install=contrib/archlinux.install
+install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
 sha256sums=('b22556e3503c532c9ab5fdcdd24bb91a6c6025207567b723bf73ee6f4e7ddd19'
-            '6703004a8456208e0751fad47d8a4fda57d019d21a83506b83d764e63686cb24')
+            '084c3327384dd6e891b9358027f713023e427db3241dc1d8b5e17f03c027bf56')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
