@@ -51,10 +51,10 @@ taskset -c -p 0 $(pidof mympd)
 # local cover art support
 #
 # uncomment below if you use Mpdroid. The path to music is http://xxx.xxx.xxx.xxx:8080/music/
-#mongoose -listening_port 8080 -document_root /var/www/covers
+#quickserve -p 8080 /var/www/covers
 #
 # uncomment below if you use Mpod or Mpad. Please change the cover server address to http://xxx.xxx.xxx.xxx:8080
-#mongoose -listening_port 8080 -document_root /var/www/Music
+#quickserve -p 8080 /var/www/Music
 
 
 
