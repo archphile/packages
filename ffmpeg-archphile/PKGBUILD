@@ -9,7 +9,7 @@
 
 _pkgname=ffmpeg
 pkgname=ffmpeg-archphile
-pkgver=4.1
+pkgver=4.1.1
 pkgrel=1
 epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
