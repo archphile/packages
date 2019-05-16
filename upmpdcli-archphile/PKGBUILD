@@ -36,7 +36,7 @@ package() {
   cp ../../upmpdcli.conf ${pkgdir}/etc/
   chmod 644 ${pkgdir}/etc/upmpdcli.conf
   cp ../../archphile.png ${pkgdir}/usr/share/upmpdcli/
-  install -Dm644 systemd/upmpdcli.service ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
-  sed '/\[Service\]/a User=upmpdcli' -i ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
-  sed -i '/^After/ s/$/ mpd.service/' ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
+  install -Dm644 systemd/upmpdcli.service ${pkgdir}/usr/lib/systemd/{system,user}/upmpdcli.service
+  sed '/\[Service\]/a User=upmpdcli' -i ${pkgdir}/usr/lib/systemd/{system,user}/upmpdcli.service
+  sed -i '/^After/ s/$/ mpd.service/' ${pkgdir}/usr/lib/systemd/{system,user}/upmpdcli.service
 }
