@@ -6,7 +6,7 @@
 
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
-pkgver=1.4.0
+pkgver=1.4.2
 pkgrel=1
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
 arch=('armv7h' 'aarch64')
@@ -18,7 +18,7 @@ install=upmpdcli.install
 source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz"
 	'upmpdcli.conf'
 	'archphile.png')
-sha256sums=('28742910fa16b72f0c4e5b7dc561f59aa7f1a5fdd3e8e4f72f359d2e4af90d35'
+sha256sums=('1d4489e76416b9cff2e98a68243d56bf46303890752ac18db382be2859b62bc3'
 	    '5fa004b05b811fc0b1d1f71f374a50de9726dcaef82912ffc2af5510a8f1618c'
             '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
 backup=('etc/upmpdcli.conf')
@@ -34,7 +34,9 @@ package() {
   make DESTDIR="$pkgdir" install
   mkdir -p ${pkgdir}/etc/
   cp ../../upmpdcli.conf ${pkgdir}/etc/
+  chmod 644 ${pkgdir}/etc/upmpdcli.conf
   cp ../../archphile.png ${pkgdir}/usr/share/upmpdcli/
   install -Dm644 systemd/upmpdcli.service ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
   sed '/\[Service\]/a User=upmpdcli' -i ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
+  sed -i '/^After/ s/$/ mpd.service/' ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
 }

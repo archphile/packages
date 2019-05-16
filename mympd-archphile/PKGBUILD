@@ -5,7 +5,7 @@
 
 pkgname=mympd-archphile
 _pkgname=myMPD
-pkgver=5.1.0
+pkgver=5.3.1
 pkgrel=1
 pkgdesc="myMPD is a standalone and mobile friendly web mpdclient."
 arch=('armv7h' 'aarch64')
@@ -13,7 +13,7 @@ url="http://github.org/jcorporation/myMPD"
 license=('GPL')
 depends=('libmpdclient' 'openssl')
 makedepends=('cmake')
-optdepends=()
+optdepends=('libmediainfo')
 provides=()
 conflicts=()
 replaces=()
@@ -21,21 +21,30 @@ install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
 sha256sums=('e36ead9242973b6b75812f6054540e97a6212f90da716ca7ead19efff9f24581'
-            '084c3327384dd6e891b9358027f713023e427db3241dc1d8b5e17f03c027bf56')
+            '6f622828c9c1e4e3258a444e25fbdec9c86bdcf7302012164929a02694aba6f9')
 
 build() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
-  
-  [ -d release ] || mkdir release
+  if [ -d "${srcdir}/${_pkgname}-${pkgver}" ]
+  then
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+  else
+    cd "${srcdir}"
+  fi
+  install -d release
   cd release
   cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
   make
 }
 
 package() {
-  cd "${srcdir}/${_pkgname}-${pkgver}/release"
+  if [ -d "${srcdir}/${_pkgname}-${pkgver}/release" ]
+  then
+    cd "${srcdir}/${_pkgname}-${pkgver}/release"
+  else
+    cd "${srcdir}/release"
+  fi
   make DESTDIR="$pkgdir/" install
 
-  install -Dm644  "${srcdir}/${_pkgname}-${pkgver}/contrib/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
+  install -Dm644  "$pkgdir/usr/share/mympd/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
   install -Dm644  ../../../mympd.conf "$pkgdir/etc/mympd/mympd.conf" 
 }
