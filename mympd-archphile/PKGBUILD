@@ -21,17 +21,17 @@ install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
 sha256sums=('e54a588c38d9bb59d5d6cd387450b1c28c3a4479e9f58088773097c021921055'
-            '12e64af6b030c2c6fd196ca59d1e748a9da947565450c46d7e255106811c579e')
+            '2cded5e88f6dcc97ad6aea664c90dc84a2b23c99de4a96ffbabcb70b4c2eb7a9')
 
 build() {
   if [ -d "${srcdir}/${_pkgname}-${pkgver}" ]
   then
-    cd "${srcdir}/${_pkgname}-${pkgver}"
+    cd "${srcdir}/${_pkgname}-${pkgver}" || exit 1
   else
-    cd "${srcdir}"
+    cd "${srcdir}" || exit 1
   fi
   install -d release
-  cd release
+  cd release || exit 1
   cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
   make
 }
@@ -47,4 +47,13 @@ package() {
 
   install -Dm644  "$pkgdir/usr/share/mympd/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
   install -Dm644  ../../../mympd.conf "$pkgdir/etc/mympd/mympd.conf" 
+
+## Mympd Settings (alternative to mympd.conf)
+#  echo -n "#FFF" > "$pkgdir/var/lib/mympd/state/bg_color"
+#  echo -n "true" > "$pkgdir/var/lib/mympd/state/coverimage"
+#  echo -n "Folder.jpg" > "$pkgdir/var/lib/mympd/state/coverimage_name"
+#  echo -n "240" > "$pkgdir/var/lib/mympd/state/coverimage_size"
+#  echo -n "/var/lib/mpd/music" > "$pkgdir/var/lib/mympd/state/music_directory"
+#  chown mympd:mympd "$pkgdir/var/lib/mympd/state/*"
+#  chmod 600 "$pkgdir/var/lib/mympd/state/*"
 }
