@@ -16,7 +16,7 @@ pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
 arch=('armv7h' 'aarch64' 'x86_64')
 url='http://ffmpeg.org/'
 license=('GPL3')
-depends=('bzip2' 'glibc' 'gmp' 'gnutls' 'gsm'
+depends=('bzip2' 'glibc' 'gnutls'
          'lame' 'libmodplug'
          'libtheora' 'libxml2'
          'opus'
@@ -82,9 +82,9 @@ build() {
     --disable-libxvid \
     --disable-libvpx \
     --disable-vaapi \
+    --disable-gmp \
     --enable-decoders \
     --enable-avresample \
-    --enable-gmp \
     --enable-gnutls \
     --enable-gpl \
     --enable-libgsm \
