@@ -5,7 +5,7 @@
 
 pkgname=mympd-archphile
 _pkgname=myMPD
-pkgver=5.5.0
+pkgver=5.5.1
 pkgrel=1
 pkgdesc="myMPD is a standalone and mobile friendly web mpdclient."
 arch=('armv7h' 'aarch64')
@@ -20,7 +20,7 @@ replaces=()
 install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
-sha256sums=('e54a588c38d9bb59d5d6cd387450b1c28c3a4479e9f58088773097c021921055'
+sha256sums=('18b9117a1a0e8b3262612fad47e15b79b0e5ff3f99cf4a861fc2b6fbb4fd80e8'
             '2cded5e88f6dcc97ad6aea664c90dc84a2b23c99de4a96ffbabcb70b4c2eb7a9')
 
 build() {
