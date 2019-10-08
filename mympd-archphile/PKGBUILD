@@ -5,7 +5,7 @@
 
 pkgname=mympd-archphile
 _pkgname=myMPD
-pkgver=5.5.3
+pkgver=5.6.1
 pkgrel=1
 pkgdesc="myMPD is a standalone and mobile friendly web mpdclient."
 arch=('armv7h' 'aarch64')
@@ -20,17 +20,11 @@ replaces=()
 install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz"
         "mympd.conf")
-sha256sums=('48009064371a03ad9bd97caff08b5e3f4642ff4008814c860e343a0a79b4962a'
+sha256sums=('301207cc87eab1c17549a0697a9bc737e1b1404be6347ee1e7cb7c4b89605b37'
             '2cded5e88f6dcc97ad6aea664c90dc84a2b23c99de4a96ffbabcb70b4c2eb7a9')
 
 build() {
-  if [ -d "${srcdir}/${_pkgname}-${pkgver}" ]
-  then
-    cd "${srcdir}/${_pkgname}-${pkgver}" || exit 1
-  else
-    cd "${srcdir}" || exit 1
-  fi
-  export ARCHLINUX=true
+  cd "${srcdir}/${_pkgname}-${pkgver}" || exit 1
   install -d release
   cd release || exit 1
   cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
@@ -38,16 +32,9 @@ build() {
 }
 
 package() {
-  if [ -d "${srcdir}/${_pkgname}-${pkgver}/release" ]
-  then
-    cd "${srcdir}/${_pkgname}-${pkgver}/release"
-  else
-    cd "${srcdir}/release"
-  fi
+  cd "${srcdir}/${_pkgname}-${pkgver}/release"
   make DESTDIR="$pkgdir/" install
-
-  install -Dm644  "$pkgdir/usr/share/webapps/mympd/mympd.service" "$pkgdir/usr/lib/systemd/system/mympd.service"
-  install -Dm644  ../../../mympd.conf "$pkgdir/etc/webapps/mympd/mympd.conf" 
+#  install -Dm644  ../../mympd.conf "$pkgdir/etc/webapps/mympd/mympd.conf" 
 
 ## Mympd Settings (alternative to mympd.conf)
 #  echo -n "#FFF" > "$pkgdir/var/lib/mympd/state/bg_color"
