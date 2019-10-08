@@ -34,7 +34,7 @@ build() {
 package() {
   cd "${srcdir}/${_pkgname}-${pkgver}/release"
   make DESTDIR="$pkgdir/" install
-#  install -Dm644  ../../mympd.conf "$pkgdir/etc/webapps/mympd/mympd.conf" 
+  install -Dm644  ../../mympd.conf "$pkgdir/etc/webapps/mympd/mympd.conf" 
 
 ## Mympd Settings (alternative to mympd.conf)
 #  echo -n "#FFF" > "$pkgdir/var/lib/mympd/state/bg_color"
