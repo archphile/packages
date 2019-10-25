@@ -19,8 +19,7 @@ conflicts=()
 replaces=()
 install=mympd-archphile.install
 source=("https://github.com/jcorporation/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha256sums=('ed04614493cfed80e3fc7f03cf5d34a5e74b3676e5f004e82f5c5d919ddf4030'
-            '2cded5e88f6dcc97ad6aea664c90dc84a2b23c99de4a96ffbabcb70b4c2eb7a9')
+sha256sums=('ed04614493cfed80e3fc7f03cf5d34a5e74b3676e5f004e82f5c5d919ddf4030')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}" || exit 1
