@@ -19,7 +19,7 @@ pkgdesc='Flexible, powerful, server-side application for playing music.'
 url='https://www.musicpd.org/'
 license=('GPL')
 arch=('armv7h' 'aarch64')
-depends=('audiofile' 'avahi' 'curl' 'faad2' 'ffmpeg-archphile' 'icu' 'libid3tag' 'libmad' 'libmms' 'libmpdclient' 'libsndfile' 'libupnp' 'libsoxr' 'libgme' 'sqlite' 'wavpack')
+depends=('audiofile' 'avahi' 'curl' 'faad2' 'ffmpeg-archphile' 'icu' 'libid3tag' 'libmad' 'libmpdclient' 'libsndfile' 'libupnp' 'libsoxr' 'libgme' 'sqlite' 'wavpack')
 makedepends=('boost' 'meson' 'python-sphinx')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
