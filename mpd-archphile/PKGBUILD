@@ -36,7 +36,7 @@ backup=('etc/mpd.conf')
 
 prepare() {
 	cd "${srcdir}/mpd-${pkgver}"
-
+	rm -fr build	
 	install -d build
 }
 
