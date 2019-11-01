@@ -80,7 +80,8 @@ build() {
 	       '-Dyajl=disabled' 		
 	       '-Dopenal=disabled'
  	       '-Dadplug=disabled' 
- 	       '-Dmpcdec=disabled' 
+ 	       '-Dmpcdec=disabled'
+	       '-Dtremor=disabled' 
 
 	)
 	arch-meson --auto-features auto  .. ${_opts[@]}
