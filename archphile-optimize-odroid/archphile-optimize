@@ -38,6 +38,7 @@ echo default-on > /sys/class/leds/c2\:blue\:alive/trigger
 /usr/local/bin/irq-archphile
 
 # set various processes to be run on specific cores 
+sleep 10
 taskset -c -a -p 1 $(pidof mpd)
 taskset -c -p 0 $(pidof mympd)
 
