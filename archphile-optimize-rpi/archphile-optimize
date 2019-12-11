@@ -34,6 +34,7 @@ echo 0 > /proc/sys/vm/swappiness
 /opt/vc/bin/tvservice -off
 
 # set various processes to be run on specific cores 
+sleep 10
 taskset -c -a -p 1 $(pidof mpd)
 taskset -c -p 2 $(pidof mympd)
 
