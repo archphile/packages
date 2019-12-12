@@ -4,7 +4,7 @@ Documentation=man:mpd(1) man:mpd.conf(5)
 After=network.target sound.target
 
 [Service]
-User=mpd
+#User=mpd
 Type=notify
 ExecStart=/usr/bin/mpd --no-daemon
 ExecStartPost=/usr/local/bin/mpdnice
