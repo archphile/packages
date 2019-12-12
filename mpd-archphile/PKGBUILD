@@ -33,7 +33,7 @@ sha256sums=('30cf1bddf7d7388487276745ad3515f134e07f0c57f9f97cb2b5d3befd4a4d92'
             '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
             '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
             '13cbaf069bb45757c83f8729de12aa32b3e4437d61b3120aa4c31f3aaa5bcaca'
-	    'd8036c93aea11b11db6bb42ce1b4cc322199060c740c47e79204b66e86973f43')
+	    'b50172fccf27673af1e649ada2ee97dcedcc8c44670292817142def238e56aa5')
 backup=('etc/mpd.conf')
 
 prepare() {
@@ -100,9 +100,9 @@ package() {
         install -Dm644 ../../mpd.conf "${pkgdir}"/etc/mpd.conf
 	install -Dm644 ../../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
 	install -Dm644 ../../sysusers.d "${pkgdir}"/usr/lib/sysusers.d/mpd.conf
-	install -Dm644 ../../mpd.service "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+	install -Dm644 ../../mpd.service "${pkgdir}"/usr/lib/systemd/mpd.service
 
 #	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
-#	sed '/ExecStart=/c ExecStart=/usr/bin/mpd --no-daemon && /usr/local/bin/mpdprio' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+#	sed '/ExecStart=/c ExecStart=/usr/bin/mpd --no-daemon -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 
 }
