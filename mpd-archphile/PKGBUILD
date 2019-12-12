@@ -27,11 +27,13 @@ replaces=('mpd')
 source=("https://www.musicpd.org/download/mpd/${_majorver}/mpd-${pkgver}.tar.xz"
         'tmpfiles.d'
         'sysusers.d'
-        'mpd.conf')
+        'mpd.conf'
+	'mpd.service')
 sha256sums=('4595adba2d8aa80b5a912bbb5185578abac3623ccc7e4897286993e4650a5022'
             '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
             '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
-            'b47ece93a405fcf7c5ce7c94ccdaac2f682efa30d89e3c7aad002d951e09207b')
+            'b47ece93a405fcf7c5ce7c94ccdaac2f682efa30d89e3c7aad002d951e09207b'
+	    'd8036c93aea11b11db6bb42ce1b4cc322199060c740c47e79204b66e86973f43')
 backup=('etc/mpd.conf')
 
 prepare() {
@@ -98,8 +100,9 @@ package() {
         install -Dm644 ../../mpd.conf "${pkgdir}"/etc/mpd.conf
 	install -Dm644 ../../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
 	install -Dm644 ../../sysusers.d "${pkgdir}"/usr/lib/sysusers.d/mpd.conf
+	install -Dm644 ../../mpd.service "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 
-	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
-	sed '/ExecStart=/c ExecStart=/usr/bin/mpd --no-daemon && /usr/local/bin/mpdprio' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+#	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+#	sed '/ExecStart=/c ExecStart=/usr/bin/mpd --no-daemon && /usr/local/bin/mpdprio' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 
 }
