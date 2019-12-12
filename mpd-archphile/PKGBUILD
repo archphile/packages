@@ -32,7 +32,7 @@ source=("https://www.musicpd.org/download/mpd/${_majorver}/mpd-${pkgver}.tar.xz"
 sha256sums=('4595adba2d8aa80b5a912bbb5185578abac3623ccc7e4897286993e4650a5022'
             '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
             '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
-            'b47ece93a405fcf7c5ce7c94ccdaac2f682efa30d89e3c7aad002d951e09207b'
+            '13cbaf069bb45757c83f8729de12aa32b3e4437d61b3120aa4c31f3aaa5bcaca'
 	    'd8036c93aea11b11db6bb42ce1b4cc322199060c740c47e79204b66e86973f43')
 backup=('etc/mpd.conf')
 
