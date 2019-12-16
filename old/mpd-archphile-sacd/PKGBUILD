@@ -1,48 +1,44 @@
 # Maintainer: Mike Andonov <info@archphile.org>
-# Contributor: robot <cultofrobots [at] protonmail [dot] com>
 # Website: http://archphile.org
-# Contributor: Marcel <marcel@volkerts.eu>
-# Based on mpd-light from AUR made by the following people:
-# Maintainer: Alexey D. <lq07829icatm@rambler.ru>
-# Contributor: Gaetan Bisson <bisson@archlinux.org>
-# Contributor: Angel Velasquez <angvp@archlinux.org>
-# Contributor: Andrea Scarpino <andrea@archlinux.org>
-# Contributor: Damir Perisa <damir.perisa@bluewin.ch>
-# Contributor: Ben <ben@benmazer.net>
 
-pkgname=mpd-archphile
-_pkgname=mpd
-_majorver=0.21
-pkgver=0.21.16
-pkgrel=1
-pkgdesc='Flexible, powerful, server-side application for playing music.'
-url='https://www.musicpd.org/'
+pkgname=mpd-archphile-sacd
+_pkgname=MPD
+pkgver=0.22.0
+pkgrel=4
+pkgdesc='Flexible, powerful, server-side application for playing music. Experimental version with support of SACD ISO playback'
+url='http://www.musicpd.org/'
 license=('GPL')
 arch=('armv7h' 'aarch64')
-depends=('audiofile' 'avahi' 'curl' 'faad2' 'ffmpeg-archphile' 'icu' 'libid3tag' 'libmad' 'libmpdclient' 'libsndfile' 'libupnp' 'libsoxr' 'libgme' 'sqlite' 'wavpack')
+depends=('audiofile' 'avahi' 'curl' 'faad2' 'ffmpeg-archphile' 'icu' 'libcdio-paranoia' 'libid3tag' 'libmad' 'libmms' 'libmpdclient' 
+'libsndfile' 'libupnp' 'libsoxr' 'libgme' 'sqlite' 'wavpack' 'zziplib')
 makedepends=('boost' 'meson' 'python-sphinx')
 provides=("mpd=$pkgver")
-conflicts=('mpd')
-replaces=('mpd')
-source=("https://www.musicpd.org/download/mpd/${_majorver}/mpd-${pkgver}.tar.xz"
+conflicts=('mpd' 'mpd-archphile' 'mpd-archphile-minimal')
+source=('mpd::git+https://git.code.sf.net/p/sacddecoder/mpd/MPD.git#commit=c695aecc02b8a669ddc847d1e3b5207fff7fa3a3'
         'tmpfiles.d'
         'sysusers.d'
         'mpd.conf')
-sha256sums=('30cf1bddf7d7388487276745ad3515f134e07f0c57f9f97cb2b5d3befd4a4d92'
+sha256sums=('SKIP'
             '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
             '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
-            '190d242416e07dd920d79726561b6834d3de7d60bacc36523ee8532207cbf809')
-
+            '2db6a1f4ca976d705d3257170b79083e06f54383f1ec5d5f72ee4b4afa9f8733')
 backup=('etc/mpd.conf')
 
+#pkgver() {
+#  cd $_pkgname
+#  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+#}
+
 prepare() {
-	cd "${srcdir}/mpd-${pkgver}"
-	rm -fr build	
+	cd "${srcdir}/mpd"
+	rm -rf build
 	install -d build
 }
 
+
 build() {
-	cd "${srcdir}/mpd-${pkgver}/build"
+#	cd "${srcdir}/${_pkgname}"
+        cd "${srcdir}/mpd/build"
 	_opts=('-Ddocumentation=true'
 	       '-Dzeroconf=avahi'
 	       '-Dao=disabled'
@@ -56,12 +52,10 @@ build() {
 	       '-Dvorbis=disabled'
                '-Drecorder=false'
 	       '-Dipv6=disabled'
-               '-Diso9660=disabled'
 	       '-Dzzip=disabled'
                '-Doss=disabled'
                '-Dfluidsynth=disabled'
                '-Dgme=disabled'
-               '-Dbzip2=disabled'
                '-Dvorbisenc=disabled'
                '-Dlame=disabled'
                '-Dtwolame=disabled'
@@ -78,19 +72,25 @@ build() {
 	       '-Dchromaprint=disabled'
 	       '-Dsndio=disabled' 
 	       '-Dshine=disabled' 
-	       '-Dyajl=disabled' 		
 	       '-Dopenal=disabled'
  	       '-Dadplug=disabled' 
- 	       '-Dmpcdec=disabled'
+ 	       '-Dmpcdec=disabled' 
+	       '-Dyajl=disabled'
+	       '-Dqobuz=disabled'
+	       '-Dtidal=disabled'
+	       '-Dsacdiso=true'
+	       '-Ddvdaiso=true'
+               '-Dbzip2=enabled'
+               '-Diso9660=enabled'
 	       '-Dtremor=disabled' 
-
 	)
-	arch-meson --auto-features auto  .. ${_opts[@]}
+	arch-meson  .. ${_opts[@]}
 	ninja
 }
 
 package() {
-	cd "${srcdir}/${_pkgname}-${pkgver}/build"
+#	cd "${srcdir}/${_pkgname}-${pkgver}/build"
+	cd "${srcdir}/mpd/build"
 	DESTDIR="${pkgdir}" ninja install
         install -Dm644 ../doc/mpdconf.example "${pkgdir}"/usr/share/doc/mpd/mpdconf.example
 	install -Dm644 ../doc/mpd.conf.5 "${pkgdir}"/usr/share/man/man5/mpd.conf.5
@@ -102,4 +102,6 @@ package() {
 
 	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 	sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+}
+
 }

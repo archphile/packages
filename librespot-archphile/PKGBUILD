@@ -1,0 +1,49 @@
+# Maintainer: Mike Andonov <info@archphile.org>
+# Website: http://archphile.org
+# Based on a PKGBUILD created by:
+# Maintainer: Francois Menning <f.menning@protonmail.com>
+# Contributor: Christoph Gysin <christoph.gysin@gmail.com>
+
+_pkgname=librespot
+pkgname=librespot-archphile
+pkgver=r363.8971d3a
+pkgrel=1
+pkgdesc='An open source client library for Spotify (ALSA Backend).'
+url='https://github.com/librespot-org/librespot.git'
+license=('MIT')
+source=('git://github.com/librespot-org/librespot.git'
+'librespot.service'
+'librespot.conf')
+sha256sums=('SKIP'
+            'c296c527eac31c4e523d6e5c40eca3d80988f518a9c178b074e3ab908ecf2f47'
+            'a2091a0bd5941b178af496e471e96e857349d683bcbda735f2eb5cb7c1cecb03')
+arch=('armv7h' 'aarch64')
+depends=('alsa-lib' 'libvorbis')
+makedepends=('git' 'rust')
+backup=('etc/librespot.conf')
+conflicts=('librespot-git')
+provides=('librespot')
+
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${_pkgname}"
+  cargo build \
+	--no-default-features \
+	--features alsa-backend \
+    	--release
+}
+
+package() {
+  install -dm755 ${pkgdir}/var/cache/${_pkgname}
+  install -Dm644 "${srcdir}/${_pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE"
+  install -Dm755 "${srcdir}/${_pkgname}/target/release/librespot" "${pkgdir}/usr/bin/librespot"
+  install -Dm644 "${srcdir}/librespot.conf" "${pkgdir}/etc/librespot.conf"
+  install -Dm644 "${srcdir}/librespot.service" "${pkgdir}/usr/lib/systemd/system/librespot.service"
+
+}
+
+

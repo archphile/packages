@@ -1,0 +1,117 @@
+#################### Unofficial Guide For Equalizer (Alsaequal)  ####################
+
+I have created alsaequal packages for the Rpi, Cubox and Udoo. However this is 100% 
+unofficial and for testing purposes. I never plan to add equalizer by default in Archphile.
+
+
+If you want to experiment do the following:
+
+
+
+1. add the playground repo in /etc/pacman.conf
+----------------------------------------------
+
+- for the Rpi:
+
+[playground]
+SigLevel = Never
+Server = http://archphile.org/repo/playground/playground-rpi
+
+- for Cubox-i and Udoo
+
+[playground]
+SigLevel = Never
+Server = http://archphile.org/repo/playground/playground-arm7
+
+
+
+
+
+2. install the package
+----------------------
+
+pacman -Sy alsaequal caps
+
+
+
+
+
+3. create /etc/asound.conf with the following content:
+------------------------------------------------------
+
+ctl.equal {
+    type equal;
+}
+
+pcm.plugequal {
+    type equal;
+    # Modify the line below if you do not
+    # want to use sound card 0.
+    slave.pcm "plughw:0,0";
+    #by default we want to play from more sources at time:
+    #slave.pcm "plug:dmix";
+}
+
+# pcm.equal {
+# If you do not want the equalizer to be your
+# default soundcard comment the following
+# line and uncomment the above line. (You can
+# choose it as the output device by addressing
+# it with specific apps,eg mpg123 -a equal 06.Back_In_Black.mp3)
+pcm.!default {
+    type plug;
+    slave.pcm plugequal;
+}
+
+
+Note: cubox-i users will have to remove all content found in asound.conf, paste the above and 
+change the following line:
+
+slave.pcm "plughw:0,0";
+
+with 
+
+slave.pcm "plughw:2,0";
+
+
+
+
+4. edit /etc/mpd.conf and modify the audio_output so that it's like below:
+--------------------------------------------------------------------------
+
+audio_output {
+        type            "alsa"
+        name            "My ALSA EQ"
+        device          "plug:plugequal"
+        use_mmap        "yes"
+}
+
+
+and restart mpd with:
+
+
+systemctl restart mpd
+
+
+
+Note: a good idea is to backup mpd.conf first with cp /etc/mpd.conf /etc/mpd.conf.bak
+
+
+
+
+5. use the equalizer with the following command:
+------------------------------------------------
+
+
+su -s /bin/sh -c 'alsamixer -D equal' mpd
+
+
+
+
+General notes:
+--------------
+
+The above procedure works ok in general. However cubox-i users may find their sound level not to be 100%
+after reboot.
+
+
