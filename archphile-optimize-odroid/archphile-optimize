@@ -49,14 +49,5 @@ taskset -c -p 0 $(pidof mympd)
 #iwconfig wlan0 rts 2347
 #iw reg set GR
 
-# local cover art support
-#
-# uncomment below if you use Mpdroid. The path to music is http://xxx.xxx.xxx.xxx:8080/music/
-#quickserve -p 8080 /var/www/covers
-#
-# uncomment below if you use Mpod or Mpad. Please change the cover server address to http://xxx.xxx.xxx.xxx:8080
-#quickserve -p 8080 /var/www/Music
-
-
 
 
