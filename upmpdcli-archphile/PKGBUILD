@@ -15,7 +15,11 @@ license=('GPL2')
 depends=('python' 'libmpdclient' 'libupnpp-archphile>=0.17.0' 'libmicrohttpd' 'jsoncpp')
 optdepends=('python2: OpenHome Radio Service' 'python-requests: enable search' 'recoll: enable search' 'python-bottle: enable uprcl media server' 'python-mutagen: enable uprcl media server' 'mutagen: enable uprcl media server' 'aspell-en' 'id3lib' 'python-waitress: enable uprcl media server' 'sqlite')
 install=upmpdcli.install
+<<<<<<< HEAD
 source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz"
+=======
+source=('http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz'
+>>>>>>> master
 	'upmpdcli.service'
 	'upmpdcli.conf'
 	'archphile.png')
