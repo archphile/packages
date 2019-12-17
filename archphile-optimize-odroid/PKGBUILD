@@ -3,7 +3,7 @@
 
 pkgname=archphile-optimize-odroid
 pkgver=1
-pkgrel=2
+pkgrel=3
 pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution - Odroid version"
 arch=('any')
 url="http://archphile.org"
@@ -23,7 +23,7 @@ source=('archphile-optimize'
         'dbackup'
         'drestore')
 
-sha256sums=('acd756fd46f3224f35a51f5f1c1b7619aab694d5d09ebce13676ff27e53f0750'
+sha256sums=('a86b377d78bb66ae33c28aed23df0e5903fe71a4142392b101ac4c61c86b07ac'
             '3c4edb9d557bad8e3c95f0f75009a590ef560df75e36eecaa5ebba0a6e5823b8'
             '5e76a70697ba4ce712d368163f96d7c4a88ce3ee5cb325cc110185239abfbda7'
             '931a50273287f3f617c3d6421bcfdbd09ed7c93036b7926e6561c92d5265bd27'

@@ -1,0 +1,30 @@
+# Default Archphile Squeezelite Configuration
+
+# -s <server>[:<port>] - Connect to specified server, otherwise uses autodiscovery to find server
+SERVER_IP="-s localhost"
+
+# -n <name> - Set the player name
+NAME="-n Archphile"
+
+#-f <logfile> - Write debug to logfile
+LOG_FILE="-f /var/log/squeezelite.log"
+
+# -d <log>=<level> - Set logging level, logs: all|slimproto|stream|decode|output|ir, level: info|debug|sdebug
+LOG_LEVEL="-d all=info"
+
+# -a <b>:<p>:<f>:<m> - Specify ALSA params to open output device, b = buffer time in ms or size in bytes, p = period 
+ALSA_PARAMS='-a 160:40::1'
+
+# -b <stream>:<output> - Specify internal Stream and Output buffer sizes in Kbytes
+BUFFER="-b 40000:500000"
+
+-p <priority> - Set real time priority of output thread (1-99)
+#PRIORITY="-p 45"
+
+# -c <codec1>,<codec2> - Restrict codecs to those specified, otherwise load all available codecs; known codecs: 
+CODEC="-c flac,pcm,mp3,ogg,aac,alac,dsd"
+
+# -D [delay] - Output device supports DSD over PCM (DoP), delay = optional delay switching between PCM and DoP in ms
+DOP="-D"
+
+

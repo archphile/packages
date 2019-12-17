@@ -1,0 +1,29 @@
+# Maintainer: Mike Andonov <info@archphile.org>
+# Website: http://archphile.org
+# Based on a PKGBUILD created by:
+# Maintainer: AudioLinux  <audiolinux AT fastmail DOT fm>
+
+pkgname=roonbridge-archphile-arm7
+pkgver=1.0.169
+pkgrel=1
+pkgdesc="The music player for music lovers"
+arch=('armv7h')
+url="https://roonlabs.com/"
+license=('custom')
+depends=('alsa-lib' 'glibc' 'ffmpeg-archphile' 'cifs-utils')
+source=("http://download.roonlabs.com/builds/RoonBridge_linuxarmv7hf.tar.bz2" 
+	'roonbridge.service' 
+	'copyright')
+sha256sums=('c8173847d47331b2d8eb016315ba98061fff364e6d2087eaf63e63efe0aedee5'
+            '0eec72ddf20b20c0b40f98b1234e023ee5ebe4109d656288853800a356a75b64'
+            '31b6cac147644ad4d0908906b91e631752111939be88031e03da72182de5be93')
+
+package() {
+   cd "$srcdir"
+   mkdir -p ${pkgdir}/opt/
+   bsdtar xf RoonBridge_linuxarmv7hf.tar.bz2 -C "$pkgdir/opt"
+   install -Dm644 "roonbridge.service" \
+    "$pkgdir/usr/lib/systemd/system/roonbridge.service"
+   install -Dm644 "copyright" \
+    "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+}

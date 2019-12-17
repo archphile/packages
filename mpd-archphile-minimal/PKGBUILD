@@ -1,0 +1,106 @@
+# Maintainer: Mike Andonov <info@archphile.org>
+# Contributor: robot <cultofrobots [at] protonmail [dot] com>
+# Website: http://archphile.org
+# Contributor: Marcel <marcel@volkerts.eu>
+# Based on mpd-light from AUR made by the following people:
+# Maintainer: Alexey D. <lq07829icatm@rambler.ru>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Angel Velasquez <angvp@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Damir Perisa <damir.perisa@bluewin.ch>
+# Contributor: Ben <ben@benmazer.net>
+
+pkgname=mpd-archphile-minimal
+_pkgname=mpd
+_majorver=0.21
+pkgver=0.21.16
+pkgrel=1
+pkgdesc='Flexible, powerful, server-side application for playing music - minimal package version'
+url='https://www.musicpd.org/'
+license=('GPL')
+arch=('armv7h' 'aarch64')
+depends=('curl' 'faad2' 'icu' 'libid3tag' 'libmad' 'libmpdclient' 'libsndfile' 'libupnp' 'libsoxr' 'libgme' 'sqlite')
+makedepends=('boost' 'meson' 'python-sphinx')
+provides=("mpd=$pkgver")
+conflicts=('mpd')
+replaces=('mpd')
+source=("https://www.musicpd.org/download/mpd/${_majorver}/mpd-${pkgver}.tar.xz"
+        'tmpfiles.d'
+        'sysusers.d'
+        'mpd.conf')
+sha256sums=('30cf1bddf7d7388487276745ad3515f134e07f0c57f9f97cb2b5d3befd4a4d92'
+            '4e20576ea53141fc398f8e586f30bdf06a404ca099db037724ef80f15c7f2ea3'
+            '0b74c6e5db08daab3091dc15a6b0c75210ba2f9e98fa074f6cfd605a461056b6'
+            '190d242416e07dd920d79726561b6834d3de7d60bacc36523ee8532207cbf809')
+backup=('etc/mpd.conf')
+
+prepare() {
+	cd "${srcdir}/mpd-${pkgver}"
+	rm -fr build
+	install -d build
+}
+
+build() {
+	cd "${srcdir}/mpd-${pkgver}/build"
+	_opts=('-Ddocumentation=true'
+	       '-Dao=disabled'
+	       '-Djack=disabled'
+      	       '-Dmodplug=disabled'
+               '-Dpulse=disabled'
+               '-Dshout=disabled'
+               '-Dsidplay=disabled'
+               '-Dsoundcloud=disabled'
+               '-Dopus=disabled'
+	       '-Dvorbis=disabled'
+               '-Drecorder=false'
+	       '-Dipv6=disabled'
+               '-Diso9660=disabled'
+	       '-Dzzip=disabled'
+               '-Doss=disabled'
+               '-Dfluidsynth=disabled'
+               '-Dgme=disabled'
+               '-Dbzip2=disabled'
+               '-Dvorbisenc=disabled'
+               '-Dlame=disabled'
+               '-Dtwolame=disabled'
+               '-Dwave_encoder=false'
+               '-Dwildmidi=disabled'
+               '-Dlibsamplerate=disabled'
+	       '-Dcdio_paranoia=disabled'
+	       '-Dmms=disabled'
+	       '-Dnfs=disabled'
+	       '-Dsmbclient=disabled'
+	       '-Dhttpd=false'
+	       '-Dmikmod=disabled'
+	       '-Dmpg123=disabled'
+	       '-Dchromaprint=disabled'
+	       '-Dsndio=disabled' 
+	       '-Dshine=disabled' 
+	       '-Dyajl=disabled' 		
+	       '-Dopenal=disabled'
+ 	       '-Dadplug=disabled' 
+ 	       '-Dmpcdec=disabled'
+ 	       '-Dffmpeg=disabled' 
+ 	       '-Daudiofile=disabled'
+ 	       '-Dwavpack=disabled'
+	       '-Dzeroconf=disabled'
+               '-Dtremor=disabled' 
+	)
+	arch-meson --auto-features auto  .. ${_opts[@]}
+	ninja
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}-${pkgver}/build"
+	DESTDIR="${pkgdir}" ninja install
+        install -Dm644 ../doc/mpdconf.example "${pkgdir}"/usr/share/doc/mpd/mpdconf.example
+	install -Dm644 ../doc/mpd.conf.5 "${pkgdir}"/usr/share/man/man5/mpd.conf.5
+	install -Dm644 ../doc/mpd.1 "${pkgdir}"/usr/share/man/man1/mpd.1
+	
+        install -Dm644 ../../mpd.conf "${pkgdir}"/etc/mpd.conf
+	install -Dm644 ../../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
+	install -Dm644 ../../sysusers.d "${pkgdir}"/usr/lib/sysusers.d/mpd.conf
+
+	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+	sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+}

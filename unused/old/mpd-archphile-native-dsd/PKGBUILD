@@ -1,0 +1,107 @@
+# Maintainer: Tux <info@archphile.org>
+# Website: http://archphile.org
+# Contributor: Marcel <marcel@volkerts.eu>
+# Based on mpd-light from AUR made by the following people:
+# Maintainer: Alexey D. <lq07829icatm@rambler.ru>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Angel Velasquez <angvp@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Damir Perisa <damir.perisa@bluewin.ch>
+# Contributor: Ben <ben@benmazer.net>
+
+pkgname=mpd-archphile-native-dsd
+_pkgname=mpd
+pkgver=0.19.19	
+pkgrel=2
+pkgdesc='Flexible, powerful, server-side application for playing music. Archphile version with native dsd support.'
+url='http://www.musicpd.org/'
+license=('GPL')
+arch=('armv7h' 'aarch64')
+depends=('flac' 'audiofile' 'libsndfile' 'icu' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'libsoxr' 'ffmpeg-archphile' 'avahi')
+makedepends=('boost' 'doxygen')
+provides=("mpd=$pkgver")
+conflicts=('mpd' 'mpd-archphile-sacd' 'mpd-archphile-minimal')
+replaces=('mpd')
+source=("http://www.musicpd.org/download/${_pkgname}/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz"
+        'tmpfiles.d'
+	'mpd.conf'
+	'https://raw.githubusercontent.com/lintweaker/mpd-dsd-019/master/0001-This-patch-extends-native-DSD-support-for-MPD-0.19.19.patch')
+sha1sums=('8c281b823825cab6677cb142b564acbf09a2874d'
+          'f4d5922abb69abb739542d8e93f4dfd748acdad7'
+          'b4939d0f2c2c7da89e1be6faed496e788c9603e6'
+          'e264bfcfa970f62baee2549c38828b45dc909732')
+backup=('etc/mpd.conf')
+install=install
+
+prepare() {
+	# Temporary; see FS#48372
+	install -d "${srcdir}"/pkg-config
+	ln -s /usr/lib/pkgconfig/libsystemd.pc "${srcdir}"/pkg-config/libsystemd-daemon.pc
+}
+
+build() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+	patch -Np1 -i "../../0001-This-patch-extends-native-DSD-support-for-MPD-0.19.19.patch" 
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--enable-libmpdclient \
+		--enable-mad \
+		--enable-soxr \
+		--enable-ffmpeg \
+		--enable-audiofile \
+		--enable-sndfile \
+		--enable-pipe-output \
+		--disable-ao \
+		--disable-jack \
+		--disable-modplug \
+		--disable-pulse \
+		--disable-shout \
+		--disable-sidplay \
+		--disable-soundcloud \
+		--disable-wavpack \
+		--disable-opus \
+		--disable-vorbis \
+		--disable-ipv6 \
+		--disable-recorder-output \
+		--disable-iso9660 \
+		--disable-zzip \
+		--disable-wildmidi \
+		--disable-oss \
+		--disable-fluidsynth \
+		--disable-gme \
+		--disable-bzip2 \
+		--disable-lame-encoder \
+	    	--disable-shine-encoder \
+        	--disable-twolame-encoder \
+        	--disable-vorbis-encoder \
+        	--disable-wave-encoder \
+        	--disable-nfs \
+        	--disable-smbclient \
+        	--disable-httpd-output \
+        	--disable-oss \
+        	--disable-mikmod \
+		--disable-modplug \
+        	--disable-mpg123 \
+	  	--disable-wildmidi \
+        	--disable-lsr \
+		--with-zeroconf=avahi \
+		--with-systemdsystemunitdir=/usr/lib/systemd/system
+
+	make
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+	
+	make DESTDIR="${pkgdir}" install
+
+	install -Dm644 ../mpd.conf "${pkgdir}"/etc/mpd.conf
+	install -Dm644 ../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
+	install -d -g 45 -o 45 "${pkgdir}"/var/lib/mpd{,/playlists}
+
+	install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+    	sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+
+}
