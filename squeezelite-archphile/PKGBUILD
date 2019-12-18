@@ -1,0 +1,47 @@
+# Maintainer: Tux <info@archphile.org>
+# Website: http://archphile.org
+# Based on squeezelite-git from AUR made by the following people:
+#
+# Maintainer: Fabio 'Lolix' Loli <lolix@disroot.org> -> https://github.com/FabioLolix
+# Contributor: Christian Hesse <mail@eworm.de
+# Contributor: Mika Fischer <mika.fischer@zoopnet.de>
+
+pkgname=squeezelite-archphile
+_pkgname=squeezelite
+pkgver=1.9.2.1165
+pkgrel=1
+pkgdesc='Lightweight headless squeezebox emulator'
+arch=('armv7h' 'aarch64')
+url='https://github.com/ralph-irving/squeezelite'
+license=(GPL3)
+makedepends=(git)
+depends=(alsa-lib faad2 flac libmad libvorbis mpg123 libsoxr ffmpeg)
+provides=('squeezelite')
+conflicts=('squeezelite')
+install=squeezelite-archphile.install
+source=("${pkgname}-${pkgver}-${_commit}.tar.gz::https://github.com/ralph-irving/squeezelite/archive/${_commit}.tar.gz"
+	'service'
+	'conffile')
+sha256sums=('3f27ac8ecd463a71181f5b788beab7bd70994d1c06c4a811a02fcf5e212a7109'
+            '136d358d90b696ab696e284b2c1093ab104f5a41058277c249880f5b3d3bfa81'
+            '136d358d90b696ab696e284b2c1093ab104f5a41058277c249880f5b3d3bfa81')
+
+build() {
+  cd "${_pkgname}-${_commit}"
+
+  export LDFLAGS="${LDFLAGS} -lasound -lpthread -lm -lrt"
+  export OPTS="${OPTS} -DDSD -DRESAMPLE -DVISEXPORT -DFFMPEG -DLINKALL"
+  make
+}
+
+package() {
+  cd "${_pkgname}-${_commit}"
+
+  install -m0755 -D squeezelite "${pkgdir}/usr/bin/squeezelite"
+  install -Dm644 ../conffile "${pkgdir}/etc/squeezelite.conf.default"
+  install -Dm644 ../service "${pkgdir}/usr/lib/systemd/system/squeezelite.service"
+  install -Dm644 LICENSE.txt "${pkgdir}"/usr/share/licenses/squeezelite.LICENSE
+}
+
+
+
