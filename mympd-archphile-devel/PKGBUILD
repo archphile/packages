@@ -1,7 +1,10 @@
 # Maintainer: Mike Andonov <info@archphile.org>
 # Website: http://archphile.org
-# Based on ympd-git from AUR made by the following people:
-# Maintainer: Philippe Mongeau <ph.mongeau@gmail.com>
+# Based on official PKGBUILD made by:
+#
+# Maintainer: Juergen Mang <mail [at] jcgames [dot] de>
+# Website: https://github.com/jcorporation/myMPD
+# PKGBUILD Based on https://github.com/CultofRobots/archphile-custom/tree/master/mympd
 
 pkgname=mympd-archphile-devel
 _pkgname=myMPD
