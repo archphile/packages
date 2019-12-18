@@ -7,7 +7,7 @@ EnvironmentFile=/etc/librespot.conf
 ExecStart=/usr/bin/librespot \
   --cache ${LIBRESPOT_CACHE} \
   --name %H \
-  --device=plughw:0 \
+  --device=hw:0 \
   --bitrate ${LIBRESPOT_BITRATE} \
   --username ${LIBRESPOT_USERNAME} \
   --password ${LIBRESPOT_PASSWORD} \
