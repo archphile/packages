@@ -29,7 +29,7 @@ provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
           'libswscale.so' 'ffmpeg')
 conflicts=('ffmpeg')
 source=("https://ffmpeg.org/releases/${_pkgname}-${pkgver}.tar.xz")
-sha256sums=('023f10831a97ad93d798f53a3640e55cd564abfeba807ecbe8524dac4fedecd5')
+sha256sums=('cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4')
 
 prepare() {
   cd ${_pkgname}-${pkgver}
