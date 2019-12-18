@@ -1,0 +1,39 @@
+# Maintainer: Mike Andonov <info@archphile.org>
+# Website: http://archphile.org
+# Based on ympd-git from AUR made by the following people:
+# Maintainer: Philippe Mongeau <ph.mongeau@gmail.com>
+
+pkgname=mympd-archphile-devel
+_pkgname=myMPD
+pkgver=6.0.0
+pkgrel=1
+pkgdesc="myMPD is a standalone and mobile friendly web mpdclient - development version"
+arch=('armv7h' 'aarch64')
+url="http://github.org/jcorporation/myMPD"
+license=('GPL')
+depends=('libmpdclient' 'openssl')
+makedepends=('cmake')
+optdepends=('libmediainfo')
+provides=()
+conflicts=(mympd-archphile)
+replaces=()
+backup=('etc/webapps/mympd/mympd.conf')
+install=mympd-archphile.install
+source=("https://github.com/jcorporation/${_pkgname}/archive/devel.zip"
+	"mympd.conf")
+sha256sums=('SKIP'
+	    '1d6e58973105d7d5e72cefa488694832519e080e9965a771105d5eeb15099f43')
+
+build() {
+  cd "${srcdir}/${_pkgname}-devel" || exit 1
+  install -d release
+  cd release || exit 1
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=RELEASE ..
+  make
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-devel/release"
+  make DESTDIR="$pkgdir/" install
+  install -Dm644  ../../mympd.conf "$pkgdir/etc/webapps/mympd/mympd.conf" 
+}
