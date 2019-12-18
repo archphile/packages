@@ -16,7 +16,7 @@ pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
 arch=('armv7h' 'aarch64' 'x86_64')
 url='http://ffmpeg.org/'
 license=('GPL3')
-depends=('bzip2' 'glibc' 'gnutls'
+depends=('bzip2' 'glibc' 'gnutls' 'gsm'
          'lame' 'libmodplug'
          'libtheora' 'libxml2'
          'opus'
