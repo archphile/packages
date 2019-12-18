@@ -15,7 +15,7 @@ source=('git://github.com/librespot-org/librespot.git'
 'librespot.service'
 'librespot.conf')
 sha256sums=('SKIP'
-            'c296c527eac31c4e523d6e5c40eca3d80988f518a9c178b074e3ab908ecf2f47'
+            'bcaec30e38a3e3fe2ec8a972a59f00aec99d3704f15bf47045aba633198bd7be'
             'a2091a0bd5941b178af496e471e96e857349d683bcbda735f2eb5cb7c1cecb03')
 arch=('armv7h' 'aarch64')
 depends=('alsa-lib' 'libvorbis')
