@@ -24,7 +24,7 @@ source=("${pkgname}-${pkgver}-${_commit}.tar.gz::https://github.com/ralph-irving
 	'service'
 	'conffile')
 sha256sums=('3f27ac8ecd463a71181f5b788beab7bd70994d1c06c4a811a02fcf5e212a7109'
-            '136d358d90b696ab696e284b2c1093ab104f5a41058277c249880f5b3d3bfa81'
+            '5b39e9754b6bcf06bcaaecab76ebf7c997966160b48692461d3be5d94ee5f004'
             '136d358d90b696ab696e284b2c1093ab104f5a41058277c249880f5b3d3bfa81')
 
 build() {
