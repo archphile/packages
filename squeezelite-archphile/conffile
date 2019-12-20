@@ -19,7 +19,7 @@ ALSA_PARAMS='-a 160:40::1'
 BUFFER="-b 40000:500000"
 
 -p <priority> - Set real time priority of output thread (1-99)
-#PRIORITY="-p 45"
+PRIORITY="-p 45"
 
 # -c <codec1>,<codec2> - Restrict codecs to those specified, otherwise load all available codecs; known codecs: 
 CODEC="-c flac,pcm,mp3,ogg,aac,alac,dsd"
