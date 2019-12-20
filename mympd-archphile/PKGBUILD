@@ -9,14 +9,14 @@
 pkgname=mympd-archphile
 _pkgname=myMPD
 pkgver=6.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="myMPD is a standalone and mobile friendly web mpdclient."
 arch=('armv7h' 'aarch64')
 url="http://github.org/jcorporation/myMPD"
 license=('GPL')
-depends=('libmpdclient' 'openssl')
+depends=('openssl' 'libid3tag' 'flac')
 makedepends=('cmake')
-optdepends=('libmediainfo')
+optdepends=('')
 provides=()
 conflicts=()
 replaces=()
