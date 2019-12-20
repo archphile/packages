@@ -56,4 +56,3 @@ taskset -c -a -p 1 $(pidof mpd)
 #iw reg set GR
 
 
-
