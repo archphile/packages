@@ -8,14 +8,16 @@ _pkgname=librespot
 pkgname=librespot-archphile
 pkgver=r363.8971d3a
 pkgrel=1
+_commit=2a1482c880e3d6749369a99b32b93f06d6c3b7d8
+_srcname=librespot-${_commit}
 pkgdesc='An open source client library for Spotify (ALSA Backend).'
 url='https://github.com/librespot-org/librespot.git'
 license=('MIT')
-source=('git://github.com/librespot-org/librespot.git'
+source=("https://github.com/librespot-org/librespot/archive/${_commit}.tar.gz"
 'librespot.service'
 'librespot.conf')
 sha256sums=('SKIP'
-            'bcaec30e38a3e3fe2ec8a972a59f00aec99d3704f15bf47045aba633198bd7be'
+            '6c58382db655053c206eb3fcc604658d456b283f799fddd528eb64eff714deb9'
             'a2091a0bd5941b178af496e471e96e857349d683bcbda735f2eb5cb7c1cecb03')
 arch=('armv7h' 'aarch64')
 depends=('alsa-lib' 'libvorbis')
@@ -25,12 +27,12 @@ conflicts=('librespot-git')
 provides=('librespot')
 
 pkgver() {
-  cd "${srcdir}/${_pkgname}"
+  cd "${srcdir}/${_srcname}"
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-  cd "${srcdir}/${_pkgname}"
+  cd "${srcdir}/${_srcname}"
   cargo build \
 	--no-default-features \
 	--features alsa-backend \
@@ -39,8 +41,8 @@ build() {
 
 package() {
   install -dm755 ${pkgdir}/var/cache/${_pkgname}
-  install -Dm644 "${srcdir}/${_pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE"
-  install -Dm755 "${srcdir}/${_pkgname}/target/release/librespot" "${pkgdir}/usr/bin/librespot"
+  install -Dm644 "${srcdir}/${_srcname}/LICENSE" "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE"
+  install -Dm755 "${srcdir}/${_srcname}/target/release/librespot" "${pkgdir}/usr/bin/librespot"
   install -Dm644 "${srcdir}/librespot.conf" "${pkgdir}/etc/librespot.conf"
   install -Dm644 "${srcdir}/librespot.service" "${pkgdir}/usr/lib/systemd/system/librespot.service"
 
