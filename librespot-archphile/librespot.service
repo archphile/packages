@@ -6,7 +6,7 @@ After=network.target
 EnvironmentFile=/etc/librespot.conf
 ExecStart=/usr/bin/librespot \
   --cache ${LIBRESPOT_CACHE} \
-  --name %H \
+  --name Archphile \
   --device=hw:0 \
   --bitrate ${LIBRESPOT_BITRATE} \
   --username ${LIBRESPOT_USERNAME} \
