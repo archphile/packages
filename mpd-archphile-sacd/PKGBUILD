@@ -4,7 +4,7 @@
 pkgname=mpd-archphile-sacd
 _pkgname=MPD
 pkgver=0.22.0
-pkgrel=4
+pkgrel=5
 pkgdesc='Flexible, powerful, server-side application for playing music. Experimental version with support of SACD ISO playback'
 url='http://www.musicpd.org/'
 license=('GPL')
@@ -102,6 +102,4 @@ package() {
 
 	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
 	sed '/ExecStart=/c ExecStart=/usr/bin/nice -n -16 /usr/bin/mpd --no-daemon' -i "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
-}
-
 }
