@@ -44,7 +44,7 @@ echo default-on > /sys/class/leds/c2\:blue\:alive/trigger
 # core 0 deals with the rest
 # this is why send mpd (or squeezelite) to isolated core 1
 #
-sleep 10
+sleep 5
 taskset -c -a -p 1 $(pidof mpd)
 #taskset -c -a -p 1 $(pidof squeezelite)
 
