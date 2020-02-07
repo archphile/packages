@@ -10,7 +10,7 @@
 _pkgname=ffmpeg
 pkgname=ffmpeg-archphile
 pkgver=4.2.2
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc='The FFmpeg media toolkit optimized for server (headless) systems'
 arch=('armv7h' 'aarch64' 'x86_64')
@@ -31,10 +31,6 @@ conflicts=('ffmpeg')
 source=(git+https://git.ffmpeg.org/ffmpeg.git#tag=192d1d34eb3668fa27f433e96036340e1e5077a0)
 sha256sums=(SKIP)
 
-prepare() {
-  cd ${_pkgname}-${pkgver}
-
-}
 
 pkgver() {
   cd ffmpeg
@@ -48,14 +44,12 @@ prepare() {
   git cherry-pick -n dc0806dd25882f41f6085c8356712f95fded56c7
 }
 
-
 build() {
+  cd ffmpeg
 
-	cd ffmpeg
-
-	[[ $CARCH == "armv7h" || $CARCH == "aarch64" ]] && CONFIG='--host-cflags="-fPIC"'
-
-  ./configure \
+  [[ $CARCH == "armv7h" || $CARCH == "aarch64" ]] && CONFIG='--host-cflags="-fPIC"'
+ 
+ ./configure \
     --prefix='/usr' \
     --disable-debug \
     --disable-static \
@@ -65,15 +59,21 @@ build() {
     --disable-sdl2 \
     --disable-htmlpages \
     --disable-ffplay \
+    --disable-ladspa \
+    --disable-libaom \
     --disable-libass \
+    --disable-libdav1d \
     --disable-libfreetype \
+    --disable-libjack \
     --disable-fontconfig \
     --disable-libiec61883 \
     --disable-libpulse \
     --disable-libsoxr \
     --disable-libssh \
     --disable-libvidstab \
+    --disable-libwebp \
     --disable-nvenc \
+    --disable-nvdec \
     --disable-omx \
     --disable-libxcb \
     --disable-libopenjpeg \
@@ -95,6 +95,7 @@ build() {
     --disable-libxvid \
     --disable-libvpx \
     --disable-vaapi \
+    --disable-vdpau \
     --disable-gmp \
     --enable-decoders \
     --enable-avresample \
