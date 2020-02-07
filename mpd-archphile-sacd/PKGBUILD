@@ -4,7 +4,7 @@
 pkgname=mpd-archphile-sacd
 _pkgname=MPD
 pkgver=0.22.0
-pkgrel=6
+pkgrel=7
 pkgdesc='Flexible, powerful, server-side application for playing music. Experimental version with support of SACD ISO playback'
 url='http://www.musicpd.org/'
 license=('GPL')
