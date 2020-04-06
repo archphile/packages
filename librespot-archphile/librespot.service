@@ -7,7 +7,7 @@ EnvironmentFile=/etc/librespot.conf
 ExecStart=/usr/bin/librespot \
   --cache ${LIBRESPOT_CACHE} \
   --name Archphile \
-  --device=hw:0 \
+  --device=plughw:0 \
   --bitrate ${LIBRESPOT_BITRATE} \
   --username ${LIBRESPOT_USERNAME} \
   --password ${LIBRESPOT_PASSWORD} \
@@ -22,4 +22,3 @@ Group=audio
 
 [Install]
 WantedBy=multi-user.target
-
