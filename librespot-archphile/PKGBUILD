@@ -11,11 +11,11 @@ pkgrel=1
 pkgdesc='An open source client library for Spotify (ALSA Backend).'
 url='https://github.com/librespot-org/librespot.git'
 license=('MIT')
-source=('git://github.com/librespot-org/librespot.git#commit=2a1482c880e3d6749369a99b32b93f06d6c3b7d8'
+source=('git://github.com/librespot-org/librespot.git#commit=ef27b4bce371d0a41e7ee2263244ed141684ff9b'
 'librespot.service'
 'librespot.conf')
 sha256sums=('SKIP'
-            '6c58382db655053c206eb3fcc604658d456b283f799fddd528eb64eff714deb9'
+            'dc569ce86a2e2af1787543cd55d2225cd310f5d9ea134bc6d48945679b3ecf45'
             'a2091a0bd5941b178af496e471e96e857349d683bcbda735f2eb5cb7c1cecb03')
 arch=('armv7h' 'aarch64')
 depends=('alsa-lib' 'libvorbis')
