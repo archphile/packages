@@ -6,7 +6,7 @@
 
 pkgname=alsacap
 pkgver=0
-pkgrel=6
+pkgrel=7
 pkgdesc="ALSA device capability lister"
 depends=('alsa-lib')
 arch=('armv7h' 'aarch64')
