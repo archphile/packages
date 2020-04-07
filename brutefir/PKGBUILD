@@ -6,7 +6,7 @@
 
 pkgname=brutefir
 pkgver=1.0o
-pkgrel=4
+pkgrel=5
 pkgdesc="BruteFIR is a software convolution engine, a program for applying long FIR filters to multi-channel digital audio, either offline or in realtime."
 arch=('armv7h' 'aarch64')
 url="http://www.ludd.luth.se/~torger/brutefir.html"
