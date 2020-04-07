@@ -21,7 +21,7 @@ source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.
 	'archphile.png')
 sha256sums=('55dec356c98e16f00b1e547f9f4a1c03756317102e91982f93eca8cc4eda115e'
 	    '53da5e4e40a1987e3c137270b315f8c0ba9521539c563e75e254f48449ce0ae9'
-	    '5fa004b05b811fc0b1d1f71f374a50de9726dcaef82912ffc2af5510a8f1618c'
+	    'f6caa317704267b2a17480dbc43ccd8c05672a7a2242e90533d0b94a8b27f249'
             '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
 backup=('etc/upmpdcli.conf')
 
