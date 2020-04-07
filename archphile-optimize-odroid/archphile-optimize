@@ -4,13 +4,21 @@
 /usr/bin/unmute
 
 # please replace x with the id of your device 
+#
+# note that usbhid module is completely disabled in latest custom kernel
+# and you don't need to apply anyhting
+#
 #echo -n "x-x.x:x.x" > /sys/bus/usb/drivers/usbhid/unbind
 
 # this command sets deadline scheduler during boot
 #
+# note that mq-deadline is currently the default scheduler
+#
 #echo mq-deadline > /sys/block/mmcblk0/queue/scheduler
 
 # this command sets ondemand cpu governor
+#
+# please do not change governor with latest image
 #
 #echo ondemand | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
 
