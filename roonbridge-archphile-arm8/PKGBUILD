@@ -4,7 +4,7 @@
 # Maintainer: AudioLinux  <audiolinux AT fastmail DOT fm>
 
 pkgname=roonbridge-archphile-arm8
-pkgver=1.0.3
+pkgver=1.0.171
 pkgrel=1
 pkgdesc="The music player for music lovers"
 arch=('aarch64')
@@ -14,7 +14,7 @@ depends=('alsa-lib' 'glibc' 'ffmpeg-archphile' 'cifs-utils')
 source=("http://download.roonlabs.com/builds/RoonBridge_linuxarmv8.tar.bz2" 
 	'roonbridge.service' 
 	'copyright')
-sha256sums=('c3ab4cd5753577c48c8acc1d79747617894c14146373cfb017bedf42c08e7622'
+sha256sums=('8986129773d1ef4f48105825890e146321c6433e523a99dc82a14e7f89b2ae5e'
             '0eec72ddf20b20c0b40f98b1234e023ee5ebe4109d656288853800a356a75b64'
             '31b6cac147644ad4d0908906b91e631752111939be88031e03da72182de5be93')
 
