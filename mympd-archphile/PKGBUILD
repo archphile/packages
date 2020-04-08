@@ -11,7 +11,7 @@ _pkgname=myMPD
 pkgver=6.2.3
 pkgrel=2
 pkgdesc="myMPD is a standalone and mobile friendly web mpdclient."
-arch=('armv7h' 'aarch64' 'x86_64')
+arch=('armv7h' 'aarch64')
 url="http://github.org/jcorporation/myMPD"
 license=('GPL')
 depends=('openssl' 'libid3tag' 'flac')
@@ -39,10 +39,9 @@ package() {
   cd "${srcdir}/${_pkgname}-${pkgver}/release"
   make DESTDIR="$pkgdir/" install
   install -Dm644  ../../mympd.conf "$pkgdir/etc/webapps/mympd/mympd.conf"
+  mkdir -p "$pkgdir/var/lib/mympd/state"
   echo "false" > "$pkgdir/var/lib/mympd/state/smartpls"
-  chown mympd:mympd "$pkgdir/var/lib/mympd/state/smartpls"
   chmod 600 "$pkgdir/var/lib/mympd/state/smartpls"
   echo "#FFF" > "$pkgdir/var/lib/mympd/state/bg_color"
-  chown mympd:mympd "$pkgdir/var/lib/mympd/state/bg_color"
   chmod 600 "$pkgdir/var/lib/mympd/state/bg_color"
 }
