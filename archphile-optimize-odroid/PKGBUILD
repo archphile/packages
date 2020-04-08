@@ -39,7 +39,6 @@ package() {
   cp ../unmute "$pkgdir"/usr/bin
   cp ../dbackup "$pkgdir"/usr/bin
   cp ../drestore "$pkgdir"/usr/bin
-  cp ../bselect "$pkgdir"/usr/bin
   cp ../archphile-network.conf "$pkgdir"/etc/sysctl.d
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
