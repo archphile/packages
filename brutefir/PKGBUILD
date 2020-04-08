@@ -12,7 +12,7 @@ arch=('armv7h' 'aarch64')
 url="http://www.ludd.luth.se/~torger/brutefir.html"
 license=('GPL')
 depends=('jack' 'fftw' 'alsa-lib')
-source=(http://www.ludd.luth.se/~torger/files/$pkgname-$pkgver.tar.gz)
+source=(https://torger.se/anders/files/$pkgname-$pkgver.tar.gz)
 sha256sums=('caae4a933b53b55b29d6cb7e2803e20819f31def6d0e4e12f9a48351e6dbbe9f')
 
 build() {
@@ -29,3 +29,5 @@ package() {
   cd "$srcdir/$pkgname-$pkgver-build"
   make DESTDIR="$pkgdir/" install
 }
+
+
