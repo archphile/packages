@@ -6,9 +6,11 @@
 # please replace x with the id of your device if you encounter issues with usb pops/clicks
 #echo -n "x-x.x:x.x" > /sys/bus/usb/drivers/usbhid/unbind
 
-# this command sets noop scheduler during boot
+# this command sets deadline scheduler during boot
 #
-echo noop > /sys/block/mmcblk0/queue/scheduler
+# note that mq-deadline is currently the default scheduler
+#
+#echo mq-deadline > /sys/block/mmcblk0/queue/scheduler
 
 # this command sets ondemand cpu governor
 #

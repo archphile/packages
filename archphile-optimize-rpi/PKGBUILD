@@ -2,7 +2,7 @@
 # Website: http://archphile.org
 
 pkgname=archphile-optimize-rpi
-pkgver=1.1
+pkgver=1.2
 pkgrel=1
 pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution - RPI version"
 arch=('any')
@@ -23,7 +23,7 @@ source=('archphile-optimize'
         'dbackup'
         'drestore')
 
-sha256sums=('1cf18029af070426fe72488b6674b7affcafe32a1e211a571f98e59add091f54'
+sha256sums=('62b65a4d1183ba1d31264013b27b5dfa8f44a3e3e10fb7e5c07f1910dadeed09'
             '3c4edb9d557bad8e3c95f0f75009a590ef560df75e36eecaa5ebba0a6e5823b8'
             '5e76a70697ba4ce712d368163f96d7c4a88ce3ee5cb325cc110185239abfbda7'
             '931a50273287f3f617c3d6421bcfdbd09ed7c93036b7926e6561c92d5265bd27'
@@ -39,7 +39,6 @@ package() {
   cp ../unmute "$pkgdir"/usr/bin
   cp ../dbackup "$pkgdir"/usr/bin
   cp ../drestore "$pkgdir"/usr/bin
-  cp ../bselect "$pkgdir"/usr/bin
   cp ../archphile-network.conf "$pkgdir"/etc/sysctl.d
   chmod +x "$pkgdir"/usr/bin/archphile-optimize
   chmod +x "$pkgdir"/usr/bin/unmute
