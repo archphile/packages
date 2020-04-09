@@ -7,14 +7,14 @@
 pkgname=upmpdcli-archphile
 _pkgname=upmpdcli
 pkgver=1.4.7
-pkgrel=1
+pkgrel=2
 pkgdesc="A UPnP Media Renderer front-end for the Music Player Daemon (MPD)"
 arch=('armv7h' 'aarch64')
 url="http://www.lesbonscomptes.com/upmpdcli/"
 license=('GPL2')
-depends=('python' 'libmpdclient' 'libupnpp-archphile>=0.17.0' 'libmicrohttpd' 'jsoncpp')
+depends=('python' 'libmpdclient' 'libupnpp-archphile>=0.17.0' 'libmicrohttpd' 'jsoncpp' 'python-requests')
 makedepends=('python-setuptools' 'libmpdclient' 'libupnpp-archphile>=0.17.0' 'libmicrohttpd' 'jsoncpp' 'python-requests' 'recoll' 'python-bottle' 'python-mutagen' 'aspell-en' 'id3lib' 'python-waitress' 'sqlite')
-optdepends=('python2: OpenHome Radio Service' 'python-requests: enable search' 'recoll: enable search' 'python-bottle: enable uprcl media server' 'python-mutagen: enable uprcl media server' 'mutagen: enable uprcl media server' 'aspell-en' 'id3lib' 'python-waitress: enable uprcl media server' 'sqlite')
+optdepends=('python2: OpenHome Radio Service' 'recoll: enable search' 'python-bottle: enable uprcl media server' 'python-mutagen: enable uprcl media server' 'mutagen: enable uprcl media server' 'aspell-en' 'id3lib' 'python-waitress: enable uprcl media server' 'sqlite')
 install=upmpdcli.install
 source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.tar.gz"
 	'upmpdcli.service'
@@ -22,7 +22,7 @@ source=("http://www.lesbonscomptes.com/upmpdcli/downloads/${_pkgname}-${pkgver}.
 	'archphile.png')
 sha256sums=('55dec356c98e16f00b1e547f9f4a1c03756317102e91982f93eca8cc4eda115e'
 	    '53da5e4e40a1987e3c137270b315f8c0ba9521539c563e75e254f48449ce0ae9'
-	    'f6caa317704267b2a17480dbc43ccd8c05672a7a2242e90533d0b94a8b27f249'
+	    '4ef07303a1aef48eb26c938951bc0f699d46c1600a5c0a877f4f984e701640cb'
             '3e6da9fc442b7bb798b6f3dd3b70ee854f1bbd177375ef47b302eeffdb0d6fd1')
 backup=('etc/upmpdcli.conf')
 
