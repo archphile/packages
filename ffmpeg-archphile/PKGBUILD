@@ -23,7 +23,7 @@ depends=('bzip2' 'glibc' 'gnutls' 'gsm'
          'xz' 'zlib'
          'libvorbis.so'
          'rtmpdump')
-makedepends=('yasm')
+makedepends=('yasm' 'git')
 provides=('libavcodec.so' 'libavdevice.so' 'libavfilter.so' 'libavformat.so'
           'libavresample.so' 'libavutil.so' 'libpostproc.so' 'libswresample.so'
           'libswscale.so' 'ffmpeg')
