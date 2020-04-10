@@ -3,7 +3,7 @@
 
 pkgname=archphile-optimize-rpi
 pkgver=1.2
-pkgrel=1
+pkgrel=2
 pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution - RPI version"
 arch=('any')
 url="http://archphile.org"
@@ -23,7 +23,7 @@ source=('archphile-optimize'
         'dbackup'
         'drestore')
 
-sha256sums=('62b65a4d1183ba1d31264013b27b5dfa8f44a3e3e10fb7e5c07f1910dadeed09'
+sha256sums=('153302ec4638cbf5806f06c849b1936bfe99f2cb078fb97732877c0881b85774'
             '3c4edb9d557bad8e3c95f0f75009a590ef560df75e36eecaa5ebba0a6e5823b8'
             '5e76a70697ba4ce712d368163f96d7c4a88ce3ee5cb325cc110185239abfbda7'
             '931a50273287f3f617c3d6421bcfdbd09ed7c93036b7926e6561c92d5265bd27'

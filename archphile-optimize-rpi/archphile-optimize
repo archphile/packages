@@ -38,16 +38,10 @@ echo 0 > /proc/sys/vm/swappiness
 # set various processes to be run on specific cores 
 sleep 5
 taskset -c -a -p 1 $(pidof mpd)
-taskset -c -p 2 $(pidof mympd)
+#taskset -c -a -p 1 $(pidof squeezelite)
 
 # set 100M full duplex with auto negotiation enabled
 #/sbin/ethtool -s eth0 speed 100 duplex full autoneg on
-
-#Disable USB ports - Use at your own risk - The final command is not provided
-#Please study the following URL in order to modify and enable the command line at the end of this section
-#https://github.com/mvp/uhubctl
-#
-#uhubctl <options>
 
 # wireless connection tweaks
 #
