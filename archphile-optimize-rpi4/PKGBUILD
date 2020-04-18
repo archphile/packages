@@ -1,0 +1,48 @@
+# Maintainer: Mike Andonov <info@archphile.org>
+# Website: http://archphile.org
+
+pkgname=archphile-optimize-rpi4
+pkgver=1.0
+pkgrel=1
+pkgdesc="a very basic script and set of commands to change settings for Archphile Distribution - RPI4 version"
+arch=('any')
+url="http://archphile.org"
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+provides=(archphile-optimize)
+conflicts=()
+replaces=(unmute-archphile)
+backup=()
+options=()
+source=('archphile-optimize'
+	'unmute'
+        'archphile.service'
+        'archphile-network.conf'
+        'dbackup'
+        'drestore')
+
+sha256sums=('f210c24181a2de83e03b76b267b3420ba102902ae37d9d2edd8571f6c3865d0a'
+            '3c4edb9d557bad8e3c95f0f75009a590ef560df75e36eecaa5ebba0a6e5823b8'
+            '5e76a70697ba4ce712d368163f96d7c4a88ce3ee5cb325cc110185239abfbda7'
+            '931a50273287f3f617c3d6421bcfdbd09ed7c93036b7926e6561c92d5265bd27'
+            '15ac6be608c9fcea7c8f1cbbb7c632fba44acf072550c96d1b89d489d15ed29c'
+            '1267caad6c21535a97b5880861d09b0ea44378f2f746beb2b728af70fc45f6a5')
+
+package() {
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/etc/systemd/system/
+  mkdir -p $pkgdir/etc/sysctl.d
+  mkdir -p $pkgdir/opt/dbackup
+  cp archphile-optimize "$pkgdir"/usr/bin
+  cp unmute "$pkgdir"/usr/bin
+  cp dbackup "$pkgdir"/usr/bin
+  cp drestore "$pkgdir"/usr/bin
+  cp archphile-network.conf "$pkgdir"/etc/sysctl.d
+  chmod +x "$pkgdir"/usr/bin/archphile-optimize
+  chmod +x "$pkgdir"/usr/bin/unmute
+  chmod +x "$pkgdir"/usr/bin/dbackup
+  chmod +x "$pkgdir"/usr/bin/drestore
+  install -Dm644 archphile.service "${pkgdir}"/etc/systemd/system/archphile.service
+}

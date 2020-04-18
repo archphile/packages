@@ -1,0 +1,10 @@
+[Unit]
+Description=kernel optimizations for audiophiles
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/archphile-optimize
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

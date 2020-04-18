@@ -1,0 +1,57 @@
+#!/bin/bash
+# this command is used in order to unmute dac and set the volume to 100% during boot
+# 
+/usr/bin/unmute
+
+# please replace x with the id of your device if you encounter issues with usb pops/clicks
+#echo -n "x-x.x:x.x" > /sys/bus/usb/drivers/usbhid/unbind
+
+# this command sets deadline scheduler during boot
+#
+# note that mq-deadline is currently the default scheduler
+#
+#echo mq-deadline > /sys/block/mmcblk0/queue/scheduler
+
+# this command sets ondemand cpu governor
+#
+#echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+
+# this command sets swappiness to 0
+#
+echo 0 > /proc/sys/vm/swappiness
+
+# commands to change various kernel parameters
+# please note that some of them might already have the mentioned value
+# feel free to experiment if you know what you' re doing!
+#
+#echo 1500000 > /proc/sys/kernel/sched_latency_ns
+#echo 1000000 > /proc/sys/kernel/sched_rt_period_us
+#echo 950000 > /proc/sys/kernel/sched_rt_runtime_us
+#echo 1 > /proc/sys/kernel/sched_autogroup_enabled
+#echo 10 > /proc/sys/kernel/sched_rr_timeslice_ms
+#echo 750000 > /proc/sys/kernel/sched_min_granularity_ns
+#echo 1000000 > /proc/sys/kernel/sched_wakeup_granularity_ns
+
+# IRQ affinity optimization
+#
+/usr/local/bin/irq-archphile
+
+# Disable HDMI for RPI
+/opt/vc/bin/tvservice -off
+
+# set various processes to be run on specific cores 
+sleep 5
+taskset -c -a -p 1 $(pidof mpd)
+#taskset -c -a -p 1 $(pidof squeezelite)
+
+# set 100M full duplex with auto negotiation enabled
+#/sbin/ethtool -s eth0 speed 100 duplex full autoneg on
+
+# wireless connection tweaks
+#
+#iwconfig wlan0 power off
+#iwconfig wlan0 frag 2346
+#iwconfig wlan0 rts 2347
+#iw reg set GR
+
+
